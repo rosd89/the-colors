@@ -25,3 +25,9 @@
 * `[행동(Create, Modified, Delete)] #IssueNumber 커밋내용`
 
 	> 필요시에 상세내용 기재
+
+### Projects
+
+* [#5F4B8B] Vending Machine
+	> * wiki: [https://github.com/rosd89/the-colors/wiki/%5B%235F4B8B%5D-Vending-Machine](https://github.com/rosd89/the-colors/wiki/%5B%235F4B8B%5D-Vending-Machine)
+	> * 참여자: `JeewhanR`, `shldhee`, `mmindy`
