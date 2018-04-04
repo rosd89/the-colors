@@ -242,34 +242,6 @@
 		- [예상소요시간]
 			- 3시간
 
-### 이슈 정리
-
-**[issue]	- [duckhee][#5F4B8B] - 상품 등록] 상품명, 가격, 재고량 상품 등록**
-**[issue]	- [duckhee][#5F4B8B] - 상품 등록] 상품 등록 시 중복된 상품 있는지 확인**
-**[issue]	- [duckhee][#5F4B8B] - 상품 등록] 상품 삭제**
-**[issue] - [duckhee][#5F4B8B] - 상품 채우기] 상품 재고 확인**
-**[issue] - [duckhee][#5F4B8B] - 상품 채우기] 상품 재고 추가**
-**[issue] - [duckhee][#5F4B8B] - 상품 채우기] 상품 재고 제한**
-**[issue] - [duckhee][#5F4B8B] - 상품 빼기] 상품 재고 빼기**
-**[issue] - [duckhee][#5F4B8B] - 상품 선택 버튼] 상품 선택 후 가격 비교**
-**[issue]	- [duckhee][#5F4B8B] - 재고 확인] 상품 재고 변경될 시 재고량 갱신**
-**[issue]	- [duckhee][#5F4B8B] - 재고 표시] 상품 재고량 반환**
-**[issue] - [duckhee][#5F4B8B] - 상품 진열 공간] 상품 진열 공간 만들기**
-**[issue] - [duckhee][#5F4B8B] - 상품 진열 공간] 진열 공간에 상품 추가**
-**[issue] - [duckhee][#5F4B8B] - 상품 진열 공간] 진열 공간에 상품 빼기**
-**[issue] - [duckhee][#5F4B8B] - 상품 진열 공간] 상품 옵션(ice, hot)**
-**[issue] - [duckhee][#5F4B8B] - 재화를 입력] 재화 구분하여 입력 받기**
-**[issue] - [duckhee][#5F4B8B] - 결제] 상품 선택할 때 재화 차감**
-**[issue] - [duckhee][#5F4B8B] - 결제] 상품 선택할 때 재고 감소**
-**[issue] - [duckhee][#5F4B8B] - 잔돈을 반환] 레버를 돌려 잔돈 반환**
-**[issue] - [duckhee][#5F4B8B] - 잔돈을 반환] 자동으로 잔돈 반환**
-**[issue] - [duckhee][#5F4B8B] - 잔돈을 반환] 결제 후 5초내 설정**
-**[issue] - [duckhee][#5F4B8B] - 판매량 체크] 상품 별 판매량 확인**
-**[issue] - [duckhee][#5F4B8B] - 판매량 체크] 하루 총 매출 확인**
-**[issue] - [duckhee][#5F4B8B] - 판매량 체크] 상품 별 매출 확인**
-**[issue] - [duckhee][#5F4B8B] - 자판기의 상태] 자판기 판매가능 유무**
-
-
 ## milestone(마일스톤)
 
 ### 1주
