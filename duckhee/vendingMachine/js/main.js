@@ -10,7 +10,7 @@ var Product = (function(){
     }
     if(isNumberPrice()) {
       try {
-        throw new Error("price을 숫자로 입력해주세요.");
+        throw new Error("price을 숫자(양수, 정수)로 입력해주세요.");
       } catch (e) {
         alert(e.message);
         return false;
@@ -23,7 +23,7 @@ var Product = (function(){
     this.status = false;
 
     function isNumberPrice ()  {
-      return typeof price !== 'number' || isNaN(price);
+      return typeof price !== 'number' || isNaN(price) || price <= 0 || price - Math.floor(price) != 0 ;
     }
 
     function isStringName () {
