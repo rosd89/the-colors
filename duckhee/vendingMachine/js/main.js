@@ -1,6 +1,6 @@
 var Product = (function(){
   function Product(name, price) {
-    if(typeof name !== 'string' || Object.prototype.toString.call(name) != '[object String]') {
+    if(isStringName()) {
       try {
         throw new Error("name을 문자로 입력해주세요.");
       } catch (e) {
@@ -8,7 +8,7 @@ var Product = (function(){
         return false;
       }
     }
-    if(typeof price !== 'number' || isNaN(price)) {
+    if(isNumberPrice()) {
       try {
         throw new Error("price을 숫자로 입력해주세요.");
       } catch (e) {
@@ -21,6 +21,14 @@ var Product = (function(){
     this.totalQuantity = "";
     this.soldQuantity = "";
     this.status = false;
+
+    function isNumberPrice ()  {
+      return typeof price !== 'number' || isNaN(price);
+    }
+
+    function isStringName () {
+      return typeof name !== 'string' || Object.prototype.toString.call(name) != '[object String]';
+    }
   }
 
   return Product;
