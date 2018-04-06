@@ -55,7 +55,7 @@ var VendingMachine = (function(){
     this.inventory.push(product);
   }
 
-  VendingMachine.prototype.showInventory = function () {
+  VendingMachine.prototype.showRegisteredInvetory = function () {
     console.log(this.inventory);
     return this.inventory;
   }
@@ -72,4 +72,4 @@ var vm = new VendingMachine();
 vm.registerProduct(coke);
 vm.registerProduct(sprite);
 
-vm.showInventory();
+vm.showRegisteredInvetory();
