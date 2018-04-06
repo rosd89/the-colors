@@ -8,7 +8,7 @@ var Product = (function(){
         return false;
       }
     }
-    if(typeof price !== 'number' || Object.prototype.toString.call(price) != '[object Number]' || isNaN(price)) {
+    if(typeof price !== 'number' || isNaN(price)) {
       try {
         throw new Error("price을 숫자로 입력해주세요.");
       } catch (e) {
