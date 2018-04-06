@@ -44,7 +44,8 @@ var VendingMachine = (function(){
     this.inventory = [];
   }
 
-  VendingMachine.prototype.addProduct = function (product) {
+  // 상품 등록하기
+  VendingMachine.prototype.registerProduct = function (product) {
     this.inventory.map(function (item, index){
       if(product.name === item.name) {
         throw new Error("이름(" + item.name + ")이 같은 상품이 있습니다.");
@@ -68,7 +69,7 @@ var sprite = new Product("sprite", 1000);
 
 var vm = new VendingMachine();
 
-vm.addProduct(coke);
-vm.addProduct(sprite);
+vm.registerProduct(coke);
+vm.registerProduct(sprite);
 
 vm.showInventory();
