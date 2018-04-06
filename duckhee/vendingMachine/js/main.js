@@ -1,10 +1,20 @@
 var Product = (function(){
   function Product(name, price) {
     if(typeof name !== 'string' || Object.prototype.toString.call(name) != '[object String]') {
-      throw new Error("name을 문자로 입력해주세요.");
+      try {
+        throw new Error("name을 문자로 입력해주세요.");
+      } catch (e) {
+        alert(e.message);
+        return false;
+      }
     }
     if(typeof price !== 'number' || Object.prototype.toString.call(price) != '[object Number]' || isNaN(price)) {
-      throw new Error("price을 숫자로 입력해주세요.");
+      try {
+        throw new Error("price을 숫자로 입력해주세요.");
+      } catch (e) {
+        alert(e.message);
+        return false;
+      }
     }
     this.name = name;
     this.price = price;
