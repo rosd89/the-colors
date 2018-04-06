@@ -17,12 +17,12 @@ var Product = (function(){
 
 })();
 
-var vendingMachine = (function(){
-  function vendingMachine() {
+var VendingMachine = (function(){
+  function VendingMachine() {
     this.inventory = [];
   }
 
-  vendingMachine.prototype.addProduct = function (product) {
+  VendingMachine.prototype.addProduct = function (product) {
     this.inventory.map(function (item, index){
       if(product.name === item.name) {
         throw new Error("이름(" + item.name + ")이 같은 상품이 있습니다.");
@@ -32,19 +32,19 @@ var vendingMachine = (function(){
     this.inventory.push(product);
   }
 
-  vendingMachine.prototype.showInventory = function () {
+  VendingMachine.prototype.showInventory = function () {
     console.log(this.inventory);
     return this.inventory;
   }
 
-  return vendingMachine;
+  return VendingMachine;
 
 })();
 
 var coke = new Product("coke", 500);
 var sprite = new Product("sprite", 1000);
 
-var vm = new vendingMachine();
+var vm = new VendingMachine();
 
 vm.addProduct(coke);
 vm.addProduct(sprite);
