@@ -1,4 +1,7 @@
 var Product = (function(){
+
+  var id = 0;
+
   function Product(name, price) {
     if(isStringName()) {
       try {
@@ -16,10 +19,11 @@ var Product = (function(){
         return false;
       }
     }
+    this.id = id++;
     this.name = name;
     this.price = price;
-    this.totalQuantity = "";
-    this.soldQuantity = "";
+    this.totalQuantity = 0;
+    this.soldQuantity = 0;
     this.status = false;
 
     function isNumberPrice ()  {
