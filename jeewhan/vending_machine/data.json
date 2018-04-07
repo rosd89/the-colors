@@ -1,0 +1,15 @@
+{
+  "products": [
+    {
+      "name": "zero",
+      "price": 0,
+      "isHot": false
+    }
+  ],
+  "session": { "money": 0 },
+  "admin": {
+    "power": false,
+    "daily": {},
+    "product": {}
+  }
+}
