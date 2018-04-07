@@ -48,11 +48,27 @@ var VendingMachine = (function(){
   VendingMachine.prototype.registerProduct = function (product) {
     this.inventory.map(function (item, index){
       if(product.name === item.name) {
-        throw new Error("이름(" + item.name + ")이 같은 상품이 있습니다.");
+        try {
+          throw new Error("이름(" + item.name + ")이 같은 상품이 있습니다.");
+        } catch (e) {
+          alert(e.message);
+          return false;
+        }
       }
     });
 
     this.inventory.push(product);
+  }
+
+  // 상품 삭제하기
+  VendingMachine.prototype.delelteRegisterProduct = function (product) {
+    var targetIndex = this.inventory.findIndex(function (item) {
+      return product.name === item.name;
+    });
+
+    console.log(targetIndex);
+
+    this.inventory.splice(targetIndex, 1);
   }
 
   VendingMachine.prototype.showRegisteredInvetory = function () {
@@ -72,4 +88,7 @@ var vm = new VendingMachine();
 vm.registerProduct(coke);
 vm.registerProduct(sprite);
 
+vm.showRegisteredInvetory();
+
+vm.delelteRegisterProduct(coke);
 vm.showRegisteredInvetory();
