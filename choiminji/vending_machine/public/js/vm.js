@@ -80,7 +80,6 @@ const Inventory = (()=> {
 				ITEM_LIST.push(item);
 			}
 			
-			console.log("ITEM_LIST :");
 			console.log(ITEM_LIST);
 		}
 
