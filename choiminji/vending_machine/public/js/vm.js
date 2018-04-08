@@ -1,5 +1,5 @@
 // 04.06 pm 5:07 ~ pm 6:30
-const CONDITION = ["ICE", "HOT"];
+const CONDITION = { ICE: "ICE", HOT: "HOT" };
 
 class Item {
 	constructor(name, price, condition, count, display) {
@@ -9,42 +9,46 @@ class Item {
 		this.count = count;
 		this.display = display;
 	}
-
-	getPrice () { return this.price; }
-	getCondition () { return this.condition; }
-	getCount () { return this.count; }
-	getDisplay () { return this.display; }
 };
 
-class Inventory {
-	constructor () {
-		this.ITEM_LIST = [];
+const Inventory = (()=> {
+	const ITEM_LIST = [];
+
+	return class {
+		add (name, price, condition = CONDITION.ICE, count = 0, display = false) {
+			if ( !name ) {
+				vmError("상품명 누락");
+				return;
+			}
+			if ( !price ) {
+				vmError("가격은 필수옵션!");
+				return;
+			} else if ( price && isNaN(price) ) { 
+				vmError("가격은 숫자만 입력하기");
+				return;
+			}
+			if ( isNaN(count) ) {
+				vmError("재고량은 숫자만 입력하기");
+				return;
+			}
+			ITEM_LIST.forEach(v => {
+				if ( v.name === name ) {
+					vmError("중복된 상품이 있습니다. 상품명을 다시 입력해주세요");
+					return;
+				}
+			})
+	
+			const item = new Item(name, price, condition, count, display);
+			ITEM_LIST.push(item);
+			console.log(ITEM_LIST);
+		}
 	}
+})();
 
-	add (name, price, condition = CONDITION[0], count = 0, display = false) {
-		if ( !name ) vmError("상품명 누락");
-		if ( !price ) vmError("가격은 필수옵션!");
-		else if ( price && isNaN(price) ) vmError("가격은 숫자만 입력하기");
-		if ( isNaN(count) ) vmError("재고량은 숫자만 입력하기");
-
-		const item = new Item(name, price, condition, count, display);
-		console.log(item);
-
-		this.ITEM_LIST.forEach(v => {
-			if ( v.name === name ) vmError("중복된 상품이 있습니다. 상품명을 다시 입력해주세요");
-		})
-
-		this.ITEM_LIST.push(item);
-		console.log(this.ITEM_LIST);
-	}
-}
 
 const vmError = msg => {
-	// try {
-	// 	throw new Error(msg);
-	// } catch (e) {
-	// 	console.log("Vending Machine Error : "+e);
-	// }
+	console.log("Vending Machine Error : "+msg);
+	// ui 작업 시 추가
 }
 
 const VM1 = new Inventory();
