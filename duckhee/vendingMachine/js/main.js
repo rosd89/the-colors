@@ -79,11 +79,23 @@ var VendingMachine = (function(){
 
   // 상품 재고 추가하기
   VendingMachine.prototype.addQuantity = function (product, quantity) {
+    if(isProduct()) {
+      try {
+        throw new Error("Product(" + product.name + ")이 없습니다.");
+      } catch (e) {
+        alert(e.message);
+        return false;
+      }
+    }
     var targetIndex = this.inventory.findIndex(function (item) {
       return product.name === item.name;
     });
 
     this.inventory[targetIndex].totalQuantity += quantity;
+  }
+
+  function isProduct(product) {
+    return product instanceof Product;
   }
 
   return VendingMachine;
