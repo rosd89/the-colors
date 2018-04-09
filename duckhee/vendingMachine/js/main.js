@@ -60,7 +60,7 @@ var VendingMachine = (function(){
     this.inventory.push(product);
   }
 
-  // 상품 삭제하기
+  // 등록된 상품 삭제하기
   VendingMachine.prototype.delelteRegisterProduct = function (product) {
     var targetIndex = this.inventory.findIndex(function (item) {
       return product.name === item.name;
@@ -71,9 +71,44 @@ var VendingMachine = (function(){
     this.inventory.splice(targetIndex, 1);
   }
 
+  // 등록된 상품 보여주기
   VendingMachine.prototype.showRegisteredInvetory = function () {
     console.log(this.inventory);
     return this.inventory;
+  }
+
+  // 상품 재고 추가하기
+  VendingMachine.prototype.addQuantity = function (product, quantity) {
+    if(isProduct()) {
+      try {
+        throw new Error("상품(" + product.name + ")이 없습니다.");
+      } catch (e) {
+        alert(e.message);
+        return false;
+      }
+    }
+
+    if(isNumber(quantity)) {
+      try {
+        throw new Error("재고 수량이(" + quantity + ")이 잘못 입력되었습니다.(양수, 정수로 입력해주세요)");
+      } catch (e) {
+        alert(e.message);
+        return false;
+      }
+    }
+
+    var targetIndex = this.inventory.findIndex(function (item) {
+      return product.name === item.name;
+    });
+
+    this.inventory[targetIndex].totalQuantity += quantity;
+  }
+
+  function isProduct(product) {
+    return product instanceof Product;
+  }
+  function isNumber(number)  {
+    return typeof number !== 'number' || isNaN(number) || number <= 0 || number - Math.floor(number) != 0 ;
   }
 
   return VendingMachine;
@@ -91,4 +126,7 @@ vm.registerProduct(sprite);
 vm.showRegisteredInvetory();
 
 vm.delelteRegisterProduct(coke);
+vm.showRegisteredInvetory();
+
+vm.addQuantity(sprite, 100);
 vm.showRegisteredInvetory();
