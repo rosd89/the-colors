@@ -81,12 +81,22 @@ var VendingMachine = (function(){
   VendingMachine.prototype.addQuantity = function (product, quantity) {
     if(isProduct()) {
       try {
-        throw new Error("Product(" + product.name + ")이 없습니다.");
+        throw new Error("상품(" + product.name + ")이 없습니다.");
       } catch (e) {
         alert(e.message);
         return false;
       }
     }
+
+    if(isNumber(quantity)) {
+      try {
+        throw new Error("재고 수량이(" + quantity + ")이 잘못 입력되었습니다.(양수, 정수로 입력해주세요)");
+      } catch (e) {
+        alert(e.message);
+        return false;
+      }
+    }
+
     var targetIndex = this.inventory.findIndex(function (item) {
       return product.name === item.name;
     });
@@ -96,6 +106,9 @@ var VendingMachine = (function(){
 
   function isProduct(product) {
     return product instanceof Product;
+  }
+  function isNumber(number)  {
+    return typeof number !== 'number' || isNaN(number) || number <= 0 || number - Math.floor(number) != 0 ;
   }
 
   return VendingMachine;
