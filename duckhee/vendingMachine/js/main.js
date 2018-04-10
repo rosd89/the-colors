@@ -95,6 +95,11 @@ var VendingMachine = (function(){
     this.inventory[targetIndex].totalQuantity += quantity;
   }
 
+  // 상품 재고 확인하기
+  VendingMachine.prototype.showQuantity = function (product) {
+    return product.totalQuantity;
+  }
+
   function isProduct(product) {
     return product instanceof Product;
   }
@@ -121,3 +126,5 @@ vm.showRegisteredInvetory();
 
 vm.addQuantity(sprite, 100);
 vm.showRegisteredInvetory();
+
+vm.showQuantity(sprite);
