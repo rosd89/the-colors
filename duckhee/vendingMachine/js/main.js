@@ -92,7 +92,10 @@ var VendingMachine = (function(){
       return product.name === item.name;
     });
 
-    this.inventory[targetIndex].totalQuantity += quantity;
+    if(this.inventory[targetIndex].totalQuantity += quantity >= 30) {
+      console.warn("재고가 30개 이상은 들어가지 않습니다. 현 재고 : 30개 입니다.");
+      this.inventory[targetIndex].totalQuantity = 30;
+    }
   }
 
   // 상품 재고 확인하기
