@@ -11,7 +11,7 @@ class Item {
 	}
 };
 
-const Inventory = (()=> {
+const Inventory = ( _ => {
 	const ITEM_LIST = [];
 
 	return class {
@@ -24,7 +24,7 @@ const Inventory = (()=> {
 				return;
 			}
 
-			if ( option.price && isNaN(option.price) ) { 
+			if ( option.price && isNaN(option.price) ) {
 				vmError("가격은 숫자만 입력하기");
 				invalid = false;
 				return;
@@ -35,7 +35,7 @@ const Inventory = (()=> {
 				invalid = false;
 				return;
 			}
-			
+
 
 			let displayCount = 0;
 			ITEM_LIST.forEach(v => {
@@ -57,8 +57,7 @@ const Inventory = (()=> {
 				return;
 			}
 
-			let duplication = false;
-			ITEM_LIST.some(v => {
+			const duplication = ITEM_LIST.some(v => {
 				if ( v.name === name ) duplication = true;
 			})
 
@@ -79,7 +78,7 @@ const Inventory = (()=> {
 				const item = new Item(name, price, condition, count, display);
 				ITEM_LIST.push(item);
 			}
-			
+
 			console.log(ITEM_LIST);
 		}
 
@@ -92,6 +91,8 @@ const Inventory = (()=> {
 						if (option.condition) v.condition = option.condition;
 						if (option.count) v.count = option.count;
 						if (option.display) v.display = option.display;
+
+						return true;
 					}
 				})
 			}
@@ -105,6 +106,3 @@ const vmError = msg => {
 	console.log("Vending Machine Error : "+msg);
 	// ui 작업 시 추가
 }
-
-const VM1 = new Inventory();
-VM1.add("item1", "800");
