@@ -79,21 +79,13 @@ var VendingMachine = (function(){
   // 상품 재고 추가하기
   VendingMachine.prototype.addQuantity = function (product, quantity) {
     if(isProduct()) {
-      try {
-        throw new Error("상품(" + product.name + ")이 없습니다.");
-      } catch (e) {
-        alert(e.message);
-        return false;
-      }
+      console.warn("상품(" + product.name + ")이 없습니다.");
+      return false;
     }
 
     if(isNumber(quantity)) {
-      try {
-        throw new Error("재고 수량이(" + quantity + ")이 잘못 입력되었습니다.(양수, 정수로 입력해주세요)");
-      } catch (e) {
-        alert(e.message);
-        return false;
-      }
+      console.warn("재고 수량이(" + quantity + ")이 잘못 입력되었습니다.(양수, 정수로 입력해주세요)");
+      return false;
     }
 
     var targetIndex = this.inventory.findIndex(function (item) {
