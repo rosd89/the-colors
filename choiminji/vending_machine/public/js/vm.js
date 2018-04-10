@@ -51,6 +51,34 @@ const Inventory = ( _ => {
 			if (invalid) return invalid;
 		}
 
+		render () {
+			console.log(ITEM_LIST);
+			let listHTML = "";
+			ITEM_LIST.forEach( (v,k) => {
+				listHTML += `<li class="col">
+	<div class="cell w25 name">${v.name}</div>
+	<div class="cell w20 price"><input type="text" value="${v.price}"></div>
+	<div class="cell w15 condition">
+		<select>
+			<option value="ICE" ${(v.condition === "ICE")?"selected='selected'":""}>ICE</option>
+			<option value="HOT" ${(v.condition === "HOT")?"selected='selected'":""}>HOT</option>
+		</select>
+	</div>
+	<div class="cell w15 count"><input type="text" value="${v.count}"></div>
+	<div class="cell w15 display">
+		<select>
+			<option value="true" ${v.display === "true"?"selected='selected'":""}>진열O</option>
+			<option value="false" ${v.display === "false"?"selected='selected'":""}>진열X</option>
+		</select>
+	</div>
+	<div class="cell w10 btn"><button class="edit" data-name="${v.name}" onclick="editItem(this);">수정</button></div>
+</li>`.trim();
+			})
+
+			document.querySelector("#output .content").innerHTML = listHTML;
+
+		}
+		
 		add (name, price = 0, condition = CONDITION.ICE, count = 0, display = false) {
 			if ( !name ) {
 				vmError("상품명 누락");
@@ -58,7 +86,7 @@ const Inventory = ( _ => {
 			}
 
 			const duplication = ITEM_LIST.some(v => {
-				if ( v.name === name ) duplication = true;
+				if ( v.name === name ) return true;
 			})
 
 			if ( duplication ) {
@@ -79,7 +107,7 @@ const Inventory = ( _ => {
 				ITEM_LIST.push(item);
 			}
 
-			console.log(ITEM_LIST);
+			this.render();
 		}
 
 		edit (name, option) {
@@ -96,7 +124,7 @@ const Inventory = ( _ => {
 					}
 				})
 			}
-			console.log(ITEM_LIST);
+			this.render();
 		}
 	}
 })();
@@ -104,5 +132,12 @@ const Inventory = ( _ => {
 
 const vmError = msg => {
 	console.log("Vending Machine Error : "+msg);
-	// ui 작업 시 추가
+	
+	const errorBox = document.querySelector("#errorBox");
+	errorBox.classList.add("on");
+	errorBox.innerText = msg;
+	setTimeout( _ => {
+		errorBox.classList.remove("on");
+		errorBox.innerText = "Error Message";
+	}, 3000)
 }

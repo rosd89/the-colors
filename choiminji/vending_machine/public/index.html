@@ -5,33 +5,9 @@
 		<title>Vending Machine</title>
 		<meta name="description" content="">
 		<meta name="author" content="mjchoi">
+		<link rel="stylesheet" href="./css/style.css">
 	</head>
 	<body>
-<style>
-* { margin:0; padding:0; border:0; font-size:13px;  }
-ul, li { list-style:none; }
-button { width:100%; line-height:20px; border:1px solid #ddd; background-color:#eee; }
-input, select { width:100%; border:1px solid #ddd; line-height:20px; height:22px; }
-
-.hidden { display:none; font-size:0; text-indent:-10000px; }
-header { padding:10px; }
-header h1 { padding:15px; text-align:center; font-size:24px; font-weight:bold; background-color:#eee; }
-section { float:left; width:50%; padding:10px; box-sizing:border-box; }
-#admin article { margin-bottom:20px; }
-#admin article .col { border-top:3px solid #ddd; }
-#admin article .col:after { content:""; display:block; clear:both; height:0; }
-#admin article .col .elem { float:left; padding:5px 3px; border-right:3px solid #ddd; box-sizing:border-box; line-height:22px; }
-#admin article .col .elem:first-child { border-left:3px solid #ddd; }
-#admin article .col .elem span { }
-#admin article .title { text-align:center; background-color:#949494; color:#fff; font-weight:bold; }
-#admin article .content { border-bottom:3px solid #ddd; }
-#admin .name { width:25%; }
-#admin .price { width:20%; }
-#admin .condition { width:15%; }
-#admin .count { width:15%; }
-#admin .display { width:15%; }
-#admin .btn { width:10%; }
-</style>
 	<header>
 		<h1>Vending Machine</h1>
 	</header>
@@ -40,51 +16,53 @@ section { float:left; width:50%; padding:10px; box-sizing:border-box; }
 		<article id="input">
 			<h2 class="hidden">inventory input</h2>
 			<div class="col title">
-				<div class="elem name">제품명</div>
-				<div class="elem price">가격</div>
-				<div class="elem condition">상태</div>
-				<div class="elem count">재고량</div>
-				<div class="elem display">진열여부</div>
-				<div class="elem btn">&nbsp;</div>
+				<div class="cell w25">제품명</div>
+				<div class="cell w20">가격</div>
+				<div class="cell w15">상태</div>
+				<div class="cell w15">재고량</div>
+				<div class="cell w15">진열여부</div>
+				<div class="cell w10">&nbsp;</div>
 			</div>
 			</div>
 			<div class="col content">
-				<div class="elem name">
-					<input type="text" name="name">
+				<div class="cell w25 name">
+					<input type="text">
 				</div>
-				<div class="elem price">
-					<input type="text" name="price">
+				<div class="cell w20 price">
+					<input type="text">
 				</div>
-				<div class="elem condition">
-					<select name="condition">
-						<option value="ice">ICE</option>
-						<option value="hot">HOT</option>
+				<div class="cell w15 condition">
+					<select>
+						<option value="ICE">ICE</option>
+						<option value="HOT">HOT</option>
 					</select>
 				</div>
-				<div class="elem count">
-					<input type="text" name="count" value="0">
+				<div class="cell w15 count">
+					<input type="text" value="0">
 				</div>
-				<div class="elem display">
-					<select name="display">
+				<div class="cell w15 display">
+					<select>
 						<option value="true">진열O</option>
 						<option value="false">진열X</option>
 					</select>
 				</div>
-				<div class="elem btn">
+				<div class="cell w10 btn">
 					<button id="submit">등록</button>
 				</div>
 			</div>
 		</article>
-
+		<article id="errorBox">
+			<h2 class="hidden">error masage</h2>
+			error message!
+		</article>	
 		<article id="output">
 			<h2 class="hidden">inventory output</h2>
 			<ul class="content">
-
-
-
+				<!-- list 출력 -->
 			</ul>
 		</article>
 	</section>
+	
 
 	<script src="./js/vm.js"></script>
 	<script type="text/javascript">
@@ -94,39 +72,26 @@ section { float:left; width:50%; padding:10px; box-sizing:border-box; }
 		const inputContent = document.querySelector("#input .content");
 
 		submitBtn.addEventListener("click", e => {
-			const itemName = inputContent.querySelector(".name input").value;
-			const itemPrice = inputContent.querySelector(".price input").value;
-			const itemCondition = inputContent.querySelector(".condition select").value;
-			const itemCount = inputContent.querySelector(".count input").value;
-			const itemDisplay = inputContent.querySelector(".display select").value;
-
-			VM1.add(itemName, itemPrice, itemCondition, itemCount, itemDisplay);
+			VM1.add(
+				inputContent.querySelector(".name input").value, 
+				inputContent.querySelector(".price input").value, 
+				inputContent.querySelector(".condition select").value, 
+				inputContent.querySelector(".count input").value, 
+				inputContent.querySelector(".display select").value
+			);
 		});
 
-		/*
-
-		<li class="col">
-			<div class="elem name">
-				wpvnafdkja
-			</div>
-			<div class="elem price">
-				<input type="text" name="price">
-			</div>
-			<div class="elem condition">
-				<input type="text" name="condition">
-			</div>
-			<div class="elem count">
-				<input type="text" name="count">
-			</div>
-			<div class="elem display">
-				<input type="text" name="display">
-			</div>
-			<div class="elem btn">
-				<button class="submit">등록</button>
-			</div>
-		</li>
-		*/
-
+		const editItem = self => {
+			const item = self.parentElement.parentElement;
+			const itemName = self.dataset.name;
+			const itemOption = {
+				price : item.querySelector(".price input").value, 
+				condition : item.querySelector(".condition select").value, 
+				count : item.querySelector(".count input").value, 
+				display : item.querySelector(".display select").value
+			}
+			VM1.edit(itemName, itemOption);
+		}
 	</script>
 	</body>
 </html>
