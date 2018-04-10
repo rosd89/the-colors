@@ -46,18 +46,17 @@ var VendingMachine = (function(){
 
   // 상품 등록하기
   VendingMachine.prototype.registerProduct = function (product) {
-    this.inventory.map(function (item, index){
-      if(product.name === item.name) {
-        try {
-          throw new Error("이름(" + item.name + ")이 같은 상품이 있습니다.");
-        } catch (e) {
-          alert(e.message);
-          return false;
-        }
-      }
+    // some 함수 : 하나라도 같으면 true
+    var checkName = this.inventory.some(function (item) {
+      return item.name === product.name;
     });
 
-    this.inventory.push(product);
+    if(checkName) {
+      console.warn("이름(" + product.name + ")이 같은 상품이 있습니다.");
+      return false;
+    } else {
+      this.inventory.push(product);
+    }
   }
 
   // 등록된 상품 삭제하기
