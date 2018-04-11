@@ -5,11 +5,93 @@
 		<title>Vending Machine</title>
 		<meta name="description" content="">
 		<meta name="author" content="mjchoi">
+		<link rel="stylesheet" href="./css/style.css">
 	</head>
 	<body>
+	<header>
+		<h1>Vending Machine</h1>
+	</header>
+	<section id="vendingMachine"></section>
+	<section id="admin">
+		<article id="input">
+			<h2 class="hidden">inventory input</h2>
+			<div class="col title">
+				<div class="cell w25">제품명</div>
+				<div class="cell w20">가격</div>
+				<div class="cell w15">상태</div>
+				<div class="cell w15">재고량</div>
+				<div class="cell w15">진열여부</div>
+				<div class="cell w10">&nbsp;</div>
+			</div>
+			</div>
+			<div class="col content">
+				<div class="cell w25 name">
+					<input type="text">
+				</div>
+				<div class="cell w20 price">
+					<input type="text">
+				</div>
+				<div class="cell w15 condition">
+					<select>
+						<option value="ICE">ICE</option>
+						<option value="HOT">HOT</option>
+					</select>
+				</div>
+				<div class="cell w15 count">
+					<input type="text" value="0">
+				</div>
+				<div class="cell w15 display">
+					<select>
+						<option value="true">진열O</option>
+						<option value="false">진열X</option>
+					</select>
+				</div>
+				<div class="cell w10 btn">
+					<button id="submit">등록</button>
+				</div>
+			</div>
+		</article>
+		<article id="errorBox">
+			<h2 class="hidden">error masage</h2>
+			error message!
+		</article>	
+		<article id="output">
+			<h2 class="hidden">inventory output</h2>
+			<ul class="content">
+				<!-- list 출력 -->
+			</ul>
+		</article>
+	</section>
+	
 
-
-		
 	<script src="./js/vm.js"></script>
+	<script type="text/javascript">
+
+		const VM1 = new Inventory();
+		const submitBtn = document.querySelector("#submit");
+		const inputContent = document.querySelector("#input .content");
+
+		submitBtn.addEventListener("click", e => {
+			VM1.add(
+				inputContent.querySelector(".name input").value, 
+				inputContent.querySelector(".price input").value, 
+				inputContent.querySelector(".condition select").value, 
+				inputContent.querySelector(".count input").value, 
+				inputContent.querySelector(".display select").value
+			);
+		});
+
+		const editItem = self => {
+			const item = self.parentElement.parentElement;
+			const itemName = self.dataset.name;
+			const itemOption = {
+				price : item.querySelector(".price input").value, 
+				condition : item.querySelector(".condition select").value, 
+				count : item.querySelector(".count input").value, 
+				display : item.querySelector(".display select").value
+			}
+			VM1.edit(itemName, itemOption);
+		}
+	</script>
 	</body>
 </html>
