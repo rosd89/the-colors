@@ -1,4 +1,6 @@
 const CONDITION = { ICE: "ICE", HOT: "HOT" };
+const DIVISION = { GUEST: "GUEST", ADMIN: "ADMIN"};
+const INCREASE = { PLUS: "PLUS", MINUS: "MINUS"};
 const DISPLAY_MAX = 30;
 
 class Item {
@@ -13,6 +15,7 @@ class Item {
 
 const Inventory = ( _ => {
 	const ITEM_LIST = [];
+	const ITEM_LOG = [];
 
 	return class {
 		optionValidation (option) {
@@ -34,6 +37,10 @@ const Inventory = ( _ => {
 				vmError("재고량은 숫자만 입력하기");
 				invalid = false;
 				return;
+			} else if ( option.count && option.count < 0 ) {
+				vmError("재고는 양수 값!");
+				invalid = false;
+				return;
 			}
 
 
@@ -53,9 +60,12 @@ const Inventory = ( _ => {
 
 		render () {
 			console.log(ITEM_LIST);
+			console.log(ITEM_LOG);
+
 			let listHTML = "";
 			ITEM_LIST.forEach( (v,k) => {
-				listHTML += `<li class="col">
+				listHTML += `
+<li class="col">
 	<div class="cell w25 name">${v.name}</div>
 	<div class="cell w20 price"><input type="text" value="${v.price}"></div>
 	<div class="cell w15 condition">
@@ -75,7 +85,20 @@ const Inventory = ( _ => {
 </li>`.trim();
 			})
 
-			document.querySelector("#output .content").innerHTML = listHTML;
+			document.querySelector("#output .content ul").innerHTML = listHTML;
+
+			let logHTML = "";
+			ITEM_LOG.forEach( v => {
+				logHTML += `
+<li class="col">
+	<div class="cell w25">${v.name}</div>
+	<div class="cell w25">${v.price} | ${v.condition} | ${v.display}</div>
+	<div class="cell w15">${v.count} / ${v.increase}</div>
+	<div class="cell w20">${v.division}</div>
+	<div class="cell w15">${v.date}</div>
+</li>`.trim();
+			})
+			document.querySelector("#log .content ul").innerHTML = logHTML;
 
 		}
 		
@@ -102,29 +125,65 @@ const Inventory = ( _ => {
 			};
 
 			const invalid = this.optionValidation(itemOption);
-			if ( invalid ) {
-				const item = new Item(name, price, condition, count, display);
-				ITEM_LIST.push(item);
-			}
 
+			if ( invalid ) {
+				const item = new Item(name, Number(price), condition, Number(count), display);
+				
+				ITEM_LIST.push(item);				
+				this.addLog(item);
+			}
+			
 			this.render();
 		}
 
 		edit (name, option) {
 			const invalid = this.optionValidation(option);
+			const compareCount = (prev, curr) => {
+				if (prev > curr) {
+					return -(prev - curr);
+				} else {
+					return curr-prev;
+				}
+			}
+			let changeLogCount = 0;
+
 			if (invalid) {
 				ITEM_LIST.some(v => {
 					if ( v.name === name ) {
-						if (option.price) v.price = option.price;
-						if (option.condition) v.condition = option.condition;
-						if (option.count) v.count = option.count;
-						if (option.display) v.display = option.display;
+						changeLogCount = compareCount(v.count, option.count);
 
+						v.price = Number(option.price);
+						v.condition = option.condition;
+						v.count = Number(option.count);
+						v.display = option.display;
 						return true;
 					}
 				})
+
+				const toLogOption = option;
+				toLogOption.name = name;
+				toLogOption.count = String(changeLogCount);
+				toLogOption.increase = (changeLogCount > 0) ? INCREASE.PLUS : INCREASE.MINUS;
+				this.addLog(toLogOption);
 			}
+			
 			this.render();
+		}
+
+		addLog (item) {
+			const today = new Date();
+			if (item.count){
+				ITEM_LOG.push({
+					name: item.name, 
+					price: item.price, 
+					condition: item.condition, 
+					count: item.count, 
+					increase : (item.increase) ? item.increase : INCREASE.PLUS,
+					display: item.display, 
+					division: DIVISION.ADMIN, 
+					date: `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
+				});
+			}
 		}
 	}
 })();
