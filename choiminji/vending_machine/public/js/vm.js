@@ -81,7 +81,7 @@ const Inventory = ( _ => {
 			<option value="false" ${v.display === "false"?"selected='selected'":""}>진열X</option>
 		</select>
 	</div>
-	<div class="cell w10 btn"><button class="edit" data-name="${v.name}" onclick="editItem(this);">수정</button></div>
+	<div class="cell w10 btn"><button class="edit" data-name="${v.name}" onclick="editItem(this,'${DIVISION.ADMIN}');">수정</button></div>
 </li>`.trim();
 			})
 
@@ -139,35 +139,45 @@ const Inventory = ( _ => {
 		edit (name, option) {
 			const invalid = this.optionValidation(option);
 			const compareCount = (prev, curr) => {
-				if (prev > curr) {
-					return -(prev - curr);
-				} else {
-					return curr-prev;
-				}
+				if (prev > curr) return -(prev - curr);
+				else return curr-prev;
 			}
 			let changeLogCount = 0;
 
 			if (invalid) {
 				ITEM_LIST.some(v => {
 					if ( v.name === name ) {
-						changeLogCount = compareCount(v.count, option.count);
+						if ( !Number(option.count) && option.division === DIVISION.ADMIN ) {
+							this.delete(name);
+						} else {
+							changeLogCount = compareCount(v.count, option.count);
 
-						v.price = Number(option.price);
-						v.condition = option.condition;
-						v.count = Number(option.count);
-						v.display = option.display;
+							v.price = Number(option.price);
+							v.condition = option.condition;
+							v.count = Number(option.count);
+							v.display = option.display;
+						}
 						return true;
 					}
 				})
 
 				const toLogOption = option;
 				toLogOption.name = name;
-				toLogOption.count = String(changeLogCount);
+				toLogOption.count = changeLogCount;
 				toLogOption.increase = (changeLogCount > 0) ? INCREASE.PLUS : INCREASE.MINUS;
 				this.addLog(toLogOption);
 			}
 			
 			this.render();
+		}
+		
+		delete (name) {
+			const thisIndex = ITEM_LIST.some( (v, k) => {
+				if (v.name === name) {
+					return k;
+				}
+			});
+			ITEM_LIST.splice(Number(thisIndex),1);
 		}
 
 		addLog (item) {
