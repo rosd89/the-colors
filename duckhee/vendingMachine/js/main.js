@@ -46,18 +46,17 @@ var VendingMachine = (function(){
 
   // 상품 등록하기
   VendingMachine.prototype.registerProduct = function (product) {
-    this.inventory.map(function (item, index){
-      if(product.name === item.name) {
-        try {
-          throw new Error("이름(" + item.name + ")이 같은 상품이 있습니다.");
-        } catch (e) {
-          alert(e.message);
-          return false;
-        }
-      }
+    // some 함수 : 하나라도 같으면 true
+    var checkName = this.inventory.some(function (item) {
+      return item.name === product.name;
     });
 
-    this.inventory.push(product);
+    if(checkName) {
+      console.warn("이름(" + product.name + ")이 같은 상품이 있습니다.");
+      return false;
+    } else {
+      this.inventory.push(product);
+    }
   }
 
   // 등록된 상품 삭제하기
@@ -80,28 +79,28 @@ var VendingMachine = (function(){
   // 상품 재고 추가하기
   VendingMachine.prototype.addQuantity = function (product, quantity) {
     if(isProduct()) {
-      try {
-        throw new Error("상품(" + product.name + ")이 없습니다.");
-      } catch (e) {
-        alert(e.message);
-        return false;
-      }
+      console.warn("상품(" + product.name + ")이 없습니다.");
+      return false;
     }
 
     if(isNumber(quantity)) {
-      try {
-        throw new Error("재고 수량이(" + quantity + ")이 잘못 입력되었습니다.(양수, 정수로 입력해주세요)");
-      } catch (e) {
-        alert(e.message);
-        return false;
-      }
+      console.warn("재고 수량이(" + quantity + ")이 잘못 입력되었습니다.(양수, 정수로 입력해주세요)");
+      return false;
     }
 
     var targetIndex = this.inventory.findIndex(function (item) {
       return product.name === item.name;
     });
 
-    this.inventory[targetIndex].totalQuantity += quantity;
+    if(this.inventory[targetIndex].totalQuantity += quantity >= 30) {
+      console.warn("재고가 30개 이상은 들어가지 않습니다. 현 재고 : 30개 입니다.");
+      this.inventory[targetIndex].totalQuantity = 30;
+    }
+  }
+
+  // 상품 재고 확인하기
+  VendingMachine.prototype.showQuantity = function (product) {
+    return product.totalQuantity;
   }
 
   function isProduct(product) {
@@ -130,3 +129,5 @@ vm.showRegisteredInvetory();
 
 vm.addQuantity(sprite, 100);
 vm.showRegisteredInvetory();
+
+vm.showQuantity(sprite);
