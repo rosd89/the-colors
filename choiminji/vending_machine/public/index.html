@@ -57,9 +57,14 @@
 		</article>	
 		<article id="output">
 			<h2 class="hidden">inventory output</h2>
-			<ul class="content">
-				<!-- list 출력 -->
-			</ul>
+			<div class="content">
+				<ul><!-- list 출력 --></ul>
+			</div>
+		</article>
+		<article id="log">
+			<div class="content">
+				<ul><!-- log출력 --></ul>
+			</div>
 		</article>
 	</section>
 	
@@ -81,17 +86,27 @@
 			);
 		});
 
-		const editItem = self => {
-			const item = self.parentElement.parentElement;
-			const itemName = self.dataset.name;
-			const itemOption = {
-				price : item.querySelector(".price input").value, 
-				condition : item.querySelector(".condition select").value, 
-				count : item.querySelector(".count input").value, 
-				display : item.querySelector(".display select").value
+		const editItem = (_ => {
+			const adminEdit = self => {
+				const item = self.parentElement.parentElement;
+				const itemName = self.dataset.name;
+				const itemOption = {
+					price : item.querySelector(".price input").value, 
+					condition : item.querySelector(".condition select").value, 
+					count : item.querySelector(".count input").value, 
+					display : item.querySelector(".display select").value,
+					division : DIVISION.ADMIN
+				}
+				VM1.edit(itemName, itemOption);
+			};
+			const guestEdit = () => {
+				// guest click
 			}
-			VM1.edit(itemName, itemOption);
-		}
+			return (self, division) => {
+				if (division === DIVISION.ADMIN) adminEdit(self);
+				else guestEdit();
+			};
+		})();
 	</script>
 	</body>
 </html>
