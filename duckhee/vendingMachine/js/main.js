@@ -43,6 +43,7 @@ var VendingMachine = (function(){
   function VendingMachine() {
     this.inventory = [];
     this.displayedSpace = [];
+    this.displayedItemId = 0;
   }
 
   // 상품 등록하기
@@ -145,13 +146,14 @@ var VendingMachine = (function(){
 
   // 진열 공간에 상품 추가
   VendingMachine.prototype.addDisplayedSpace = function (product) {
-    // some 함수 : 하나라도 같으면 true
-    var isCheckedSame = this.displayedSpace.some(function (item) {
-      return item.name === product.name;
-    });
+    var newProduct = Object.assign({}, product);
+    var isCheckedSpaceLength = (this.displayedSpace.length >= 30 ? false : true);
 
-    if(!isCheckedSame) {
-      this.displayedSpace.push(product);
+    if(isCheckedSpaceLength) {
+      newProduct.id = this.displayedItemId++;
+      this.displayedSpace.push(newProduct);
+    } else {
+      console.warn('진열 공간(30개)이 꽉 찼습니다.');
     }
   }
 
