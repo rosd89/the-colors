@@ -5,6 +5,7 @@ input, select { width:100%; border:1px solid #ddd; line-height:20px; height:22px
 
 .hidden { display:none; font-size:0; text-indent:-10000px; }
 .clearFix { content:""; display:block; clear:both; padding:0; margin:0; }
+.w75 { width:75%; }
 .w25 { width:25%; }
 .w20 { width:20%; }
 .w15 { width:15%; }
@@ -21,8 +22,15 @@ section { float:left; width:50%; padding:10px; box-sizing:border-box; }
 #admin article .col .cell { float:left; padding:5px 3px; border-right:3px solid #ddd; box-sizing:border-box; line-height:22px; }
 #admin article .col .cell:first-child { border-left:3px solid #ddd; }
 #admin article .title { text-align:center; background-color:#949494; color:#fff; font-weight:bold; }
+
 #admin #output .content,
 #admin #log .content { height:300px; overflow-y:scroll; border:1px solid #ddd;}
+#admin #output .itemInfo:after,
+#admin #output .itemInfo .search:after { content:""; display:block; clear:both; }
+#admin #output .itemInfo .search,
+#admin #output .itemInfo .notice { float:left; padding:5px; box-sizing:border-box; background-color:#949494; color:#fff; }
+#admin #output .itemInfo .search > * { float:left; }
+#admin #output .itemInfo .notice { min-height:32px; text-align:center; }
 
-#errorBox { padding:7px; background-color:#eee; color:#fff; font-weight:bold; text-align:center; }
-#errorBox.on { background-color:#5F4B8B; }
+#errorMsg { padding:7px; background-color:#eee; color:#fff; font-weight:bold; text-align:center; }
+#errorMsg.on { background-color:#5F4B8B; }
