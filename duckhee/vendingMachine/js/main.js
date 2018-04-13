@@ -92,13 +92,14 @@ var VendingMachine = (function(){
       return product.name === item.name;
     });
 
-    var curTotalQuantity = this.inventory[targetIndex].totalQuantity + quantity;
+    var targetProduct = this.inventory[targetIndex];
+    var curTotalQuantity = targetProduct.totalQuantity + quantity;
 
     if(curTotalQuantity >= 30) {
       console.warn("재고가 30개 이상은 들어가지 않습니다. 현 재고 : 30개 입니다.");
-      this.inventory[targetIndex].totalQuantity = 30;
+      targetProduct.totalQuantity = 30;
     } else {
-      this.inventory[targetIndex].totalQuantity = curTotalQuantity;
+      targetProduct.totalQuantity = curTotalQuantity;
     }
     console.log("현 재고 : " + this.showQuantity(product));
   }
@@ -119,13 +120,14 @@ var VendingMachine = (function(){
       return product.name === item.name;
     });
 
-    var curTotalQuantity = this.inventory[targetIndex].totalQuantity - quantity;
+    var targetProduct = this.inventory[targetIndex];
+    var curTotalQuantity = targetProduct.totalQuantity - quantity;
 
     if(curTotalQuantity <= 0) {
       console.warn("재고가 0개 이하입니다. 현 재고 : 0개 입니다.");
-      this.inventory[targetIndex].totalQuantity = 0;
+      targetProduct.totalQuantity = 0;
     } else {
-      this.inventory[targetIndex].totalQuantity = curTotalQuantity;
+      targetProduct.totalQuantity = curTotalQuantity;
     }
     console.log("현 재고 : " + this.showQuantity(product));
   }
