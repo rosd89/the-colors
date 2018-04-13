@@ -185,6 +185,60 @@ var VendingMachine = (function(){
     this.displayedSpace.splice(targetIndex, 1);
   }
 
+  // 진열 공간에 상품 재고 빼기
+  VendingMachine.prototype.subtractQuantityDisplayedItem = function (id, quantity) {
+    var targetIndex = this.displayedSpace.findIndex(function (item) {
+      return id === item.id;
+    });
+
+    if(targetIndex === -1) {
+      console.warn('재고 추가할 아이템이 없습니다.(id값을 제대로 입력해주세요)');
+      return;
+    }
+
+    var quantity = typeof quantity !== 'undefined' ? quantity : 0;
+    var thisItemName = this.displayedSpace[targetIndex].name;
+    var inventoryItemIndex = this.inventory.findIndex(function(i) {
+      return i.name === thisItemName;
+    });
+    var product = this.inventory[inventoryItemIndex];
+
+    if(quantity > this.displayedSpace[id].quantity) {
+      console.warn('제품 수량을 정확히 입력해주세요.(입력하신 재고보다 진열 된 상품 수량('+ this.displayedSpace[id].quantity +')이 적습니다.)');
+      return false;
+    }
+
+    product.totalQuantity = product.totalQuantity + quantity;
+    this.displayedSpace[id].quantity -= quantity;
+  }
+
+  // 진열 공간에 상품 재고 추가
+  VendingMachine.prototype.addQuantityDisplayedItem = function (id, quantity) {
+    var targetIndex = this.displayedSpace.findIndex(function (item) {
+      return id === item.id;
+    });
+
+    if(targetIndex === -1) {
+      console.warn('재고 추가할 아이템이 없습니다.(id값을 제대로 입력해주세요)');
+      return;
+    }
+
+    var quantity = typeof quantity !== 'undefined' ? quantity : 0;
+    var thisItemName = this.displayedSpace[targetIndex].name;
+    var inventoryItemIndex = this.inventory.findIndex(function(i) {
+      return i.name === thisItemName;
+    });
+    var product = this.inventory[inventoryItemIndex];
+
+    if(quantity > product.totalQuantity || quantity < 0) {
+      console.warn('제품 수량을 정확히 입력해주세요.(0보다 작거나 창고 재고('+product.totalQuantity +'개)가 부족합니다.)');
+      return false;
+    }
+
+    product.totalQuantity = product.totalQuantity -  quantity;
+    this.displayedSpace[id].quantity += quantity;
+  }
+
   // 진열 공간 확인
   VendingMachine.prototype.showDisplayedSpace = function (product) {
     console.log(this.displayedSpace);
