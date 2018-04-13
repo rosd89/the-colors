@@ -88,10 +88,7 @@ var VendingMachine = (function(){
       return false;
     }
 
-    var targetIndex = this.inventory.findIndex(function (item) {
-      return product.name === item.name;
-    });
-
+    var targetIndex = findIndexByItem.call(this, product, this.inventory);
     var targetProduct = this.inventory[targetIndex];
     var curTotalQuantity = targetProduct.totalQuantity + quantity;
 
@@ -116,10 +113,7 @@ var VendingMachine = (function(){
       return false;
     }
 
-    var targetIndex = this.inventory.findIndex(function (item) {
-      return product.name === item.name;
-    });
-
+    var targetIndex = findIndexByItem.call(this, product, this.inventory);
     var targetProduct = this.inventory[targetIndex];
     var curTotalQuantity = targetProduct.totalQuantity - quantity;
 
@@ -142,6 +136,11 @@ var VendingMachine = (function(){
   }
   function isNumber(number)  {
     return typeof number !== 'number' || isNaN(number) || number <= 0 || number - Math.floor(number) != 0 ;
+  }
+  function findIndexByItem(product, inventory) {
+    return inventory.findIndex(function (item) {
+      return product.name === item.name;
+    });
   }
 
   return VendingMachine;
