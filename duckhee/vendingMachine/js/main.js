@@ -145,12 +145,16 @@ var VendingMachine = (function(){
   }
 
   // 진열 공간에 상품 추가
-  VendingMachine.prototype.addDisplayedSpace = function (product) {
+  VendingMachine.prototype.addDisplayedSpace = function (product, quantity, isHot) {
+    var quantity = typeof quantity !== 'undefined' ? quantity : 0;
+    var isHot = typeof isHot !== 'undefined' ? isHot : false;
     var newProduct = Object.assign({}, product);
     var isCheckedSpaceLength = (this.displayedSpace.length >= 30 ? false : true);
 
     if(isCheckedSpaceLength) {
       newProduct.id = this.displayedItemId++;
+      newProduct.quantity = quantity;
+      newProduct.isHot = isHot;
       this.displayedSpace.push(newProduct);
     } else {
       console.warn('진열 공간(30개)이 꽉 찼습니다.');
@@ -186,6 +190,47 @@ vm.registerProduct(sprite);
 vm.registerProduct(fanta);
 
 vm.showRegisteredInvetory();
+
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite);
+
+
 
 // vm.delelteRegisterProduct(coke);
 // vm.showRegisteredInvetory();
