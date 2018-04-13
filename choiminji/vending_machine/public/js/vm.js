@@ -35,6 +35,7 @@ const Inventory = ( _ => {
 				console.log("integer : " + !Number.isInteger(option.price));
 				console.log("<0 : " + option.price < 0);
 				console.log( option.price - Math.floor(option.price));
+				// ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
 				vmError("가격은 0보다 큰 정수 값!");
 				invalid = false;
 				return;
@@ -132,7 +133,7 @@ const Inventory = ( _ => {
 				const item = new Item(name, Number(price), condition, Number(count), display);
 				
 				ITEM_LIST.push(item);
-				this.search(item.name);
+				this.check(item.name);
 				this.addLog(item);
 			}
 			
@@ -141,10 +142,7 @@ const Inventory = ( _ => {
 
 		edit (name, option) {
 			const invalid = this.optionValidation(option);
-			const compareCount = (prev, curr) => {
-				if (prev > curr) return -(prev - curr);
-				else return curr-prev;
-			}
+			const compareCount = (prev, curr) => (prev > curr) ? Math.abs(prev-curr)*-1 : Math.abs(prev-curr);
 			let changeLogCount = 0;
 
 			if (invalid) {
@@ -170,7 +168,7 @@ const Inventory = ( _ => {
 				toLogOption.increase = (changeLogCount > 0) ? INCREASE.PLUS : INCREASE.MINUS;
 				
 				this.addLog(toLogOption);
-				this.search(name);
+				this.check(name);
 			}
 			
 			this.render();
@@ -185,13 +183,23 @@ const Inventory = ( _ => {
 			ITEM_LIST.splice(Number(thisIndex),1);
 		}
 
-		search (name) {
-			console.log("search");
-			const thisCount = ITEM_LIST.forEach( v => {
-				if (v.name === name ) return v.count;
+		check (name) {
+			let thisCount = 0;
+			const invaild = ITEM_LIST.some( v => {
+				if (v.name === name ) { 
+					console.log(v);
+					thisCount = v.count;
+					return true;
+				}
 			})
-			console.log(name, thisCount);
-			document.querySelector("#output .notice").innerHTML = `[ <strong>${name}</strong> ] -- 재고 <strong>${(thisCount) ? thisCount : 0}</strong>`;
+			
+			let checkText;
+			if (invaild) {
+				checkText = `[ <strong>${name}</strong> ] -- 재고 <strong class='color'>${(thisCount) ? thisCount : 0}</strong>`;
+			} else {
+				checkText = "<strong class='color'>등록되지 않은 상품</strong>";
+			}
+			document.querySelector("#output .notice").innerHTML = checkText;
 		}
 
 		addLog (item) {

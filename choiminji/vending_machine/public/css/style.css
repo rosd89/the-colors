@@ -10,6 +10,7 @@ input, select { width:100%; border:1px solid #ddd; line-height:20px; height:22px
 .w20 { width:20%; }
 .w15 { width:15%; }
 .w10 { width:10%; }
+.color { color:#5F4B8B; }
 
 header { padding:10px; }
 header h1 { padding:15px; text-align:center; font-size:24px; font-weight:bold; background-color:#eee; }
@@ -28,7 +29,7 @@ section { float:left; width:50%; padding:10px; box-sizing:border-box; }
 #admin #output .itemInfo:after,
 #admin #output .itemInfo .search:after { content:""; display:block; clear:both; }
 #admin #output .itemInfo .search,
-#admin #output .itemInfo .notice { float:left; padding:5px; box-sizing:border-box; background-color:#949494; color:#fff; }
+#admin #output .itemInfo .notice { float:left; padding:5px; box-sizing:border-box; background-color:#eee;}
 #admin #output .itemInfo .search > * { float:left; }
 #admin #output .itemInfo .notice { min-height:32px; text-align:center; }
 
