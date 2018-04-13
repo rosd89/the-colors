@@ -156,6 +156,7 @@ var VendingMachine = (function(){
 
     product.totalQuantity = product.totalQuantity -  quantity;
 
+    // ice, hot 속성은 기본값으로 ice로
     var isHot = typeof isHot !== 'undefined' ? isHot : false;
     var isCheckedSpaceLength = (this.displayedSpace.length >= 30 ? false : true);
 
@@ -187,6 +188,20 @@ var VendingMachine = (function(){
   // 진열 공간 확인
   VendingMachine.prototype.showDisplayedSpace = function (product) {
     console.log(this.displayedSpace);
+  }
+
+  // 진열 공간 음료 ice, hot 속성 변경
+  VendingMachine.prototype.changeisHot = function (id) {
+    var targetIndex = this.displayedSpace.findIndex(function (item) {
+      return id === item.id;
+    });
+
+    if(targetIndex === -1) {
+      console.warn('변경할 음료가 없습니다.(id값을 제대로 입력해주세요)');
+      return;
+    }
+
+    this.displayedSpace[targetIndex].isHot = !this.displayedSpace[targetIndex].isHot;
   }
 
   return VendingMachine;
