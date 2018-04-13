@@ -146,12 +146,21 @@ var VendingMachine = (function(){
 
   // 진열 공간에 상품 추가
   VendingMachine.prototype.addDisplayedSpace = function (product, quantity, isHot) {
-    var quantity = typeof quantity !== 'undefined' ? quantity : 0;
-    var isHot = typeof isHot !== 'undefined' ? isHot : false;
     var newProduct = Object.assign({}, product);
+    var quantity = typeof quantity !== 'undefined' ? quantity : 0;
+
+    if(quantity >= product.totalQuantity || quantity < 0) {
+      console.warn('제품 수량을 정확히 입력해주세요.(0보다 작거나 창고 재고('+product.totalQuantity +'개)가 부족합니다.)');
+      return false;
+    }
+
+    product.totalQuantity = product.totalQuantity -  quantity;
+
+    var isHot = typeof isHot !== 'undefined' ? isHot : false;
     var isCheckedSpaceLength = (this.displayedSpace.length >= 30 ? false : true);
 
     if(isCheckedSpaceLength) {
+      delete newProduct.totalQuantity;
       newProduct.id = this.displayedItemId++;
       newProduct.quantity = quantity;
       newProduct.isHot = isHot;
@@ -194,46 +203,14 @@ vm.registerProduct(coke);
 vm.registerProduct(sprite);
 vm.registerProduct(fanta);
 
+vm.addQuantity(sprite, 25);
+
 vm.showRegisteredInvetory();
 
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
-vm.addDisplayedSpace(sprite);
+vm.addDisplayedSpace(sprite, 1);
+vm.addDisplayedSpace(sprite, 3);
+vm.addDisplayedSpace(sprite, 5);
+vm.addDisplayedSpace(sprite, 15);
 
 
 
