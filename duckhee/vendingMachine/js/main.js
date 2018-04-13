@@ -155,6 +155,11 @@ var VendingMachine = (function(){
     }
   }
 
+  // 진열 공간 확인
+  VendingMachine.prototype.showDisplayedSpace = function (product) {
+    console.log(this.displayedSpace);
+  }
+
   return VendingMachine;
 
 })();
