@@ -11,7 +11,39 @@
 	<header>
 		<h1>Vending Machine</h1>
 	</header>
-	<section id="vendingMachine"></section>
+	
+	<section id="vendingMachine">
+		<div>
+			<article class="itemList">
+				<h2 class="hidden">item list</h2>
+				<ul>
+					<li>
+						<a href="#">
+							<!-- <p class="name">FANTA</p> -->
+						</a>
+					</li>
+				</ul>
+			</article>
+			<article class="paymentBox">
+				<h2 class="hidden">payment process</h2>
+				<div class="cash">
+					<ul class="checkCash">
+						<li data-cash="cash">CASH</li>
+						<li class="on" data-cash="card">CARD</li>
+					</ul>
+					<div class="inputCash">
+						<input type="text">
+						<button>입력</button>
+					</div>
+				</div>
+				<div class="changes">
+					<p class="w25 text">잔돈</p>
+					<p class="w75 num">10000</p>
+				</div>
+			</article>
+		</div>
+	</section>
+
 	<section id="admin">
 		<article id="input">
 			<h2 class="hidden">inventory input</h2>
