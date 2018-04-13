@@ -42,6 +42,7 @@ var Product = (function(){
 var VendingMachine = (function(){
   function VendingMachine() {
     this.inventory = [];
+    this.displayedSpace = [];
   }
 
   // 상품 등록하기
@@ -142,24 +143,36 @@ var VendingMachine = (function(){
     return typeof number !== 'number' || isNaN(number) || number <= 0 || number - Math.floor(number) != 0 ;
   }
 
+  // 진열 공간에 상품 추가
+  VendingMachine.prototype.addDisplayedSpace = function (product) {
+    // some 함수 : 하나라도 같으면 true
+    var isCheckedSame = this.displayedSpace.some(function (item) {
+      return item.name === product.name;
+    });
+
+    if(!isCheckedSame) {
+      this.displayedSpace.push(product);
+    }
+  }
+
   return VendingMachine;
 
 })();
 
 var coke = new Product("coke", 500);
 var sprite = new Product("sprite", 1000);
+var fanta = new Product("fanta", 700);
 
 var vm = new VendingMachine();
 
 vm.registerProduct(coke);
 vm.registerProduct(sprite);
+vm.registerProduct(fanta);
 
 vm.showRegisteredInvetory();
 
-vm.delelteRegisterProduct(coke);
-vm.showRegisteredInvetory();
+// vm.delelteRegisterProduct(coke);
+// vm.showRegisteredInvetory();
 
-vm.addQuantity(sprite, 20);
-vm.showRegisteredInvetory();
-
-vm.showQuantity(sprite);
+// vm.addQuantity(sprite, 20);
+// vm.showQuantity(sprite);
