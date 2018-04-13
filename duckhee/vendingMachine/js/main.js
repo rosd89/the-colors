@@ -155,6 +155,15 @@ var VendingMachine = (function(){
     }
   }
 
+  // 진열 공간에 상품 제거
+  VendingMachine.prototype.removeDisplayedSpace = function (id) {
+    var targetIndex = this.displayedSpace.findIndex(function (item) {
+      return id === item.id;
+    });
+
+    this.displayedSpace.splice(targetIndex, 1);
+  }
+
   // 진열 공간 확인
   VendingMachine.prototype.showDisplayedSpace = function (product) {
     console.log(this.displayedSpace);
