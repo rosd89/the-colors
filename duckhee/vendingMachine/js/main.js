@@ -167,6 +167,11 @@ var VendingMachine = (function(){
       return id === item.id;
     });
 
+    if(targetIndex === -1) {
+      console.warn('삭제할 아이템이 없습니다.(id값을 제대로 입력해주세요)');
+      return;
+    }
+
     this.displayedSpace.splice(targetIndex, 1);
   }
 
