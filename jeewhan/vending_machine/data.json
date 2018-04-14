@@ -3,13 +3,23 @@
     {
       "name": "zero",
       "price": 0,
-      "isHot": false
+      "isHot": false,
+      "stock": 0
+    },
+    {
+      "name": "one",
+      "price": 100,
+      "isHot": false,
+      "stock": 1
     }
   ],
-  "session": { "money": 0 },
-  "admin": {
-    "power": false,
+  "session": { "select": "0", "change": 0 },
+  "power": true,
+  "log": {
     "daily": {},
-    "product": {}
+    "products": [
+      { "name": "zero", "revenue": 0 },
+      { "name": "one", "revenue": 0 }
+    ]
   }
 }
