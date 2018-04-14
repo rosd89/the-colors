@@ -141,82 +141,8 @@
 
 ![img](./asset/FlowChart.jpg)
 
-## Milestone
+## 참고자료
 
-### 1 주
-
-* Logic
-  * 재고 확인
-  * 재고 표시
-  * 상품 등록
-  * 상품 채우기
-  * 상품 빼기
-  * 판매량 체크
-  * 결제
-  * 상품 진열 공간(Logic)
-  * 자판기의 상태(Logic)
-  * 상품 선택 버튼(Logic)
-  * 재화를 입력(Logic)
-  * 잔돈을 반환(Logic)
-
-### 2 주
-
-* UI
-  * 상품 진열 공간(Front)
-  * 자판기의 상태(Front)
-  * 상품 선택 버튼(Front)
-  * 재화를 입력(Front)
-  * 잔돈을 반환(Front)
-
-## 일정산출
-
-### 목요일(4/5)
-
-* 순서도 작성
-* 화면정의
-
-### 금요일(4/6)
-
-* 프로젝트 스펙 결정 및 세팅
-* TDD
-
-### 토요일(4/7)
-
-* TDD
-
-### 일요일(4/8)
-
-* TDD
-
-### 월요일(4/9)
-
-* TDD
-
-### 화요일(4/10)
-
-* 미팅에서의 피드백 반영
-* HTML 학습/구현
-
-### 수요일(4/11)
-
-* HTML 학습/구현
-
-### 목요일(4/12)
-
-* CSS 학습/구현
-
-### 금요일(4/13)
-
-* CSS 학습/구현
-
-### 토요일(4/14)
-
-* CSS 학습/구현
-
-### 일요일(4/15)
-
-* JavaScript Binding
-
-### 월요일(4/16)
-
-* 마무리 정리
+* [리덕스(Redux) 애플리케이션 설계에 대한 생각](http://huns.me/development/1953)
+* [채널 iOS에 Redux를 적용하게 된 7가지 이유](http://blog-kr.zoyi.co/channel-ios-redux/)
+* [리듀서 예제 리팩토링하기](https://deminoth.github.io/redux/recipes/reducers/RefactoringReducersExample.html)
