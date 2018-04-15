@@ -13,7 +13,6 @@ var VendingMachine = (function(){
     showProductQuantity: showProductQuantity,
     addProductInDisplayedSpace: addProductInDisplayedSpace,
     subtractProductInDisplayedSpace: subtractProductInDisplayedSpace,
-
   }
 
   // 상품 등록하기
@@ -94,6 +93,10 @@ var VendingMachine = (function(){
   }
   // 상품 진열 하기
   function addProductInDisplayedSpace(product) {
+    if(document.querySelectorAll(".displaySpace__item").length >= 30) {
+      console.warn("진열 자리가 꽉 찼습니다.");
+      return false;
+    }
     var targetIndex = findIndexByName.call(this, product);
     if(this.inventory[targetIndex].isSame <= 0) {
         console.warn("중복 진열 자리가 없습니다.");
@@ -102,13 +105,20 @@ var VendingMachine = (function(){
     this.inventory[targetIndex].isSame--;
     var displayedList = document.querySelector(".displaySpace__list");
     var displayedItem = document.createElement("li");
+    var productName = document.createElement("span");
+    var productPrice = document.createElement("button");
+
 
     displayedItem.classList.add("displaySpace__item");
     displayedItem.setAttribute("data-id", this.displayId++);
-    displayedItem.append(product.name);
+    productName.classList.add("name");
+    productName.append(product.name);
+    displayedItem.append(productName);
+    productPrice.classList.add("btn");
+    productPrice.append(product.price);
     displayedList.append(displayedItem);
+    displayedItem.append(productPrice);
   }
-
   // 상품 진열 제거
   function subtractProductInDisplayedSpace(id) {
     var displayedItem = document.querySelectorAll(".displaySpace__item");
