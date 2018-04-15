@@ -7,6 +7,8 @@ var VendingMachine = (function(){
     registerProduct: registerProduct,
     showInvetory: showInvetory,
     deleteRegisteredProduct: deleteRegisteredProduct,
+    addQuantityInInventory: addQuantityInInventory,
+    showProductQuantity: showProductQuantity
   }
 
   // 상품 등록하기
@@ -31,23 +33,15 @@ var VendingMachine = (function(){
 
   // 등록된 상품 삭제하기
   function deleteRegisteredProduct(id) {
-    var targetIndex = findIndexById.bind(this,id);
+    var targetIndex = findIndexById.call(this,id);
+    console.log(targetIndex);
     this.inventory.splice(targetIndex, 1);
     return this.inventory;
   }
 
-  // id값으로 index찾기
-  function findIndexById(id) {
-    var targetIndex = this.inventory.findIndex(function (item) {
-      return id === item.id;
-    });
-    return targetIndex;
-  }
-
-  /*
-  // 상품 재고 추가하기
-  VendingMachine.prototype.addQuantity = function (product, quantity) {
-    if(isProduct()) {
+  // 등록된 상품 재고 추가하기
+  function addQuantityInInventory(product, quantity) {
+    if(!isProduct(product)) {
       console.warn("상품(" + product.name + ")이 없습니다.");
       return false;
     }
@@ -57,10 +51,8 @@ var VendingMachine = (function(){
       return false;
     }
 
-    var targetIndex = this.inventory.findIndex(function (item) {
-      return product.name === item.name;
-    });
-
+    var targetIndex = findIndexByName.call(this, product);
+    // this.inventory[targetIndex].totalQuantity 줄이면 undefined?
     var curTotalQuantity = this.inventory[targetIndex].totalQuantity + quantity;
 
     if(curTotalQuantity >= 30) {
@@ -69,8 +61,42 @@ var VendingMachine = (function(){
     } else {
       this.inventory[targetIndex].totalQuantity = curTotalQuantity;
     }
-    console.log("현 재고 : " + this.showQuantity(product));
+    return "현 재고 : " + this.showProductQuantity(product);
   }
+
+  // 상품 재고 확인하기
+  function showProductQuantity(product) {
+    return product.totalQuantity;
+  }
+
+  //////////////////////////////////////////////////
+
+  // id값으로 index찾기
+  function findIndexById(id) {
+    var targetIndex = this.inventory.findIndex(function (item) {
+      return id === item.id;
+    });
+    return targetIndex;
+  }
+  // name값으로 index찾기
+  function findIndexByName(product) {
+    var targetIndex = this.inventory.findIndex(function (item) {
+      return product.name === item.name;
+    });
+    return targetIndex;
+  }
+  // 상품 확인
+  function isProduct(product) {
+    return product instanceof Product;
+  }
+  // 숫자 확인(정수, 양수)
+  function isNumber(number)  {
+    return typeof number !== 'number' || isNaN(number) || number <= 0 || number - Math.floor(number) != 0 ;
+  }
+
+  /*
+  // 상품 재고 추가하기
+
 
   // 상품 재고 빼기
   VendingMachine.prototype.subtractQuantity = function (product, quantity) {
@@ -99,17 +125,9 @@ var VendingMachine = (function(){
     console.log("현 재고 : " + this.showQuantity(product));
   }
 
-  // 상품 재고 확인하기
-  VendingMachine.prototype.showQuantity = function (product) {
-    return product.totalQuantity;
-  }
 
-  function isProduct(product) {
-    return product instanceof Product;
-  }
-  function isNumber(number)  {
-    return typeof number !== 'number' || isNaN(number) || number <= 0 || number - Math.floor(number) != 0 ;
-  }
+
+
 
   // 진열 공간에 상품 추가
   VendingMachine.prototype.addDisplayedSpace = function (product, quantity, isHot) {
