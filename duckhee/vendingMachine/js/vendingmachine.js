@@ -8,7 +8,9 @@ var VendingMachine = (function(){
     showInvetory: showInvetory,
     deleteRegisteredProduct: deleteRegisteredProduct,
     addQuantityInInventory: addQuantityInInventory,
-    showProductQuantity: showProductQuantity
+    subtractQuantityInInventory: subtractQuantityInInventory,
+    showProductQuantity: showProductQuantity,
+
   }
 
   // 상품 등록하기
@@ -64,10 +66,36 @@ var VendingMachine = (function(){
     return "현 재고 : " + this.showProductQuantity(product);
   }
 
-  // 상품 재고 확인하기
+  // 등록된 상품 재고 빼기
+  function subtractQuantityInInventory(product, quantity) {
+    if(isProduct()) {
+      console.warn("상품(" + product.name + ")이 없습니다.");
+      return false;
+    }
+
+    if(isNumber(quantity)) {
+      console.warn("재고 수량이(" + quantity + ")이 잘못 입력되었습니다.(양수, 정수로 입력해주세요)");
+      return false;
+    }
+
+    var targetIndex = findIndexByName.call(this, product);
+    var curTotalQuantity = this.inventory[targetIndex].totalQuantity - quantity;
+
+    if(curTotalQuantity <= 0) {
+      console.warn("재고가 0개 이하입니다. 현 재고 : 0개 입니다.");
+      this.inventory[targetIndex].totalQuantity = 0;
+    } else {
+      this.inventory[targetIndex].totalQuantity = curTotalQuantity;
+    }
+    return "현 재고 : " + this.showProductQuantity(product);
+  }
+
+  // 등록된 상품 재고 확인하기
   function showProductQuantity(product) {
     return product.totalQuantity;
   }
+
+
 
   //////////////////////////////////////////////////
 
@@ -95,35 +123,8 @@ var VendingMachine = (function(){
   }
 
   /*
-  // 상품 재고 추가하기
-
-
   // 상품 재고 빼기
-  VendingMachine.prototype.subtractQuantity = function (product, quantity) {
-    if(isProduct()) {
-      console.warn("상품(" + product.name + ")이 없습니다.");
-      return false;
-    }
 
-    if(isNumber(quantity)) {
-      console.warn("재고 수량이(" + quantity + ")이 잘못 입력되었습니다.(양수, 정수로 입력해주세요)");
-      return false;
-    }
-
-    var targetIndex = this.inventory.findIndex(function (item) {
-      return product.name === item.name;
-    });
-
-    var curTotalQuantity = this.inventory[targetIndex].totalQuantity - quantity;
-
-    if(curTotalQuantity <= 0) {
-      console.warn("재고가 0개 이하입니다. 현 재고 : 0개 입니다.");
-      this.inventory[targetIndex].totalQuantity = 0;
-    } else {
-      this.inventory[targetIndex].totalQuantity = curTotalQuantity;
-    }
-    console.log("현 재고 : " + this.showQuantity(product));
-  }
 
 
 
