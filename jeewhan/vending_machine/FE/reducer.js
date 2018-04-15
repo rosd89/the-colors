@@ -25,8 +25,10 @@ const change = payload =>
     session.change = 0;
   });
 
-const selectAndProduct = payload =>
-  generator(({ products, session, log }) => {
+const selectAndProduct = payload => {
+  clearTimeout(vm.store.timer);
+
+  const newStore = generator(({ products, session, log, timer }) => {
     const { price } = products[payload];
     const today = dateFns.format(new Date(), "YYMMDD");
     products[payload].stock -= 1;
@@ -34,6 +36,16 @@ const selectAndProduct = payload =>
     log.daily[today] ? (log.daily[today] += price) : (log.daily[today] = price);
     log.products[payload].revenue += price;
   });
+
+  newStore.timer = setTimeout(() => {
+    vm.store = generator(({ session }) => {
+      session.change = 0;
+    });
+    vm.render(vm.store);
+  }, 3000);
+
+  return newStore;
+};
 
 const add = payload =>
   generator(({ products, log }) => {
@@ -71,6 +83,7 @@ const updater = {
 
 vm.reducer = ({ type, payload }) => {
   const newStore = updater[type](payload);
+  console.dir(newStore.timer);
 
   return fetcher(newStore)
     ? (vm.store = newStore)

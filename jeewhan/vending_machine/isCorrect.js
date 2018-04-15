@@ -13,7 +13,8 @@ function isCorrect(data) {
     typeof data.power !== "boolean" ||
     (data.log && typeof data.log.daily !== "object") ||
     (data.log && !Array.isArray(data.log.products)) ||
-    (data.log && data.products.length !== data.log.products.length)
+    (data.log && data.products.length !== data.log.products.length) ||
+    typeof data.timer !== "number"
   ) {
     return false;
   } else return true;

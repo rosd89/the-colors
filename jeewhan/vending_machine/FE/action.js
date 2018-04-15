@@ -1,8 +1,7 @@
-const selectAndProductCreator = target => {
-  const { classList: [type], dataset } = target;
+const selectAndProductCreator = (type, target) => {
   const { session, products } = vm.store;
   const selectNumber = Number(
-    type === "select" ? session.select : dataset.productid
+    type === "select" ? session.select : target.dataset.productid
   );
   const product = products[selectNumber];
 
@@ -13,7 +12,7 @@ const selectAndProductCreator = target => {
   return { type, payload: selectNumber };
 };
 
-const addCreator = target => {
+const addCreator = (type, target) => {
   const [name, price, isHot, stock] = target.parentElement.children;
 
   if (
@@ -35,7 +34,7 @@ const addCreator = target => {
   };
 };
 
-const fillCreator = target => {
+const fillCreator = (type, target) => {
   const { products: p } = vm.store;
   const id = Number(target.parentElement.children[0].valueAsNumber);
   let stock = target.parentElement.children[1].valueAsNumber;
@@ -65,16 +64,16 @@ vm.action = ({ target }) => {
       return { type, payload: null };
     case "select":
     case "product":
-      return selectAndProductCreator(target);
+      return selectAndProductCreator(type, target);
     case "add":
-      return addCreator(target);
+      return addCreator(type, target);
     case "remove":
       const id = target.previousElementSibling.valueAsNumber;
       return !vm.store.products[id] ? false : { type, payload: id };
     case "power":
       return { type, payload: target.innerText === "true" ? false : true };
     case "fill":
-      return fillCreator(target);
+      return fillCreator(type, target);
   }
 
   return false;

@@ -21,6 +21,7 @@ describe("WebAPI", () => {
     expect(typeof json.log.daily).toBe("object");
     expect(Array.isArray(json.log.products)).toBeTruthy();
     expect(json.log.products.length).toBe(json.products.length);
+    expect(typeof json.timer).toBe("number");
   });
 
   it("POST", async () => {
