@@ -95,8 +95,6 @@ var VendingMachine = (function(){
     return product.totalQuantity;
   }
 
-
-
   //////////////////////////////////////////////////
 
   // id값으로 index찾기
@@ -123,13 +121,6 @@ var VendingMachine = (function(){
   }
 
   /*
-  // 상품 재고 빼기
-
-
-
-
-
-
   // 진열 공간에 상품 추가
   VendingMachine.prototype.addDisplayedSpace = function (product, quantity, isHot) {
     var newProduct = Object.assign({}, product);

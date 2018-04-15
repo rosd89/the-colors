@@ -1,32 +1,23 @@
 
 
 var coke = new Product("coke", 500);
-var coke1 = new Product("coke", 500);
 var sprite = new Product("sprite", 1000);
 var fanta = new Product("fanta", 700);
+var hotsix = new Product("hotsix", 800);
+var coffee = new Product("coffee", 300);
 
 var vm = new VendingMachine();
 
 vm.registerProduct(coke);
-vm.registerProduct(coke1);
 vm.registerProduct(sprite);
 vm.registerProduct(fanta);
+vm.registerProduct(hotsix);
+vm.registerProduct(coffee);
 
-vm.showInvetory();
+vm.addQuantityInInventory(coke, 29);
+vm.addQuantityInInventory(sprite, 29);
+vm.addQuantityInInventory(fanta, 29);
+vm.addQuantityInInventory(hotsix, 29);
+vm.addQuantityInInventory(coffee, 29);
 
-// vm.addQuantity(sprite, 25);
-//
-// vm.showRegisteredInvetory();
-//
-// vm.addDisplayedSpace(sprite, 1);
-// vm.addDisplayedSpace(sprite, 3);
-// vm.addDisplayedSpace(sprite, 5);
-// vm.addDisplayedSpace(sprite, 15);
-
-
-
-// vm.delelteRegisterProduct(coke);
-// vm.showRegisteredInvetory();
-
-// vm.addQuantity(sprite, 20);
-// vm.showQuantity(sprite);
+console.log(vm.showInvetory());
