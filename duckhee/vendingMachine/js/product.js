@@ -16,6 +16,8 @@ var Product = (function(){
     this.totalQuantity = 0;
     this.soldQuantity = 0;
     this.status = false;
+    this.isSame = 5;
+    this.isHot = false;
 
     function isNumberPrice ()  {
       return typeof price !== 'number' || isNaN(price) || price <= 0 || price - Math.floor(price) != 0 ;

@@ -1,12 +1,16 @@
 var VendingMachine = (function(){
   function VendingMachine() {
     this.inventory = [];
-    this.displayedSpace = [];
-    this.displayedItemId = 0;
+  }
+
+  VendingMachine.prototype = {
+    registerProduct: registerProduct,
+    showInvetory: showInvetory,
+    deleteRegisteredProduct: deleteRegisteredProduct,
   }
 
   // 상품 등록하기
-  VendingMachine.prototype.registerProduct = function (product) {
+  function registerProduct(product) {
     // some 함수 : 하나라도 같으면 true
     var checkName = this.inventory.some(function (item) {
       return item.name === product.name;
@@ -20,18 +24,24 @@ var VendingMachine = (function(){
     }
   }
 
-  // 등록된 상품 삭제하기
-  VendingMachine.prototype.delelteRegisterProduct = function (product) {
-    var targetIndex = this.inventory.findIndex(function (item) {
-      return product.name === item.name;
-    });
-
-    console.log(targetIndex);
-
-    this.inventory.splice(targetIndex, 1);
+  // 등록된 상품 inventory 보여주기
+  function showInvetory() {
+    return this.inventory;
   }
 
-  // 등록된 상품 보여주기
+  // 등록된 상품 삭제하기
+  function deleteRegisteredProduct(id) {
+    var targetIndex = this.inventory.findIndex(function (item) {
+      return id === item.id;
+    });
+
+    this.inventory.splice(targetIndex, 1);
+    return this.inventory;
+  }
+
+  /*
+
+
   VendingMachine.prototype.showRegisteredInvetory = function () {
     console.log(this.inventory);
     return this.inventory;
@@ -215,7 +225,7 @@ var VendingMachine = (function(){
     }
 
     this.displayedSpace[targetIndex].isHot = !this.displayedSpace[targetIndex].isHot;
-  }
+  }*/
 
   return VendingMachine;
 
