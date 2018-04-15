@@ -20,4 +20,6 @@ vm.addQuantityInInventory(fanta, 29);
 vm.addQuantityInInventory(hotsix, 29);
 vm.addQuantityInInventory(coffee, 29);
 
+
+vm.addProductInDisplayedSpace(coke);
 console.log(vm.showInvetory());

@@ -1,6 +1,7 @@
 var VendingMachine = (function(){
   function VendingMachine() {
     this.inventory = [];
+    this.displayId = 0;
   }
 
   VendingMachine.prototype = {
@@ -10,6 +11,7 @@ var VendingMachine = (function(){
     addQuantityInInventory: addQuantityInInventory,
     subtractQuantityInInventory: subtractQuantityInInventory,
     showProductQuantity: showProductQuantity,
+    addProductInDisplayedSpace: addProductInDisplayedSpace,
 
   }
 
@@ -27,12 +29,10 @@ var VendingMachine = (function(){
       this.inventory.push(product);
     }
   }
-
   // 등록된 상품 inventory 보여주기
   function showInvetory() {
     return this.inventory;
   }
-
   // 등록된 상품 삭제하기
   function deleteRegisteredProduct(id) {
     var targetIndex = findIndexById.call(this,id);
@@ -40,7 +40,6 @@ var VendingMachine = (function(){
     this.inventory.splice(targetIndex, 1);
     return this.inventory;
   }
-
   // 등록된 상품 재고 추가하기
   function addQuantityInInventory(product, quantity) {
     if(!isProduct(product)) {
@@ -65,7 +64,6 @@ var VendingMachine = (function(){
     }
     return "현 재고 : " + this.showProductQuantity(product);
   }
-
   // 등록된 상품 재고 빼기
   function subtractQuantityInInventory(product, quantity) {
     if(isProduct()) {
@@ -89,10 +87,24 @@ var VendingMachine = (function(){
     }
     return "현 재고 : " + this.showProductQuantity(product);
   }
-
   // 등록된 상품 재고 확인하기
   function showProductQuantity(product) {
     return product.totalQuantity;
+  }
+  // 상품 진열 하기
+  function addProductInDisplayedSpace(product) {
+    var targetIndex = findIndexByName.call(this, product);
+    if(this.inventory[targetIndex].isSame <= 0) {
+        console.warn("중복 진열 자리가 없습니다.");
+        return false;
+    }
+    this.inventory[targetIndex].isSame--;
+    var displayedList = document.querySelector('.displaySpace__list');
+    var displayedItem = document.createElement('li');
+
+    displayedItem.setAttribute("data-id", this.displayId++);
+    displayedItem.append(product.name);
+    displayedList.append(displayedItem);
   }
 
   //////////////////////////////////////////////////
