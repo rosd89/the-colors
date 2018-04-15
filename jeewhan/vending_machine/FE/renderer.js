@@ -12,6 +12,7 @@ const template = store =>
           <span class="${status}" data-productid=${i}>ID : ${i}.</span>
           <span class="${status}" data-productid=${i}>가격 : ${price}</span>
           <span class="${status}" data-productid=${i}>냉온여부 : ${isHot}</span>
+          <span class="${status}" data-productid=${i}>재고 : ${stock}</span>
         </div>`;
     })}
   </section>
