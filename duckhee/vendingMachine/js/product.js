@@ -2,21 +2,14 @@ var Product = (function(){
   var id = 0;
   function Product(name, price) {
     if(isStringName()) {
-      try {
-        throw new Error("name을 문자로 입력해주세요.");
-      } catch (e) {
-        alert(e.message);
-        return false;
-      }
+      console.warn("name을 문자로 입력해주세요.");
+      return false;
     }
     if(isNumberPrice()) {
-      try {
-        throw new Error("price을 숫자(양수, 정수)로 입력해주세요.");
-      } catch (e) {
-        alert(e.message);
-        return false;
-      }
+      console.warn("price을 숫자(양수, 정수)로 입력해주세요.");
+      return false;
     }
+
     this.id = id++;
     this.name = name;
     this.price = price;
