@@ -20,6 +20,14 @@ vm.addQuantityInInventory(fanta, 29);
 vm.addQuantityInInventory(hotsix, 29);
 vm.addQuantityInInventory(coffee, 29);
 
-
 vm.addProductInDisplayedSpace(coke);
+vm.addProductInDisplayedSpace(coke);
+vm.addProductInDisplayedSpace(coke);
+vm.addProductInDisplayedSpace(coke);
+vm.addProductInDisplayedSpace(fanta);
+vm.addProductInDisplayedSpace(fanta);
+vm.addProductInDisplayedSpace(fanta);
+vm.addProductInDisplayedSpace(fanta);
+vm.addProductInDisplayedSpace(fanta);
+vm.addProductInDisplayedSpace(fanta);
 console.log(vm.showInvetory());

@@ -12,6 +12,7 @@ var VendingMachine = (function(){
     subtractQuantityInInventory: subtractQuantityInInventory,
     showProductQuantity: showProductQuantity,
     addProductInDisplayedSpace: addProductInDisplayedSpace,
+    subtractProductInDisplayedSpace: subtractProductInDisplayedSpace,
 
   }
 
@@ -99,12 +100,33 @@ var VendingMachine = (function(){
         return false;
     }
     this.inventory[targetIndex].isSame--;
-    var displayedList = document.querySelector('.displaySpace__list');
-    var displayedItem = document.createElement('li');
+    var displayedList = document.querySelector(".displaySpace__list");
+    var displayedItem = document.createElement("li");
 
+    displayedItem.classList.add("displaySpace__item");
     displayedItem.setAttribute("data-id", this.displayId++);
     displayedItem.append(product.name);
     displayedList.append(displayedItem);
+  }
+
+  // 상품 진열 제거
+  function subtractProductInDisplayedSpace(id) {
+    var displayedItem = document.querySelectorAll(".displaySpace__item");
+    var targetIndex = Array.prototype.findIndex.call(displayedItem,(function (item) {
+      return id === Number.parseInt(item.dataset.id);
+    }));
+
+    if(targetIndex === -1) {
+      console.warn("일치하는 상품이 없습니다.");
+      return false;
+    } else {
+      displayedItem[targetIndex].remove();
+      var inventoryTargetIndex = this.inventory.findIndex(function (item) {
+        return displayedItem[targetIndex].textContent === item.name;
+      });
+
+      this.inventory[inventoryTargetIndex].isSame++;
+    }
   }
 
   //////////////////////////////////////////////////
