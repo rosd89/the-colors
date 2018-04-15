@@ -31,22 +31,20 @@ var VendingMachine = (function(){
 
   // 등록된 상품 삭제하기
   function deleteRegisteredProduct(id) {
-    var targetIndex = this.inventory.findIndex(function (item) {
-      return id === item.id;
-    });
-
+    var targetIndex = findIndexById.bind(this,id);
     this.inventory.splice(targetIndex, 1);
     return this.inventory;
   }
 
-  /*
-
-
-  VendingMachine.prototype.showRegisteredInvetory = function () {
-    console.log(this.inventory);
-    return this.inventory;
+  // id값으로 index찾기
+  function findIndexById(id) {
+    var targetIndex = this.inventory.findIndex(function (item) {
+      return id === item.id;
+    });
+    return targetIndex;
   }
 
+  /*
   // 상품 재고 추가하기
   VendingMachine.prototype.addQuantity = function (product, quantity) {
     if(isProduct()) {
