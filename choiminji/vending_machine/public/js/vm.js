@@ -102,7 +102,7 @@ const Inventory = ( _ => {
 			ITEM_LIST.forEach( v => {
 				if ( v.display === "true" ) {
 					vmListHTML += `
-<li class="${(v.condition).toLowerCase()}${(!v.count)?" soldOut" :""}">
+<li class="${(v.condition).toLowerCase()}${(!v.count)?" soldOut" :""}" onclick="checkItem(this,'${v.name}')">
 	${(!v.count)?"<div class='soldOut'><span>SOLD OUT!</span></div>":""}
 	<a href="javascript:;">
 		<div class="name">
@@ -195,7 +195,7 @@ const Inventory = ( _ => {
 			ITEM_LIST.splice(Number(thisIndex),1);
 		}
 
-		check (name) {
+		check (name) { // 재고량 표시
 			let thisCount = 0;
 			const invaild = ITEM_LIST.some( v => {
 				if (v.name === name ) { 
@@ -214,7 +214,7 @@ const Inventory = ( _ => {
 			document.querySelector("#output .notice").innerHTML = checkText;
 		}
 
-		addLog (item) {
+		addLog (item) { // 판매량 로그 기록
 			const today = new Date();
 			if (item.count){
 				ITEM_LOG.push({

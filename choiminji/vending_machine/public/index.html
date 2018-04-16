@@ -22,8 +22,8 @@
 				<h2 class="hidden">payment process</h2>
 				<div class="cash">
 					<ul class="checkCash">
-						<li data-cash="cash">CASH</li>
-						<li class="on" data-cash="card">CARD</li>
+						<li onclick=checkCash(this,"cash")>CASH</li>
+						<li onclick=checkCash(this,"card")>CARD</li>
 					</ul>
 					<div class="inputCash">
 						<input type="text">
@@ -155,6 +155,53 @@
 			VM1.check(searchName);
 		})
 
+		// vending machine add event
+
+		// class paymentProcess {
+		// 	checkItem (self, name) {
+		// 		const itemList = document.querySelector("#vendingMachine .itemList ul").childNodes;
+		// 		for ( let i = 0; i < itemList.length; i++) {
+		// 			itemList[i].classList.remove("select");
+		// 		}
+		// 		self.classList.add("select");
+		// 	}
+		// 	checkCash (self, division) {
+		// 		const selectItem = document.querySelector("#vendingMachine .itemList ul li.select");
+		// 		if (!selectItem) {
+		// 			alert("상품 선택이 먼저!");
+		// 			return;
+		// 		} else {
+					
+		// 		}
+		// 	}
+		// }
+
+		
+		const paymentItem = {}
+		const checkItem = (self, name) => {
+			const itemList = document.querySelector("#vendingMachine .itemList ul").childNodes;
+			for ( let i = 0; i < itemList.length; i++) {
+				itemList[i].classList.remove("select");
+			}
+			self.classList.add("select");
+			paymentItem.name = name;
+		}
+		
+		const checkCash = (self, division) => {
+			const selectItem = document.querySelector("#vendingMachine .itemList ul li.select");
+			const cashList = document.querySelector("#vendingMachine .paymentBox .cash ul").childNodes;
+			if (!selectItem) {
+				alert("상품 선택이 먼저!");
+				return;
+			} else {
+				for ( let i = 0; i < cashList.length; i++) {
+					cashList[i].classList.remove("select");
+				}
+				self.classList.add("select");
+				paymentItem.division = division;
+			}
+		}
+		
 	</script>
 	</body>
 </html>
