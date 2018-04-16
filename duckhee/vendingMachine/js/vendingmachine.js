@@ -15,6 +15,7 @@ var VendingMachine = (function(){
     addProductInDisplayedSpace: addProductInDisplayedSpace,
     subtractProductInDisplayedSpace: subtractProductInDisplayedSpace,
     clickInsertMoney: clickInsertMoney,
+    clickSelectedItem: clickSelectedItem
   }
 
   // 상품 등록하기
@@ -113,10 +114,10 @@ var VendingMachine = (function(){
 
     displayedItem.classList.add("displaySpace__item");
     displayedItem.setAttribute("data-id", this.displayId++);
-    productName.classList.add("name");
+    productName.classList.add("displaySpace__name");
     productName.append(product.name);
     displayedItem.append(productName);
-    productPrice.classList.add("btn");
+    productPrice.classList.add("displaySpace__btn");
     productPrice.append(product.price);
     displayedList.append(displayedItem);
     displayedItem.append(productPrice);
@@ -150,6 +151,29 @@ var VendingMachine = (function(){
         _this.balance += targetMoney;
         document.querySelector(".insertMoney__cur__money--state").textContent = _this.balance;
       }
+    });
+  }
+  // 상품 선택 및 결제
+  function clickSelectedItem() {
+    var _this = this;
+    document.querySelector(".displaySpace__list").addEventListener("click", function(e) {
+      if(e.target.className == "displaySpace__btn") {
+        var itemPrice = Number.parseInt(e.target.textContent);
+        if(_this.balance <= 0 || _this.balance <= itemPrice) {
+          console.warn("금액이 부족합니다.");
+          return false;
+        }
+        _this.balance -= itemPrice;
+        document.querySelector(".insertMoney__cur__money--state").textContent = _this.balance;
+        var targetName = e.target.previousSibling.textContent;
+        var targetItem = _this.inventory.filter(function(item, i) {
+          return item.name === targetName;
+        });
+        targetItem[0].totalQuantity--;
+
+        console.log(targetItem[0]);
+      }
+
     });
   }
 

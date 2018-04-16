@@ -32,21 +32,21 @@ button {
     border-radius: 0.5rem;
     background-color: #8a80fb;
     text-align: center;
-    .name, .btn {
-      box-sizing: border-box;
-      display: inline-block;
-      width: 100%;
-      padding: 0.5rem;
-      color: #fff;
-    }
-    .name {
-      font-size: 18px;
-      letter-spacing: 2px;
-    }
-    .btn {
-      background-color: #7d74e1;
-      border-radius: 0 0 0.5rem 0.5rem;
-    }
+  }
+  &__name, &__btn {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+    padding: 0.5rem;
+    color: #fff;
+  }
+  &__name {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+  &__btn {
+    background-color: #7d74e1;
+    border-radius: 0 0 0.5rem 0.5rem;
   }
 }
 

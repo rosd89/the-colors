@@ -53,3 +53,4 @@ vm.addProductInDisplayedSpace(coffee3);
 console.log(vm.showInvetory());
 
 vm.clickInsertMoney();
+vm.clickSelectedItem();
