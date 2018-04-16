@@ -4,14 +4,14 @@ const buyable = (price, stock, { session }) =>
 const template = store =>
   `
   <section class="products">
-    ${store.products.map(({ name, price, isHot, stock }, i, o) => {
+    ${store.products.map(({ name, price, temperature: t, stock }, i, o) => {
       const status = buyable(price, stock, store);
       return `
         <div>
           <span class="${status}" data-productid=${i}>상품명 : ${name}</span>
           <span class="${status}" data-productid=${i}>ID : ${i}.</span>
           <span class="${status}" data-productid=${i}>가격 : ${price}</span>
-          <span class="${status}" data-productid=${i}>냉온여부 : ${isHot}</span>
+          <span class="${status}" data-productid=${i}>냉온여부 : ${t}</span>
           <span class="${status}" data-productid=${i}>재고 : ${stock}</span>
         </div>`;
     })}
@@ -69,8 +69,8 @@ const template = store =>
       <input type="text" placeholder="이름">
       <input type="number" min="0" step="100" placeholder="가격">
       <select>
-        <option value="true">Hot</option>
-        <option value="false">Ice</option>
+        <option value="HOT">HOT</option>
+        <option value="ICE">ICE</option>
       </select>
       <input type="number" min="0" max="30" step="1" placeholder="재고">
       <button type="button" class="add">추가</button>

@@ -13,7 +13,7 @@ const selectAndProductCreator = (type, target) => {
 };
 
 const addCreator = (type, target) => {
-  const [name, price, isHot, stock] = target.parentElement.children;
+  const [name, price, t, stock] = target.parentElement.children;
 
   if (
     !name.value ||
@@ -28,19 +28,20 @@ const addCreator = (type, target) => {
     payload: {
       name: name.value,
       price: price.valueAsNumber,
-      isHot: Boolean(isHot.value),
+      temperature: t.value,
       stock: stock.valueAsNumber
     }
   };
 };
 
 const fillCreator = (type, target) => {
-  const { products: p } = vm.store;
+  const { products } = vm.store;
   const id = Number(target.parentElement.children[0].valueAsNumber);
+  const p = products[id];
   let stock = target.parentElement.children[1].valueAsNumber;
 
-  if (!p[id]) return false;
-  stock = p[id].stock + stock > 30 ? 30 - p[id].stock : stock;
+  if (!p) return false;
+  stock = p.stock + stock > 30 ? 30 - p.stock : stock;
 
   return { type, payload: { id, stock } };
 };

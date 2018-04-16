@@ -3,13 +3,13 @@
     {
       "name": "zero",
       "price": 0,
-      "isHot": false,
+      "temperature": "HOT",
       "stock": 0
     },
     {
       "name": "one",
       "price": 100,
-      "isHot": false,
+      "temperature": "ICE",
       "stock": 1
     }
   ],
