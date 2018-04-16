@@ -42,7 +42,7 @@ const selectAndProduct = payload => {
       session.change = 0;
     });
     vm.render(vm.store);
-  }, 3000);
+  }, 5000);
 
   return newStore;
 };
@@ -83,7 +83,6 @@ const updater = {
 
 vm.reducer = ({ type, payload }) => {
   const newStore = updater[type](payload);
-  console.dir(newStore.timer);
 
   return fetcher(newStore)
     ? (vm.store = newStore)
