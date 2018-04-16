@@ -56,12 +56,12 @@ const add = payload =>
 const remove = payload =>
   generator(({ products, log }) => {
     products.splice(payload, 1);
-    log.products.splice(payload, 1);
+    delete log.products[payload];
   });
 
 const power = payload =>
-  generator(({ power }) => {
-    power = payload;
+  generator(newStore => {
+    newStore.power = payload;
   });
 
 const fill = payload =>

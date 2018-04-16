@@ -17,10 +17,10 @@
   "power": true,
   "log": {
     "daily": {},
-    "products": [
-      { "name": "zero", "revenue": 0 },
-      { "name": "one", "revenue": 0 }
-    ]
+    "products": {
+      "zero": 0,
+      "one": 0
+    }
   },
   "timer": 0
 }

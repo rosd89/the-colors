@@ -98,8 +98,8 @@ const template = store =>
     <hr>
 
     <div class="log_products">
-      ${store.log.products.map(
-        ({ name, revenue }) => `<span>${name} : ${revenue}</span><br>`
+      ${Object.keys(store.log.products).map(
+        p => `<span>${p} : ${store.log.products[p]}</span><br>`
       )}
     </div>
   </section>

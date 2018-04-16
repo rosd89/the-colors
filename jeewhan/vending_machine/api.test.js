@@ -19,8 +19,7 @@ describe("WebAPI", () => {
     expect(typeof json.power).toBe("boolean");
     expect(typeof json.log).toBe("object");
     expect(typeof json.log.daily).toBe("object");
-    expect(Array.isArray(json.log.products)).toBeTruthy();
-    expect(json.log.products.length).toBe(json.products.length);
+    expect(typeof json.log.products).toBe("object");
     expect(typeof json.timer).toBe("number");
   });
 

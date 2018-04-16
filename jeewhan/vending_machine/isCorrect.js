@@ -12,8 +12,7 @@ function isCorrect(data) {
     (data.session && typeof data.session.change !== "number") ||
     typeof data.power !== "boolean" ||
     (data.log && typeof data.log.daily !== "object") ||
-    (data.log && !Array.isArray(data.log.products)) ||
-    (data.log && data.products.length !== data.log.products.length) ||
+    (data.log && typeof data.log.products !== "object") ||
     typeof data.timer !== "number"
   ) {
     return false;
