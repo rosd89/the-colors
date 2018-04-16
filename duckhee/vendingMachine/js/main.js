@@ -28,17 +28,6 @@ vm.addQuantityInInventory(coffee3, 29);
 
 vm.addProductInDisplayedSpace(coke);
 vm.addProductInDisplayedSpace(coke);
-vm.addProductInDisplayedSpace(coke);
-vm.addProductInDisplayedSpace(coke);
-vm.addProductInDisplayedSpace(coke);
-vm.addProductInDisplayedSpace(fanta);
-vm.addProductInDisplayedSpace(fanta);
-vm.addProductInDisplayedSpace(fanta);
-vm.addProductInDisplayedSpace(fanta);
-vm.addProductInDisplayedSpace(fanta);
-vm.addProductInDisplayedSpace(sprite);
-vm.addProductInDisplayedSpace(sprite);
-vm.addProductInDisplayedSpace(sprite);
 vm.addProductInDisplayedSpace(sprite);
 vm.addProductInDisplayedSpace(sprite);
 vm.addProductInDisplayedSpace(hotsix);
@@ -62,3 +51,5 @@ vm.addProductInDisplayedSpace(coffee3);
 vm.addProductInDisplayedSpace(coffee3);
 vm.addProductInDisplayedSpace(coffee3);
 console.log(vm.showInvetory());
+
+vm.clickInsertMoney();
