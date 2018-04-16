@@ -26,16 +26,8 @@ const Inventory = ( _ => {
 				invalid = false;
 				return;
 			}
-			/*  
-			재고 목록에서 삭제 후 검색, 등록
-			edit에서 재고량, 가격 수정했을 때 유효성 검사... !!! 
-			*/
+			
 			if ( isNaN(option.price) || Number.isInteger(option.price) || option.price < 0 || option.price - Math.floor(option.price) != 0 ) {
-				console.log("isNaN : " + isNaN(option.price));
-				console.log("integer : " + !Number.isInteger(option.price));
-				console.log("<0 : " + option.price < 0);
-				console.log( option.price - Math.floor(option.price));
-				// ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
 				vmError("가격은 0보다 큰 정수 값!");
 				invalid = false;
 				return;
@@ -65,9 +57,10 @@ const Inventory = ( _ => {
 			console.log(ITEM_LIST);
 			console.log(ITEM_LOG);
 
-			let listHTML = "";
+			// admin 재고 리스트
+			let adminListHTML = "";
 			ITEM_LIST.forEach( (v,k) => {
-				listHTML += `
+				adminListHTML += `
 <li class="col">
 	<div class="cell w25 name">${v.name}</div>
 	<div class="cell w20 price"><input type="text" value="${v.price}"></div>
@@ -88,11 +81,12 @@ const Inventory = ( _ => {
 </li>`.trim();
 			})
 
-			document.querySelector("#output .content ul").innerHTML = listHTML;
+			document.querySelector("#output .content ul").innerHTML = adminListHTML;
 
-			let logHTML = "";
+			// amin 판매 리스트
+			let adminLogHTML = "";
 			ITEM_LOG.forEach( v => {
-				logHTML += `
+				adminLogHTML += `
 <li class="col">
 	<div class="cell w25">${v.name}</div>
 	<div class="cell w25">${v.price} | ${v.condition} | ${v.display}</div>
@@ -101,8 +95,26 @@ const Inventory = ( _ => {
 	<div class="cell w15">${v.date}</div>
 </li>`.trim();
 			})
-			document.querySelector("#log .content ul").innerHTML = logHTML;
+			document.querySelector("#log .content ul").innerHTML = adminLogHTML;
+			
+			// ui list 출력
+			let vmListHTML = "";
+			ITEM_LIST.forEach( v => {
+				if ( v.display === "true" ) {
+					vmListHTML += `
+<li class="${(v.condition).toLowerCase()}${(!v.count)?" soldOut" :""}">
+	${(!v.count)?"<div class='soldOut'><span>SOLD OUT!</span></div>":""}
+	<a href="javascript:;">
+		<div class="name">
+			<p>${v.name}</p>
+		</div>
+		<p class="price">${v.price}</p>
+	</a>
+</li>`.trim();
+				}
+			})
 
+			document.querySelector("#vendingMachine .itemList ul").innerHTML = vmListHTML;
 		}
 		
 		add (name, price = 0, condition = CONDITION.ICE, count = 0, display = false) {

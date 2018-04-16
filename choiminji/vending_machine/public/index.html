@@ -16,13 +16,7 @@
 		<div>
 			<article class="itemList">
 				<h2 class="hidden">item list</h2>
-				<ul>
-					<li>
-						<a href="#">
-							<!-- <p class="name">FANTA</p> -->
-						</a>
-					</li>
-				</ul>
+				<ul> </ul>
 			</article>
 			<article class="paymentBox">
 				<h2 class="hidden">payment process</h2>
@@ -115,9 +109,10 @@
 	<script type="text/javascript">
 
 		const VM1 = new Inventory();
+
+		// admin add event
 		const submitBtn = document.querySelector("#submit");
 		const inputContent = document.querySelector("#input .content");
-
 		submitBtn.addEventListener("click", e => {
 			VM1.add(
 				inputContent.querySelector(".name input").value, 
@@ -159,6 +154,7 @@
 			}
 			VM1.check(searchName);
 		})
+
 	</script>
 	</body>
 </html>
