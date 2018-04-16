@@ -26,23 +26,26 @@ const Inventory = ( _ => {
 				invalid = false;
 				return;
 			}
-
-			if ( option.price && isNaN(option.price) ) {
-				vmError("가격은 숫자만 입력하기");
+			/*  
+			재고 목록에서 삭제 후 검색, 등록
+			edit에서 재고량, 가격 수정했을 때 유효성 검사... !!! 
+			*/
+			if ( isNaN(option.price) || Number.isInteger(option.price) || option.price < 0 || option.price - Math.floor(option.price) != 0 ) {
+				console.log("isNaN : " + isNaN(option.price));
+				console.log("integer : " + !Number.isInteger(option.price));
+				console.log("<0 : " + option.price < 0);
+				console.log( option.price - Math.floor(option.price));
+				// ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+				vmError("가격은 0보다 큰 정수 값!");
 				invalid = false;
 				return;
 			}
 
-			if ( option.count && isNaN(option.count) ) {
-				vmError("재고량은 숫자만 입력하기");
+			if ( isNaN(option.count) || Number.isInteger(option.count) || option.count < 0 || option.count - Math.floor(option.count) > 0 ){
+				vmError("재고량은 0보다 큰 정수 값!");
 				invalid = false;
 				return;
-			} else if ( option.count && option.count < 0 ) {
-				vmError("재고는 양수 값!");
-				invalid = false;
-				return;
-			}
-
+			} 
 
 			let displayCount = 0;
 			ITEM_LIST.forEach(v => {
@@ -50,7 +53,7 @@ const Inventory = ( _ => {
 			})
 
 			if (displayCount > DISPLAY_MAX) {
-				vmError("상품 진열을 최대 "+DISPLAY_MAX+"개입니다");
+				vmError("상품 진열을 최대 "+DISPLAY_MAX+"개!");
 				invalid = false;
 				return;
 			}
@@ -93,7 +96,7 @@ const Inventory = ( _ => {
 <li class="col">
 	<div class="cell w25">${v.name}</div>
 	<div class="cell w25">${v.price} | ${v.condition} | ${v.display}</div>
-	<div class="cell w15">${v.count} / ${v.increase}</div>
+	<div class="cell w15">${v.count} | ${v.increase}</div>
 	<div class="cell w20">${v.division}</div>
 	<div class="cell w15">${v.date}</div>
 </li>`.trim();
@@ -104,7 +107,7 @@ const Inventory = ( _ => {
 		
 		add (name, price = 0, condition = CONDITION.ICE, count = 0, display = false) {
 			if ( !name ) {
-				vmError("상품명 누락");
+				vmError("상품명 누락!");
 				return;
 			}
 
@@ -113,7 +116,7 @@ const Inventory = ( _ => {
 			})
 
 			if ( duplication ) {
-				vmError("중복된 상품이 있습니다. 상품명을 다시 입력해주세요");
+				vmError("중복된 상품 존재!");
 				return;
 			}
 
@@ -129,7 +132,8 @@ const Inventory = ( _ => {
 			if ( invalid ) {
 				const item = new Item(name, Number(price), condition, Number(count), display);
 				
-				ITEM_LIST.push(item);				
+				ITEM_LIST.push(item);
+				this.check(item.name);
 				this.addLog(item);
 			}
 			
@@ -138,10 +142,7 @@ const Inventory = ( _ => {
 
 		edit (name, option) {
 			const invalid = this.optionValidation(option);
-			const compareCount = (prev, curr) => {
-				if (prev > curr) return -(prev - curr);
-				else return curr-prev;
-			}
+			const compareCount = (prev, curr) => (prev > curr) ? Math.abs(prev-curr)*-1 : Math.abs(prev-curr);
 			let changeLogCount = 0;
 
 			if (invalid) {
@@ -165,7 +166,9 @@ const Inventory = ( _ => {
 				toLogOption.name = name;
 				toLogOption.count = changeLogCount;
 				toLogOption.increase = (changeLogCount > 0) ? INCREASE.PLUS : INCREASE.MINUS;
+				
 				this.addLog(toLogOption);
+				this.check(name);
 			}
 			
 			this.render();
@@ -178,6 +181,25 @@ const Inventory = ( _ => {
 				}
 			});
 			ITEM_LIST.splice(Number(thisIndex),1);
+		}
+
+		check (name) {
+			let thisCount = 0;
+			const invaild = ITEM_LIST.some( v => {
+				if (v.name === name ) { 
+					console.log(v);
+					thisCount = v.count;
+					return true;
+				}
+			})
+			
+			let checkText;
+			if (invaild) {
+				checkText = `[ <strong>${name}</strong> ] -- 재고 <strong class='color'>${(thisCount) ? thisCount : 0}</strong>`;
+			} else {
+				checkText = "<strong class='color'>등록되지 않은 상품</strong>";
+			}
+			document.querySelector("#output .notice").innerHTML = checkText;
 		}
 
 		addLog (item) {
@@ -202,11 +224,11 @@ const Inventory = ( _ => {
 const vmError = msg => {
 	console.log("Vending Machine Error : "+msg);
 	
-	const errorBox = document.querySelector("#errorBox");
-	errorBox.classList.add("on");
-	errorBox.innerText = msg;
+	const $errorMsg = document.querySelector("#errorMsg");
+	$errorMsg.classList.add("on");
+	$errorMsg.innerText = msg;
 	setTimeout( _ => {
-		errorBox.classList.remove("on");
-		errorBox.innerText = "Error Message";
+		$errorMsg.classList.remove("on");
+		$errorMsg.innerText = "Error Message";
 	}, 3000)
 }

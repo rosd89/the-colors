@@ -51,16 +51,26 @@
 				</div>
 			</div>
 		</article>
-		<article id="errorBox">
+
+		<article id="errorMsg">
 			<h2 class="hidden">error masage</h2>
 			error message!
 		</article>	
+
 		<article id="output">
 			<h2 class="hidden">inventory output</h2>
+			<div class="itemInfo">
+				<div class="notice w75">  </div>
+				<div class="search w25">
+					<input type="text" class="w75">
+					<button class="w25">찾기</button>
+				</div>
+			</div>
 			<div class="content">
 				<ul><!-- list 출력 --></ul>
 			</div>
 		</article>
+
 		<article id="log">
 			<div class="content">
 				<ul><!-- log출력 --></ul>
@@ -107,6 +117,16 @@
 				else guestEdit();
 			};
 		})();
+
+		const searchBtn = document.querySelector("#output .search button");
+		searchBtn.addEventListener("click", e => {
+			const searchName = document.querySelector("#output .search input").value;
+			if (!searchName.trim()) { 
+				vmError("검색어 입력하기");
+				return;
+			}
+			VM1.check(searchName);
+		})
 	</script>
 	</body>
 </html>
