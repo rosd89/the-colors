@@ -4,8 +4,9 @@ vm.flow = _.pipe(
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-  Functional.go(
-    fetch("http://localhost:3000/").then(res => res.json()),
+  _.go(
+    fetch("http://localhost:3000/"),
+    res => res.json(),
     store => (vm.store = store),
     vm.render
   );

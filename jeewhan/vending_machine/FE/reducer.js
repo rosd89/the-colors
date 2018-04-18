@@ -1,11 +1,10 @@
 const generator = f => immer.default(vm.store, f);
 
-const fetcher = async newStore => {
-  return await fetch("http://localhost:3000/", {
+const fetcher = async newStore =>
+  await fetch("http://localhost:3000/", {
     body: JSON.stringify(newStore),
     method: "POST"
   }).then(res => res.json());
-};
 
 const money = payload =>
   generator(({ session }) => {
@@ -29,12 +28,14 @@ const selectAndProduct = payload => {
   clearTimeout(vm.store.timer);
 
   const newStore = generator(({ products, session, log, timer }) => {
-    const { price } = products[payload];
+    const { name, price } = products[payload];
     const today = dateFns.format(new Date(), "YYMMDD");
     products[payload].stock -= 1;
     session.change -= price;
     log.daily[today] ? (log.daily[today] += price) : (log.daily[today] = price);
-    log.products[payload].revenue += price;
+    log.products[name]
+      ? (log.products[name] += price)
+      : (log.products[name] = price);
   });
 
   newStore.timer = setTimeout(() => {
@@ -50,7 +51,7 @@ const selectAndProduct = payload => {
 const add = payload =>
   generator(({ products, log }) => {
     products.push(payload);
-    log.products.push({ name: payload.name, revenue: 0 });
+    log.products[payload.name] = 0;
   });
 
 const remove = payload =>
