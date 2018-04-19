@@ -1,12 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/main.min.css">
   <title>VendingMachine</title>
 </head>
 <body>
+  <div id="vendingmachine">
+    <div class="vm__left">
+      <div class="displaySpace clearfix">
+        <ul class="displaySpace__list">
+
+        </ul>
+      </div>
+      <div class="returnProduct">
+        음료 나오는 곳
+      </div>
+    </div>
+    <div class="vm__right">
+      <div class="insertMoney">
+        <h2 class="insertMoney__tit">재화 입력</h2>
+        <button class="insertMoney__btn">50원</button>
+        <button class="insertMoney__btn">100원</button>
+        <button class="insertMoney__btn">500원</button>
+        <button class="insertMoney__btn">1000원</button>
+        <button class="insertMoney__btn">5000원</button>
+        <button class="insertMoney__btn">10000원</button>
+        <div class="insertMoney__cur">
+          <span class="insertMoney__cur__money">현 재화 : </span>
+          <span class="insertMoney__cur__money--state">0</span><i>원</i>
+        </div>
+      </div>
+      <div class="returnMoney">
+        <button class="returnMoney__tit">잔돈 반환</button>
+      </div>
+    </div>
+  </div>
+  <div class="adminSpace">
+    <div class="product">
+      <ul class="product__list">
+
+      </ul>
+    </div>
+  </div>
+  <script src='./js/product.js'></script>
+  <script src='./js/vendingmachine.js'></script>
   <script src='./js/main.js'></script>
 </body>
 </html>

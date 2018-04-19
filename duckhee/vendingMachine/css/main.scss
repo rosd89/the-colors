@@ -1,0 +1,118 @@
+html { font-size: 12px; }
+
+button {
+  font-family: 'Do Hyeon';
+  cursor: pointer;
+}
+
+#vendingmachine {
+  display: flex;
+  justify-content: center;
+  width: 600px;
+  margin: 50px auto;
+  padding: 1rem;
+  background-color: #373052;
+  border-radius: 10px;
+}
+
+.vm__left {
+  width: 50%;
+}
+
+.displaySpace {
+  &__list {
+
+  }
+
+  &__item {
+    box-sizing: border-box;
+    float: left;
+    width: 90px;
+    margin: 5px;
+    border-radius: 0.5rem;
+    background-color: #8a80fb;
+    text-align: center;
+  }
+  &__name, &__btn {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+    padding: 0.5rem;
+    color: #fff;
+  }
+  &__name {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+  &__btn {
+    background-color: #7d74e1;
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+}
+
+.returnProduct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 290px;
+  height: 80px;
+  margin: 5px;
+  background-color: #cc47f0;
+  border-radius: 0.5rem;
+  font-size: 20px;
+  color: #fff;
+}
+
+.vm__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+.insertMoney, .returnMoney {
+  width: 200px;
+  margin: 5px;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.5rem;
+  background-color: #f04e51;
+
+
+}
+
+.insertMoney {
+  &__tit {
+    font-size: 20px;
+  }
+  &__btn {
+    width: 70px;
+    height: 30px;
+    margin: 5px;
+    color: #fff;
+    background: #056d7c;
+    border-radius: 0.5rem;
+  }
+  &__cur {
+    font-size: 20px;
+    &__money--state {
+      width: 76px;
+      text-align: right;
+      display: inline-block;
+    }
+  }
+}
+.returnMoney {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__tit {
+    color: #fff;
+    font-family: 'Do Hyeon';
+    font-size: 20px;
+  }
+}
