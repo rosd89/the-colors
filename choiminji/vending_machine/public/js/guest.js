@@ -8,6 +8,7 @@ const checkItem = (self) => {
   }
   self.classList.add("select");
   paymentItem.name = self.dataset.name;
+  additionalProcess(false);
 }
 
 const checkCash = (self, division) => {
@@ -32,6 +33,7 @@ const checkCash = (self, division) => {
 const inputCash = _ => {
   const selectItem = document.querySelector("#vendingMachine .itemList ul li.select");
   const changesText = document.querySelector("#vendingMachine .changes .num");
+
   const itemList = VM1.getItemList();
   const itemName = selectItem.dataset.name;
   const itemOption = {};
@@ -43,8 +45,8 @@ const inputCash = _ => {
   }) 
 
   if (paymentItem.division === "CASH") { // 현금결제
-    const input = document.querySelector("#vendingMachine .inputCash input").value;
-    const changes = parseInt(input - itemOption.price);
+    let input = document.querySelector("#vendingMachine .inputCash input");
+    const changes = parseInt(input.value - itemOption.price);
     
     if ( changes < 0 ) {
       alert("금액 부족!");
@@ -52,18 +54,43 @@ const inputCash = _ => {
     } else {
       editItem(selectItem, "GUEST");
       changesText.innerText = changes;
+      input.value = changes;
     }
   } else { // 카드결제
     editItem(selectItem, "GUEST");  
     changesText.innerText = "카드결제";
   }
   
-  const paymentBox = document.querySelector("#vendingMachine .paymentBox");
-  const cashList = document.querySelector("#vendingMachine .paymentBox .cash ul").children;
-  paymentBox.classList.remove("isCash");
-  for ( let i = 0; i < cashList.length; i++) {
-    cashList[i].classList.remove("select");
-  }
+  // const paymentBox = document.querySelector("#vendingMachine .paymentBox");
+  // const cashList = document.querySelector("#vendingMachine .paymentBox .cash ul").children;
+  // paymentBox.classList.remove("isCash");
+  // for ( let i = 0; i < cashList.length; i++) {
+  //   cashList[i].classList.remove("select");
+  // }
 
   alert(`${itemName} 반환!`);
+
+  // if (paymentItem.division === "CASH") additionalProcess(true);
 }
+
+/*
+const additionalProcess = opt => {
+  // clearTimeout(returnChanges);
+  console.log(opt);
+  const listItem = document.querySelector("#vendingMachine .itemList ul li");
+  const changes = document.querySelector("#vendingMachine .changes .num").innerText;
+  const returnChanges = setTimeout(function() {
+    alert(changes);
+  }, 5000);
+
+  if (opt === "false") {
+    console.log("---"+opt);
+    console.log("---"+returnChanges);
+    // clearTimeout(returnChanges);
+  }
+  // listItem.addEventListener("click", funciton(){
+  //   clearTimeout(returnChanges);
+  //   console.log("???");
+  // })
+}
+*/
