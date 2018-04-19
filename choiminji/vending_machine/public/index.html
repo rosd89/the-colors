@@ -16,23 +16,23 @@
 		<div>
 			<article class="itemList">
 				<h2 class="hidden">item list</h2>
-				<ul> </ul>
+				<ul><!-- item List --></ul>
 			</article>
 			<article class="paymentBox">
 				<h2 class="hidden">payment process</h2>
 				<div class="cash">
 					<ul class="checkCash">
-						<li onclick=checkCash(this,"cash")>CASH</li>
-						<li onclick=checkCash(this,"card")>CARD</li>
+						<li onclick="checkCash(this,'CASH')">CASH</li>
+						<li onclick="checkCash(this,'CARDs')">CARD</li>
 					</ul>
 					<div class="inputCash">
 						<input type="text">
-						<button>입력</button>
+						<button onclick="inputCash()">입력</button>
 					</div>
 				</div>
 				<div class="changes">
 					<p class="w25 text">잔돈</p>
-					<p class="w75 num">10000</p>
+					<p class="w75 num"></p>
 				</div>
 			</article>
 		</div>
@@ -106,102 +106,7 @@
 	
 
 	<script src="./js/vm.js"></script>
-	<script type="text/javascript">
-
-		const VM1 = new Inventory();
-
-		// admin add event
-		const submitBtn = document.querySelector("#submit");
-		const inputContent = document.querySelector("#input .content");
-		submitBtn.addEventListener("click", e => {
-			VM1.add(
-				inputContent.querySelector(".name input").value, 
-				inputContent.querySelector(".price input").value, 
-				inputContent.querySelector(".condition select").value, 
-				inputContent.querySelector(".count input").value, 
-				inputContent.querySelector(".display select").value
-			);
-		});
-
-		const editItem = (_ => {
-			const adminEdit = self => {
-				const item = self.parentElement.parentElement;
-				const itemName = self.dataset.name;
-				const itemOption = {
-					price : item.querySelector(".price input").value, 
-					condition : item.querySelector(".condition select").value, 
-					count : item.querySelector(".count input").value, 
-					display : item.querySelector(".display select").value,
-					division : DIVISION.ADMIN
-				}
-				VM1.edit(itemName, itemOption);
-			};
-			const guestEdit = () => {
-				// guest click
-			}
-			return (self, division) => {
-				if (division === DIVISION.ADMIN) adminEdit(self);
-				else guestEdit();
-			};
-		})();
-
-		const searchBtn = document.querySelector("#output .search button");
-		searchBtn.addEventListener("click", e => {
-			const searchName = document.querySelector("#output .search input").value;
-			if (!searchName.trim()) { 
-				vmError("검색어 입력하기");
-				return;
-			}
-			VM1.check(searchName);
-		})
-
-		// vending machine add event
-
-		// class paymentProcess {
-		// 	checkItem (self, name) {
-		// 		const itemList = document.querySelector("#vendingMachine .itemList ul").childNodes;
-		// 		for ( let i = 0; i < itemList.length; i++) {
-		// 			itemList[i].classList.remove("select");
-		// 		}
-		// 		self.classList.add("select");
-		// 	}
-		// 	checkCash (self, division) {
-		// 		const selectItem = document.querySelector("#vendingMachine .itemList ul li.select");
-		// 		if (!selectItem) {
-		// 			alert("상품 선택이 먼저!");
-		// 			return;
-		// 		} else {
-					
-		// 		}
-		// 	}
-		// }
-
-		
-		const paymentItem = {}
-		const checkItem = (self, name) => {
-			const itemList = document.querySelector("#vendingMachine .itemList ul").childNodes;
-			for ( let i = 0; i < itemList.length; i++) {
-				itemList[i].classList.remove("select");
-			}
-			self.classList.add("select");
-			paymentItem.name = name;
-		}
-		
-		const checkCash = (self, division) => {
-			const selectItem = document.querySelector("#vendingMachine .itemList ul li.select");
-			const cashList = document.querySelector("#vendingMachine .paymentBox .cash ul").childNodes;
-			if (!selectItem) {
-				alert("상품 선택이 먼저!");
-				return;
-			} else {
-				for ( let i = 0; i < cashList.length; i++) {
-					cashList[i].classList.remove("select");
-				}
-				self.classList.add("select");
-				paymentItem.division = division;
-			}
-		}
-		
-	</script>
+	<script src="./js/admin.js"></script>
+	<script src="./js/guest.js"></script>
 	</body>
 </html>

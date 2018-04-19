@@ -41,10 +41,12 @@ section { float:left; width:50%; padding:10px; box-sizing:border-box; }
 #vendingMachine .paymentBox .cash .checkCash li { float:left; width:49%; margin-left:2%; padding:7px 0; background-color:#949494; color:#fff; text-align:center; cursor:pointer; }
 #vendingMachine .paymentBox .cash .checkCash li.select { background-color:#5F4B8B; font-weight:bold; }
 #vendingMachine .paymentBox .cash .checkCash li:first-child { margin-left:0; }
-#vendingMachine .paymentBox .cash .inputCash input { height:31px; padding:0 5px; text-align:right; }
+#vendingMachine .paymentBox .cash .inputCash input { display:none; height:31px; padding:0 5px; text-align:right; }
+#vendingMachine .paymentBox.isCash .cash .inputCash input { display:block; }
 #vendingMachine .paymentBox .cash .inputCash button { margin-top:5px; padding:5px 0; }
 
-#vendingMachine .paymentBox .changes { border:5px solid #ddd; background-color:#ddd; }
+#vendingMachine .paymentBox .changes { display:block; border:5px solid #ddd; background-color:#ddd; }
+/* #vendingMachine .paymentBox.isCash .changes { display:block; } */
 #vendingMachine .paymentBox .changes:after { content:""; display:block; clear:both; }
 #vendingMachine .paymentBox .changes p { float:left; padding:7px 0; }
 #vendingMachine .paymentBox .changes .text { background-color:#949494; color:#fff; text-align:center; }

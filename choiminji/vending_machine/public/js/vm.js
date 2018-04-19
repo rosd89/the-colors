@@ -27,13 +27,14 @@ const Inventory = ( _ => {
 				return;
 			}
 			
-			if ( isNaN(option.price) || Number.isInteger(option.price) || option.price < 0 || option.price - Math.floor(option.price) != 0 ) {
+// Number.isInteger(option.price) || 
+			if ( isNaN(option.price) || option.price < 0 || option.price - Math.floor(option.price) != 0 ) {
 				vmError("가격은 0보다 큰 정수 값!");
 				invalid = false;
 				return;
 			}
 
-			if ( isNaN(option.count) || Number.isInteger(option.count) || option.count < 0 || option.count - Math.floor(option.count) > 0 ){
+			if ( isNaN(option.count) || option.count < 0 || option.count - Math.floor(option.count) > 0 ){
 				vmError("재고량은 0보다 큰 정수 값!");
 				invalid = false;
 				return;
@@ -102,7 +103,7 @@ const Inventory = ( _ => {
 			ITEM_LIST.forEach( v => {
 				if ( v.display === "true" ) {
 					vmListHTML += `
-<li class="${(v.condition).toLowerCase()}${(!v.count)?" soldOut" :""}" onclick="checkItem(this,'${v.name}')">
+<li class="${(v.condition).toLowerCase()}${(!v.count)?" soldOut" :""}" data-name="${v.name}" onclick="checkItem(this)">
 	${(!v.count)?"<div class='soldOut'><span>SOLD OUT!</span></div>":""}
 	<a href="javascript:;">
 		<div class="name">
@@ -153,7 +154,9 @@ const Inventory = ( _ => {
 		}
 
 		edit (name, option) {
+			console.log(option);
 			const invalid = this.optionValidation(option);
+			console.log("-------", invalid);
 			const compareCount = (prev, curr) => (prev > curr) ? Math.abs(prev-curr)*-1 : Math.abs(prev-curr);
 			let changeLogCount = 0;
 
@@ -228,6 +231,10 @@ const Inventory = ( _ => {
 					date: `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
 				});
 			}
+		}
+
+		getItemList () {
+			return ITEM_LIST;
 		}
 	}
 })();
