@@ -15,7 +15,8 @@ var VendingMachine = (function(){
     addProductInDisplayedSpace: addProductInDisplayedSpace,
     subtractProductInDisplayedSpace: subtractProductInDisplayedSpace,
     clickInsertMoney: clickInsertMoney,
-    clickSelectedItem: clickSelectedItem
+    selectedItemPayment: selectedItemPayment,
+    returnMoney: returnMoney
   }
 
   // 상품 등록하기
@@ -153,20 +154,20 @@ var VendingMachine = (function(){
     });
   }
   // 상품 선택 및 결제
-  function clickSelectedItem() {
+  function selectedItemPayment() {
     var _this = this;
     document.querySelector(".displaySpace__list").addEventListener("click", function(e) {
-      var targetName = e.target.previousSibling.textContent;
-      var targetItem = _this.inventory.filter(function(item, i) {
-        return item.name === targetName;
-      });
-
-      if(targetItem[0].totalQuantity <= 0) {
-        console.warn('재고가 부족합니다.');
-        return false;
-      }
-
       if(e.target.className == "displaySpace__btn") {
+        var targetName = e.target.previousSibling.textContent;
+        var targetItem = _this.inventory.filter(function(item, i) {
+          return item.name === targetName;
+        });
+
+        if(targetItem[0].totalQuantity <= 0) {
+          console.warn('재고가 부족합니다.');
+          return false;
+        }
+
         var itemPrice = Number.parseInt(e.target.textContent);
         if(_this.balance <= 0 || _this.balance <= itemPrice) {
           console.warn("금액이 부족합니다.");
@@ -183,7 +184,16 @@ var VendingMachine = (function(){
 
     });
   }
+  // 잔돈 반환
+  function returnMoney() {
+    var _this = this;
+    document.querySelector(".returnMoney").addEventListener("click", function(e) {
+      console.log("잔돈 " + _this.balance + "원이 반환되었습니다.");
+      _this.balance = 0;
+      document.querySelector(".insertMoney__cur__money--state").textContent = _this.balance;
+    }, true);
 
+  }
   //////////////////////////////////////////////////
 
   // id값으로 index찾기
