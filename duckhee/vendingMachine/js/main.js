@@ -18,13 +18,13 @@ vm.registerProduct(coffee);
 vm.registerProduct(coffee2);
 vm.registerProduct(coffee3);
 
-vm.addQuantityInInventory(coke, 29);
-vm.addQuantityInInventory(sprite, 29);
-vm.addQuantityInInventory(fanta, 29);
-vm.addQuantityInInventory(hotsix, 29);
-vm.addQuantityInInventory(coffee, 29);
-vm.addQuantityInInventory(coffee2, 29);
-vm.addQuantityInInventory(coffee3, 29);
+vm.addQuantityInInventory(coke, 3);
+vm.addQuantityInInventory(sprite, 3);
+vm.addQuantityInInventory(fanta, 3);
+vm.addQuantityInInventory(hotsix, 3);
+vm.addQuantityInInventory(coffee, 3);
+vm.addQuantityInInventory(coffee2, 3);
+vm.addQuantityInInventory(coffee3, 3);
 
 vm.addProductInDisplayedSpace(coke);
 vm.addProductInDisplayedSpace(coke);

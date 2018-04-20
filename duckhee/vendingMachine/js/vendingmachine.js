@@ -111,7 +111,6 @@ var VendingMachine = (function(){
     var productName = document.createElement("span");
     var productPrice = document.createElement("button");
 
-
     displayedItem.classList.add("displaySpace__item");
     displayedItem.setAttribute("data-id", this.displayId++);
     productName.classList.add("displaySpace__name");
@@ -157,6 +156,16 @@ var VendingMachine = (function(){
   function clickSelectedItem() {
     var _this = this;
     document.querySelector(".displaySpace__list").addEventListener("click", function(e) {
+      var targetName = e.target.previousSibling.textContent;
+      var targetItem = _this.inventory.filter(function(item, i) {
+        return item.name === targetName;
+      });
+
+      if(targetItem[0].totalQuantity <= 0) {
+        console.warn('재고가 부족합니다.');
+        return false;
+      }
+
       if(e.target.className == "displaySpace__btn") {
         var itemPrice = Number.parseInt(e.target.textContent);
         if(_this.balance <= 0 || _this.balance <= itemPrice) {
@@ -165,11 +174,9 @@ var VendingMachine = (function(){
         }
         _this.balance -= itemPrice;
         document.querySelector(".insertMoney__cur__money--state").textContent = _this.balance;
-        var targetName = e.target.previousSibling.textContent;
-        var targetItem = _this.inventory.filter(function(item, i) {
-          return item.name === targetName;
-        });
+
         targetItem[0].totalQuantity--;
+        targetItem[0].soldQuantity++;
 
         console.log(targetItem[0]);
       }
