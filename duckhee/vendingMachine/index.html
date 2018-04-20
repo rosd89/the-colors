@@ -40,12 +40,27 @@
       </div>
     </div>
   </div>
-  <div class="adminSpace">
-    <div class="product">
-      <ul class="product__list">
-
-      </ul>
-    </div>
+  <div class="register">
+    <h2>상품 등록</h2>
+    <form class="register__form" action="index.html" method="post" name="register__form">
+      <fieldset>
+        <legend class="hidden">상품 관리 폼</legend>
+        상품명<input type="text" id="register__name" name="register__name" value="">
+        가격<input type="text" id="register__price" name="register__price" value="">
+        수량<input type="text" id="register__quantity" name="register__quantity" value="">
+        <button class="register__btn" type="button">등록</button>
+      </fieldset>
+    </form>
+  </div>
+  <div class="display">
+    <h2>진열 하기</h2>
+    <form class="display__form" action="index.html" method="post" name="display__form">
+      <fieldset>
+        <legend class="hidden">진열 관리 폼</legend>
+        상품명<input type="text" id="display__name" name="display__name" value="">
+        <button class="display__btn" type="button">등록</button>
+      </fieldset>
+    </form>
   </div>
   <script src='./js/product.js'></script>
   <script src='./js/vendingmachine.js'></script>

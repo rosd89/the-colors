@@ -16,7 +16,9 @@ var VendingMachine = (function(){
     subtractProductInDisplayedSpace: subtractProductInDisplayedSpace,
     clickInsertMoney: clickInsertMoney,
     selectedItemPayment: selectedItemPayment,
-    returnMoney: returnMoney
+    returnMoney: returnMoney,
+    submitRegister: submitRegister,
+    submitDisplayedProduct: submitDisplayedProduct
   }
 
   // 상품 등록하기
@@ -101,7 +103,9 @@ var VendingMachine = (function(){
       console.warn("진열 자리가 꽉 찼습니다.");
       return false;
     }
-    var targetIndex = findIndexByName.call(this, product);
+
+    var targetIndex = typeof product === "string" ? findIndexByValue.call(this, product) : findIndexByName.call(this, product);
+
     if(this.inventory[targetIndex].isSame <= 0) {
         console.warn("중복 진열 자리가 없습니다.");
         return false;
@@ -115,10 +119,10 @@ var VendingMachine = (function(){
     displayedItem.classList.add("displaySpace__item");
     displayedItem.setAttribute("data-id", this.displayId++);
     productName.classList.add("displaySpace__name");
-    productName.append(product.name);
+    productName.append(this.inventory[targetIndex].name);
     displayedItem.append(productName);
     productPrice.classList.add("displaySpace__btn");
-    productPrice.append(product.price);
+    productPrice.append(this.inventory[targetIndex].price);
     displayedList.append(displayedItem);
     displayedItem.append(productPrice);
   }
@@ -194,8 +198,39 @@ var VendingMachine = (function(){
     }, true);
 
   }
+  // input 입력 클릭 시 상품 등록
+  function submitRegister() {
+    document.querySelector(".register__btn").addEventListener("click", function(e) {
+      var registerNameValue = document.register__form.register__name.value;
+      var registerPriceValue = document.register__form.register__price.value;
+      var registerQuantity = document.register__form.register__quantity.value;
+      var newItem = new Product(registerNameValue, Number.parseInt(registerPriceValue));
+      vm.registerProduct(newItem);
+      vm.addQuantityInInventory(newItem, 3);
+      document.register__form.register__name.value = "";
+      document.register__form.register__price.value = "";
+      document.register__form.register__quantity.value ="";
+    });
+  }
+  // input 입력 클릭 시 진열 상품 추가
+  function submitDisplayedProduct() {
+    document.querySelector(".display__btn").addEventListener("click", function(e) {
+      var displayNameValue = document.display__form.display__name.value;
+      vm.addProductInDisplayedSpace(displayNameValue);
+      console.log("1234");
+      document.display__form.display__name.value = "";
+    });
+  }
+
   //////////////////////////////////////////////////
 
+  // 입력 된 value값으로 index찾기
+  function findIndexByValue(value) {
+    var targetIndex = this.inventory.findIndex(function (item) {
+      return value === item.name;
+    });
+    return targetIndex;
+  }
   // id값으로 index찾기
   function findIndexById(id) {
     var targetIndex = this.inventory.findIndex(function (item) {

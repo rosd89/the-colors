@@ -38,20 +38,11 @@ vm.addProductInDisplayedSpace(hotsix);
 vm.addProductInDisplayedSpace(coffee);
 vm.addProductInDisplayedSpace(coffee);
 vm.addProductInDisplayedSpace(coffee);
-vm.addProductInDisplayedSpace(coffee);
-vm.addProductInDisplayedSpace(coffee);
-vm.addProductInDisplayedSpace(coffee2);
-vm.addProductInDisplayedSpace(coffee2);
-vm.addProductInDisplayedSpace(coffee2);
-vm.addProductInDisplayedSpace(coffee2);
-vm.addProductInDisplayedSpace(coffee2);
-vm.addProductInDisplayedSpace(coffee3);
-vm.addProductInDisplayedSpace(coffee3);
-vm.addProductInDisplayedSpace(coffee3);
-vm.addProductInDisplayedSpace(coffee3);
-vm.addProductInDisplayedSpace(coffee3);
+
 console.log(vm.showInvetory());
 
 vm.clickInsertMoney();
 vm.selectedItemPayment();
 vm.returnMoney();
+vm.submitRegister();
+vm.submitDisplayedProduct();
