@@ -88,14 +88,42 @@ var VendingMachine = (function(){
       return false;
     }
 
-    var targetIndex = this.inventory.findIndex(function (item) {
-      return product.name === item.name;
-    });
+    var targetIndex = findIndexByItem.call(this, product, this.inventory);
+    var targetProduct = this.inventory[targetIndex];
+    var curTotalQuantity = targetProduct.totalQuantity + quantity;
 
-    if(this.inventory[targetIndex].totalQuantity += quantity >= 30) {
+    if(curTotalQuantity >= 30) {
       console.warn("재고가 30개 이상은 들어가지 않습니다. 현 재고 : 30개 입니다.");
-      this.inventory[targetIndex].totalQuantity = 30;
+      targetProduct.totalQuantity = 30;
+    } else {
+      targetProduct.totalQuantity = curTotalQuantity;
     }
+    console.log("현 재고 : " + this.showQuantity(product));
+  }
+
+  // 상품 재고 빼기
+  VendingMachine.prototype.subtractQuantity = function (product, quantity) {
+    if(isProduct()) {
+      console.warn("상품(" + product.name + ")이 없습니다.");
+      return false;
+    }
+
+    if(isNumber(quantity)) {
+      console.warn("재고 수량이(" + quantity + ")이 잘못 입력되었습니다.(양수, 정수로 입력해주세요)");
+      return false;
+    }
+
+    var targetIndex = findIndexByItem.call(this, product, this.inventory);
+    var targetProduct = this.inventory[targetIndex];
+    var curTotalQuantity = targetProduct.totalQuantity - quantity;
+
+    if(curTotalQuantity <= 0) {
+      console.warn("재고가 0개 이하입니다. 현 재고 : 0개 입니다.");
+      targetProduct.totalQuantity = 0;
+    } else {
+      targetProduct.totalQuantity = curTotalQuantity;
+    }
+    console.log("현 재고 : " + this.showQuantity(product));
   }
 
   // 상품 재고 확인하기
@@ -108,6 +136,11 @@ var VendingMachine = (function(){
   }
   function isNumber(number)  {
     return typeof number !== 'number' || isNaN(number) || number <= 0 || number - Math.floor(number) != 0 ;
+  }
+  function findIndexByItem(product, inventory) {
+    return inventory.findIndex(function (item) {
+      return product.name === item.name;
+    });
   }
 
   return VendingMachine;
@@ -127,7 +160,7 @@ vm.showRegisteredInvetory();
 vm.delelteRegisterProduct(coke);
 vm.showRegisteredInvetory();
 
-vm.addQuantity(sprite, 100);
+vm.addQuantity(sprite, 20);
 vm.showRegisteredInvetory();
 
 vm.showQuantity(sprite);
