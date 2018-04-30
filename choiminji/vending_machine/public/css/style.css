@@ -1,6 +1,7 @@
 * { margin:0; padding:0; border:0; font-size:13px; }
+a { color:#000; text-decoration:none; }
 ul, li { list-style:none; }
-button { width:100%; line-height:20px; border:1px solid #ddd; background-color:#eee; }
+button { width:100%; line-height:20px; border:1px solid #ddd; background-color:#eee; cursor:pointer; }
 input, select { width:100%; border:1px solid #ddd; line-height:20px; height:22px; }
 
 .hidden { display:none; font-size:0; text-indent:-10000px; }
@@ -16,6 +17,41 @@ header { padding:10px; }
 header h1 { padding:15px; text-align:center; font-size:24px; font-weight:bold; background-color:#eee; }
 
 section { float:left; width:50%; padding:10px; box-sizing:border-box; }
+
+#vendingMachine > div { height:700px; padding:25px 20px; border:3px solid #ddd; background-color:#7a7a7a; box-sizing:border-box; }
+#vendingMachine:after { content:""; display:block; clear:both; }
+#vendingMachine .itemList { float:left; width:57%; height:100%; background-color:#fff; border:3px solid #ddd; box-sizing:border-box; }
+#vendingMachine .itemList ul:after { content:""; display:block; clear:both; }
+#vendingMachine .itemList ul li { float:left; position:relative; width:33.333%; margin:5px 0; }
+#vendingMachine .itemList ul li .soldOut { position:absolute; top:0; left:0; z-index:5; width:100%; height:100%; }
+#vendingMachine .itemList ul li .soldOut span { display:block; height:100%; margin:0 5px; padding-top:28px; border:5px solid #ddd; background-color:rgba(255, 255, 255, 0.75); font-size:17px; font-weight:bold; text-align:center; box-sizing:border-box; color:#5F4B8B; }
+#vendingMachine .itemList ul li a { opacity:0.6; display:block; margin:0 5px; border:5px solid #ddd; text-align:center; background-color:#f5f5f5; }
+#vendingMachine .itemList ul li.select a,
+#vendingMachine .itemList ul li:hover a { opacity:1; }
+#vendingMachine .itemList ul li.hot a { border:5px solid rgb(209, 97, 103); }
+#vendingMachine .itemList ul li.ice a { border:5px solid rgb(112, 147, 199); }
+#vendingMachine .itemList ul li a .name { display:table; width:100%; height:50px; }
+#vendingMachine .itemList ul li a .name p { display:table-cell; width:100%; vertical-align:middle; font-size:17px; font-weight:bold; color:#444; text-align:center; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; }
+#vendingMachine .itemList ul li a .price { margin:3px; padding:5px 0; font-size:14px; font-weight:bold; color:#555; background-color:#ddd; }
+
+#vendingMachine .paymentBox { float:right; width:40%; }
+#vendingMachine .paymentBox .cash { margin-bottom:10px; border:5px solid #ddd; background-color:#ddd; }
+#vendingMachine .paymentBox .cash .checkCash { margin-bottom:5px; }
+#vendingMachine .paymentBox .cash .checkCash:after { content:""; display:block; clear:both; }
+#vendingMachine .paymentBox .cash .checkCash li { float:left; width:49%; margin-left:2%; padding:7px 0; background-color:#949494; color:#fff; text-align:center; cursor:pointer; }
+#vendingMachine .paymentBox .cash .checkCash li.select { background-color:#5F4B8B; font-weight:bold; }
+#vendingMachine .paymentBox .cash .checkCash li:first-child { margin-left:0; }
+#vendingMachine .paymentBox .cash .inputCash input { display:none; height:31px; padding:0 5px; text-align:right; }
+#vendingMachine .paymentBox.isCash .cash .inputCash input { display:block; }
+#vendingMachine .paymentBox .cash .inputCash button { margin-top:5px; padding:5px 0; }
+
+#vendingMachine .paymentBox .changes { display:block; border:5px solid #ddd; background-color:#ddd; }
+/* #vendingMachine .paymentBox.isCash .changes { display:block; } */
+#vendingMachine .paymentBox .changes:after { content:""; display:block; clear:both; }
+#vendingMachine .paymentBox .changes p { float:left; padding:7px 0; }
+#vendingMachine .paymentBox .changes .text { background-color:#949494; color:#fff; text-align:center; }
+#vendingMachine .paymentBox .changes .num { text-align:right; }
+
 #admin article { margin-bottom:15px; }
 #admin article .col { border-top:3px solid #ddd; }
 #admin article .col:after { content:""; display:block; clear:both; height:0; }
