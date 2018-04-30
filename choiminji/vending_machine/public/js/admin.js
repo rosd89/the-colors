@@ -1,3 +1,4 @@
+console.log("adminjs running");
 const VM1 = new Inventory();
 
 // admin add event
@@ -32,13 +33,13 @@ const editItem = (_ => {
         const itemOption = {};
         const itemList = VM1.getItemList();
         itemList.some( v => {
-            if ( v.name === itemName ) {
+          if ( v.name === itemName ) {
             itemOption.price = v.price;
             itemOption.condition = v.condition;
             itemOption.count = v.count - 1;
             itemOption.display = v.display;
             return true;
-            }
+          }
         });
 
         VM1.edit(itemName, itemOption);

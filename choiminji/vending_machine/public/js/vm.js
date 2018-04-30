@@ -1,3 +1,5 @@
+console.log("vmjs running")
+
 const CONDITION = { ICE: "ICE", HOT: "HOT" };
 const DIVISION = { GUEST: "GUEST", ADMIN: "ADMIN"};
 const INCREASE = { PLUS: "PLUS", MINUS: "MINUS"};
