@@ -10,14 +10,17 @@ describe("WebAPI", () => {
     const json = await fetch(URL).then(data => data.json());
 
     // then
+    expect(typeof json).toBe("object");
     expect(Object.keys(json).length).toEqual(Object.keys(given).length);
-    expect(Array.isArray(json.products)).toBe(true);
+    expect(Array.isArray(json.products)).toBeTruthy();
     expect(typeof json.session).toBe("object");
-    expect(typeof json.session.money).toBe("number");
-    expect(typeof json.admin).toBe("object");
-    expect(typeof json.admin.power).toBe("boolean");
-    expect(typeof json.admin.daily).toBe("object");
-    expect(typeof json.admin.product).toBe("object");
+    expect(typeof json.session.select).toBe("string");
+    expect(typeof json.session.change).toBe("number");
+    expect(typeof json.power).toBe("boolean");
+    expect(typeof json.log).toBe("object");
+    expect(typeof json.log.daily).toBe("object");
+    expect(typeof json.log.products).toBe("object");
+    expect(typeof json.timer).toBe("number");
   });
 
   it("POST", async () => {
@@ -31,7 +34,7 @@ describe("WebAPI", () => {
     }).then(data => data.json());
 
     // then
-    expect(response).toEqual(given);
+    expect(response).toBeTruthy();
   });
 
   it("Wrong Request", async () => {

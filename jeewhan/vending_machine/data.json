@@ -3,13 +3,24 @@
     {
       "name": "zero",
       "price": 0,
-      "isHot": false
+      "temperature": "HOT",
+      "stock": 0
+    },
+    {
+      "name": "one",
+      "price": 100,
+      "temperature": "ICE",
+      "stock": 1
     }
   ],
-  "session": { "money": 0 },
-  "admin": {
-    "power": false,
+  "session": { "select": "0", "change": 0 },
+  "power": true,
+  "log": {
     "daily": {},
-    "product": {}
-  }
+    "products": {
+      "zero": 0,
+      "one": 0
+    }
+  },
+  "timer": 0
 }

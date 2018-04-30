@@ -6,6 +6,7 @@ const isCorrect = require("./isCorrect");
 let store = require("./data.json");
 
 const requestHandler = (request, response) => {
+  response.setHeader("Access-Control-Allow-Origin", "*");
   let data = "";
 
   if (request.url === "/" && request.method === "GET")
@@ -18,10 +19,10 @@ const requestHandler = (request, response) => {
       if (isCorrect(data)) {
         store = data;
         response.statusCode = 200;
-        response.end(JSON.stringify(store));
+        response.end(JSON.stringify(true));
       } else {
         response.statusCode = 404;
-        response.end(JSON.stringify({}));
+        response.end(JSON.stringify(false));
       }
     });
   } else {
