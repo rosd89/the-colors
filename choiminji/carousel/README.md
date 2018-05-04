@@ -91,3 +91,21 @@
       ```
       슬라이드 생성 시, 생성자 함수 활용하여 옵션 값을 객체로 넘겨 설정한다
       ```
+
+- - -
+## 화면정의서
+![Carousel 화면정의서](./images/carousel_story_board.jpg)
+
+- - -
+## 시퀀스 다이어그램
+![Carousel 시퀀스다이어그램](./images/sequence_diagram01.jpg)
+![Carousel 시퀀스다이어그램](./images/sequence_diagram02.jpg)
+![Carousel 시퀀스다이어그램](./images/sequence_diagram03.jpg)
+![Carousel 시퀀스다이어그램](./images/sequence_diagram04.jpg)
+
+- - -
+
+## 마일스톤
+
+### 1주차
+### 2주차
