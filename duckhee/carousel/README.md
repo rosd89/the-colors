@@ -91,7 +91,34 @@
 
 ## 시퀀스
 
-![시퀀스](./images/sequence.png)
+```mermaid
+sequenceDiagram
+Browser->>+Slide: 슬라이드 기본 값 입력 및 생성
+Slide->>+Image: 이미지 갯수 확인
+Image-->>+Slide: 이미지 갯수 전달
+Slide->>+ArrowButton : 화살표 버튼 생성 요청
+ArrowButton-->>+Slide : 화살표 버튼 생성
+Slide->>+Indicator : 인디케이터 생성 요청
+Indicator-->>+Slide : 인디케이터 버튼 생성
+User->>+Browser: 화살표 버튼 클릭
+Browser-->>+Slide: 슬라이드 이미지 이동 요청
+Slide-->>+Browser: 슬라이드 이미지 이동
+User->>+Browser: 인디케이터 클릭
+Browser-->>Slide: 슬라이드 이미지 이동 요청
+Slide-->>+Browser: 슬라이드 이미지 이동
+Slide->>Browser: 오토플레이 on
+    loop 5초 마다
+        Browser-->Browser: 슬라이드 이미지 이동
+    end
+Browser->>+Slide: 이미지 추가 요청
+Slide-->>Image: 이미지 추가
+Image-->>Slide: 이미지 추가 완료
+Slide-->>Browser: 이미지 추가 반환
+Browser->>+Slide: 이미지 삭제 요청
+Slide-->>Image: 이미지 삭제
+Image-->>Slide: 이미지 삭제 완료
+Slide-->>Browser: 이미지 삭제 반환
+```
 
 ## 순서도
 
