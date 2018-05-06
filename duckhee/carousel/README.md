@@ -93,10 +93,6 @@
 
 ![시퀀스](./images/sequence.png)
 
-## 순서도
-
-![순서도](./images/flow.png)
-
 ## 일정
 
 * 1 주차
