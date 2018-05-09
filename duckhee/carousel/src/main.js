@@ -2,10 +2,10 @@ var obj = {
   width: 320,
   height: 160,
   mode: 'center',
-  images: [
-    'http://placehold.it/320X160/555',
-    'http://placehold.it/320X160/666',
-  ],
+  // images: [
+  //   'http://placehold.it/320X160/555',
+  //   'http://placehold.it/320X160/666',
+  // ],
 };
 
 var root = document.getElementById('root');
@@ -20,7 +20,7 @@ function Carousel(obj) {
   this.width = obj.width || 800;
   this.height = obj.height || 600;
   this.mode = obj.mode || 'center';
-  this.images = obj.images || 'http://placehold.it/320X160/000';
+  this.images = obj.images || ['http://placehold.it/320X160/000'];
 
   this.init();
 }
