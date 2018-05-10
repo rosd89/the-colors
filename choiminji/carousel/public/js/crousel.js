@@ -1,9 +1,13 @@
-var SlideElement = function(option) {
+var SlideElement = function(imgValue) {
+  if (imgValue == null) { 
+    warn('이미지 주소값이 없습니다');
+    return;
+  }
 
 };
 
 var Slide = (function () {
-  var SLIDE_LIST = [];
+  this.SLIDE_LIST = [];
   var DEFAULT_OPTION = {
     width : 1000,
     height : 600,
@@ -29,6 +33,33 @@ var Slide = (function () {
 })();
 
 Slide.prototype = {
+  init : function() {
+    this.container = document.getElementById(this.option.idName);
+    this.addSlideList(this.option.slideList);
+
+
+    /*
+    this.currentIdx = 0;
+    this.slideLength = this.option.slideLength.length;
+    if (this.option.dot) this.createDot(this.slideLength);
+    if (this.option.arrow) this.createArrow();
+    */
+  },
+  addSlideList : function(slideList) {
+    slideList.forEach(function(v){
+      this.add(v);
+    });
+  },
+  add : function(slideElem) {
+    var slideElement = new SlideElement(slideElem)
+  },
+  render : function() {
+    // option.slideList.forEach(function(v,i){
+    //   var elementDOM = createDOM("li", "slide-img", i);
+
+    //   this.container.appendChild(element);
+    // })
+  },
   optionValidation : function(option) {
     var optValid = validation.isObject(option);
     var idNameValid = true;
@@ -52,17 +83,15 @@ Slide.prototype = {
     if (option.dot) dotValid = validation.isBoolean(option.dot);
 
     return idNameValid && slideListValid && widthValid && heightValid && autoPlayValid && directionValid && speedValid && arrowValid && dotValid;
-  },
-  init : function() {
-    this.currentIdx = 0;
-    this.slideLength = this.option.slideLength.length;
-    this.direction = this.option.direction;
-
-    if (this.option.dot) this.createDot(this.slideLength);
-    if (this.option.arrow) this.createArrow();
   }
 }
 
+var createDOM = function(tagName, className, innerTxt) {
+  var element = document.createElement(tagName);
+  element.className = className;
+  element.innerText = innerTxt;
+  return element;
+}
 
 var validation = (function() {
   var isObject = function(obj) {
