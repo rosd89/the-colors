@@ -1,3 +1,5 @@
+var WRAP = document.getElementById('wrap')
+
 var SlideElement = function(imgValue, lastIdx) {
   if (arguments.length !== 2) {
     warn('개별 슬라이드 생성 인자값 잘못! 이미지 주소 + 마지막index값 필요!');
@@ -39,7 +41,7 @@ var Slide = function(userOption){
 
 Slide.prototype = {
   init : function() {
-    this.container = document.getElementById(this.option.idName);
+    this.createSlide();
     this.addSlideList(this.option.slideList);
 
     /*
@@ -49,6 +51,11 @@ Slide.prototype = {
     if (this.option.arrow) this.createArrow();
     */
   },
+  createSlide : function() {
+    var self = this;
+    self.container = createDOM('ul', self.option.idName + ' slide')
+    self.render();
+  },
   addSlideList : function(slideList) {
     var self = this;
     slideList.forEach(function(v){
@@ -57,27 +64,29 @@ Slide.prototype = {
   },
   add : function(slideElem) {
     var self = this;
-    var slideElement = new SlideElement(slideElem, self.lastIdx);
     var slideCountVaild = self.validateSlideCount();
     if ( slideCountVaild ) {
+      var slideElement = new SlideElement(slideElem, self.lastIdx);
       self.SLIDE_LIST.push(slideElement);
       self.lastIdx++;
-      console.log(self.SLIDE_LIST)
     } else {
       warn("슬라이드는 최대 10개 등록 가능");
       return;
     }
-
     self.render();
   },
   render : function() {
     var self = this;
-    console.log(self.SLIDE_LIST);
-    // option.slideList.forEach(function(v,i){
-    //   var elementDOM = createDOM("li", "slide-img", i);
+    self.container.innerHTML = '';
+    self.SLIDE_LIST.forEach(function(v){
+      var element = createDOM('li', 'slide-elem');
+      var elementImg = createDOM('img', '', v.imgValue);
+      element.appendChild(elementImg);
+      self.container.appendChild(element);
+    })
 
-    //   this.container.appendChild(element);
-    // })
+    WRAP.appendChild(self.container);
+    console.log(self.SLIDE_LIST);
   },
   validateSlideCount : function() {
     var count = this.SLIDE_LIST.length;
@@ -111,8 +120,14 @@ Slide.prototype = {
 
 var createDOM = function(tagName, className, innerTxt) {
   var element = document.createElement(tagName);
-  element.className = className;
-  element.innerText = innerTxt;
+  if (className) element.className = className;
+  
+  if (tagName === 'img' && innerTxt) {
+    element.src = innerTxt;
+  } else if (innerTxt) {
+    element.innerText = innerTxt;
+  }
+
   return element;
 }
 
