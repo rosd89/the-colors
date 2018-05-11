@@ -5,8 +5,8 @@ var crousel1 = new Slide({
     'https://i0.wp.com/aroundstore.kr/web/upload/barbar_02.jpg?resize=800%2C533',
     'https://i2.wp.com/aroundstore.kr/web/upload/barbar_03.jpg?resize=800%2C533'
   ],
-  width: 900,
-  height: 450,
+  width: 800,
+  height: 550,
   autoPlay : false,
   direction : 'right',
   speed : 300,
@@ -15,7 +15,7 @@ var crousel1 = new Slide({
 });
 
 crousel1.add('https://i0.wp.com/aroundstore.kr/web///upload/joonwoopark_02.jpg?resize=800%2C553');
-crousel1.delete(0);
+// crousel1.delete(0);
 
 /*
   'https://i0.wp.com/aroundstore.kr/web///upload/joonwoopark_02.jpg?resize=800%2C553',
