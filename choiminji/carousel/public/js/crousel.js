@@ -43,6 +43,9 @@ Slide.prototype = {
   init : function() {
     this.createSlide();
     this.addSlideList(this.option.slideList);
+
+    this.container.style.width = this.option.width;
+    this.container.style.height = this.option.height;
     
     if (this.option.arrow) this.createArrow();
   },
