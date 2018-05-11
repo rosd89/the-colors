@@ -45,12 +45,6 @@ Slide.prototype = {
     this.addSlideList(this.option.slideList);
     
     if (this.option.arrow) this.createArrow();
-    /*
-    this.currentIdx = 0;
-    this.slideLength = this.option.slideLength.length;
-    if (this.option.dot) this.createDot(this.slideLength);
-    
-    */
   },
 
   createSlide : function() {
