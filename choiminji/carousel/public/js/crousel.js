@@ -51,17 +51,20 @@ Slide.prototype = {
     if (this.option.arrow) this.createArrow();
     */
   },
+
   createSlide : function() {
     var self = this;
     self.container = createDOM('ul', self.option.idName + ' slide')
     self.render();
   },
+
   addSlideList : function(slideList) {
     var self = this;
     slideList.forEach(function(v){
       self.add(v);
     });
   },
+
   add : function(slideElem) {
     var self = this;
     var slideCountVaild = self.validateSlideCount();
@@ -75,13 +78,15 @@ Slide.prototype = {
     }
     self.render();
   },
+  
   delete : function(idx) {
     var self = this;
-    var isValid = self.SLIDE_LIST.some(function(v) {
+    var isValid = self.circulateSlideList(function(v) {
       if ( v.index === idx) return true;
-    });
+    })
+    
     if (isValid) {
-      self.SLIDE_LIST.some(function(v) {
+      self.circulateSlideList(function(v) {
         if ( v.index === idx ) {
           self.SLIDE_LIST.splice(idx,1);
           return true;
@@ -94,10 +99,11 @@ Slide.prototype = {
       return;
     }
   },
+
   render : function() {
     var self = this;
     self.container.innerHTML = '';
-    self.SLIDE_LIST.forEach(function(v){
+    self.circulateSlideList(function(v){
       var element = createDOM('li', 'slide-elem');
       var elementImg = createDOM('img', '', v.imgValue);
       element.appendChild(elementImg);
@@ -107,10 +113,17 @@ Slide.prototype = {
     WRAP.appendChild(self.container);
     console.log(self.SLIDE_LIST);
   },
+
+  circulateSlideList(callback) {
+    var self = this;
+    self.SLIDE_LIST.some(callback);
+  },
+
   validateSlideCount : function() {
     var count = this.SLIDE_LIST.length;
     return count < 10;
   },
+
   validateOption : function(option) {
     var optValid = validation.isObject(option);
     var idNameValid = true;
