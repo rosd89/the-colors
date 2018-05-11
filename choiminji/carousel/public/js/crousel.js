@@ -1,13 +1,14 @@
-var SlideElement = function(imgValue) {
-  if (imgValue == null) { 
-    warn('이미지 주소값이 없습니다');
+var SlideElement = function(imgValue, lastIdx) {
+  if (arguments.length !== 2) {
+    warn('개별 슬라이드 생성 인자값 잘못! 이미지 주소 + 마지막index값 필요!');
     return;
   }
-
+  console.log(Number(lastIdx));
+  this.index = lastIdx;
+  this.imgValue = imgValue;
 };
 
-var Slide = (function () {
-  this.SLIDE_LIST = [];
+var Slide = function(userOption){
   var DEFAULT_OPTION = {
     width : 1000,
     height : 600,
@@ -19,24 +20,27 @@ var Slide = (function () {
   };
   Object.freeze(DEFAULT_OPTION);  
   
-  return function(userOption){
-    var optValid = this.optionValidation(userOption);
-    if (optValid) {
-      var option = Object.assign({}, DEFAULT_OPTION, userOption);
-      this.option = option;
-      this.init();
-    } else {
-      warn('option 값을 확인하세요.');
-      return;
-    };
-  }
-})();
+  this.SLIDE_LIST = [];
+  this.lastIdx = 0;
+  this.container;
+
+
+  var optValid = this.validateOption(userOption);
+
+  if (optValid) {
+    var option = Object.assign({}, DEFAULT_OPTION, userOption);
+    this.option = option;
+    this.init();
+  } else {
+    warn('option 값을 확인하세요.');
+    return;
+  };
+}
 
 Slide.prototype = {
   init : function() {
     this.container = document.getElementById(this.option.idName);
     this.addSlideList(this.option.slideList);
-
 
     /*
     this.currentIdx = 0;
@@ -46,21 +50,40 @@ Slide.prototype = {
     */
   },
   addSlideList : function(slideList) {
+    var self = this;
     slideList.forEach(function(v){
-      this.add(v);
+      self.add(v);
     });
   },
   add : function(slideElem) {
-    var slideElement = new SlideElement(slideElem)
+    var self = this;
+    var slideElement = new SlideElement(slideElem, self.lastIdx);
+    var slideCountVaild = self.validateSlideCount();
+    if ( slideCountVaild ) {
+      self.SLIDE_LIST.push(slideElement);
+      self.lastIdx++;
+      console.log(self.SLIDE_LIST)
+    } else {
+      warn("슬라이드는 최대 10개 등록 가능");
+      return;
+    }
+
+    self.render();
   },
   render : function() {
+    var self = this;
+    console.log(self.SLIDE_LIST);
     // option.slideList.forEach(function(v,i){
     //   var elementDOM = createDOM("li", "slide-img", i);
 
     //   this.container.appendChild(element);
     // })
   },
-  optionValidation : function(option) {
+  validateSlideCount : function() {
+    var count = this.SLIDE_LIST.length;
+    return count < 10;
+  },
+  validateOption : function(option) {
     var optValid = validation.isObject(option);
     var idNameValid = true;
     var slideListValid = true;
