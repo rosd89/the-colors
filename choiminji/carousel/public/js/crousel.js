@@ -43,7 +43,7 @@ Slide.prototype = {
   init : function() {
     this.createSlide();
     this.addSlideList(this.option.slideList);
-
+    
     if (this.option.arrow) this.createArrow();
     /*
     this.currentIdx = 0;
