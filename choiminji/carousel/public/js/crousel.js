@@ -75,6 +75,25 @@ Slide.prototype = {
     }
     self.render();
   },
+  delete : function(idx) {
+    var self = this;
+    var isValid = self.SLIDE_LIST.some(function(v) {
+      if ( v.index === idx) return true;
+    });
+    if (isValid) {
+      self.SLIDE_LIST.some(function(v) {
+        if ( v.index === idx ) {
+          self.SLIDE_LIST.splice(idx,1);
+          return true;
+        }
+      })
+
+      self.render();
+    } else {
+      warn("잘못된 index!");
+      return;
+    }
+  },
   render : function() {
     var self = this;
     self.container.innerHTML = '';
