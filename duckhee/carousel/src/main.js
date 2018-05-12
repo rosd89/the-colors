@@ -75,16 +75,6 @@ Carousel.prototype = {
   },
   addImages: function() {},
   addArrowButton: function() {
-    // var leftArrow = createAddedClassTag('button', 'leftArrow');
-    // var rightArrow = createAddedClassTag('button', 'rightArrow');
-    // var leftIcon = createAddedClassTag('i', 'fas fa-arrow-circle-left');
-    // var rightIcon = createAddedClassTag('i', 'fas fa-arrow-circle-right');
-    // leftArrow.appendChild(leftIcon);
-    // rightArrow.appendChild(rightIcon);
-    // slideWrap.appendChild(leftArrow);
-    // slideWrap.appendChild(rightArrow);
-    // leftArrow.style.left = '10px';
-    // rightArrow.style.right = '10px';
     makeArrowButton('left',10);
     makeArrowButton('right',10);
 
@@ -123,5 +113,3 @@ function createAddedClassTag(tag, className) {
 }
 
 var test = new Carousel(obj);
-
-test.addImages();
