@@ -5,6 +5,8 @@ var obj = {
   images: [
     'http://placehold.it/320X160/555',
     'http://placehold.it/320X160/666',
+    'http://placehold.it/320X160/777',
+    'http://placehold.it/320X160/888',
   ],
   arrowButton: 'default'
 };
@@ -71,6 +73,7 @@ Carousel.prototype = {
 
     root.appendChild(slideWrap);
     this.addArrowButton();
+    this.addIndicator();
     this.render();
   },
   addImages: function() {},
@@ -85,6 +88,19 @@ Carousel.prototype = {
       slideWrap.appendChild(button);
       direction === 'left' ? button.style.left = distance + 'px' : button.style.right = distance+'px';
     }
+  },
+  addIndicator: function() {
+    var indicatorLength = this.images.length;
+    var indicatorWrap = createAddedClassTag('div', 'indicatorWrap');
+    // var icon = createAddedClassTag('i', 'fas fa-circle');
+    for (let index = 0; index < indicatorLength; index++) {
+      // var indicatorButton = createAddedClassTag('button', 'indicatorButton' + index);
+      var indicatorButton = createAddedClassTag('button', 'indicatorButton');
+      var icon = createAddedClassTag('i', 'far fa-circle');
+      indicatorButton.appendChild(icon);
+      indicatorWrap.appendChild(indicatorButton);
+    }
+    slideWrap.appendChild(indicatorWrap);
   },
   render: function() {
     var docFragment = document.createDocumentFragment();
