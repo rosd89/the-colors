@@ -1,12 +1,12 @@
 var obj = {
   width: 320,
   height: 160,
-  mode: 'left',
+  mode: 'center',
   images: [
-    'http://placehold.it/320X160/555',
-    'http://placehold.it/320X160/666',
-    'http://placehold.it/320X160/777',
-    'http://placehold.it/320X160/888',
+    'http://placehold.it/320X160/aa3dcc',
+    'http://placehold.it/320X160/44dcaa',
+    'http://placehold.it/320X160/c8212a',
+    'http://placehold.it/320X160/bbbbbb',
   ],
   arrowButton: 'default'
 };
@@ -75,6 +75,7 @@ Carousel.prototype = {
     this.addArrowButton();
     this.addIndicator();
     this.render();
+    this.event();
   },
   addImages: function() {},
   addArrowButton: function() {
@@ -102,6 +103,45 @@ Carousel.prototype = {
     }
     slideWrap.appendChild(indicatorWrap);
   },
+  moveSlide: function(direction) {
+    if(direction === 'left') {
+      var width = this.width;
+      var movePosition = -parseInt(slideList.style.left);
+      var moveFlag = movePosition + parseInt(width);
+      var moveStart = setInterval(move, 5);
+      function move() {
+        if (movePosition === moveFlag) {
+          clearInterval(moveStart);
+          var firstSlide = document.querySelector('.slideItem');
+          var clone = firstSlide.cloneNode(true);
+          slideList.appendChild(clone);
+          slideList.removeChild(document.querySelector('.slideItem'));
+          slideList.style.left = (parseInt(slideList.style.left) + parseInt(width)) + 'px';
+        } else {
+          movePosition++;
+          slideList.style.left = -movePosition + 'px';
+        }
+      }
+    } else {
+      var width = this.width;
+      var movePosition = parseInt(slideList.style.left);
+      var moveFlag = movePosition + parseInt(width);
+      var moveStart = setInterval(move, 5);
+      function move() {
+        if (movePosition === moveFlag) {
+          clearInterval(moveStart);
+          var lastSlide = slideList.lastChild;
+          var clone = lastSlide.cloneNode(true);
+          slideList.insertBefore(clone, slideList.firstChild);
+          slideList.removeChild(lastSlide);
+          slideList.style.left = (parseInt(slideList.style.left) - parseInt(width)) + 'px';
+        } else {
+          movePosition++;
+          slideList.style.left = movePosition + 'px';
+        }
+      }
+    }
+  },
   render: function() {
     var docFragment = document.createDocumentFragment();
     this.images.forEach(function(e) {
@@ -118,7 +158,24 @@ Carousel.prototype = {
 
     slideList.style.width = parseInt(this.width) * this.images.length + 'px';
     slideList.style.height = this.height;
+    slideList.style.left = 0;
+
+    // var firstClone = document.querySelector('.slideItem').cloneNode(true);
+    var lastClone = document.querySelectorAll('.slideItem')[this.images.length - 1].cloneNode(true);
+    // slideList.appendChild(firstClone);
+    slideList.insertBefore(lastClone, slideList.firstChild);
+    slideList.style.left = -this.width + 'px';
+    slideList.removeChild(slideList.lastChild);
   },
+  event: function() {
+    var _this = this;
+    document.querySelector('.leftArrow').addEventListener('click', function(e) {
+      _this.moveSlide('left');
+    });
+    document.querySelector('.rightArrow').addEventListener('click', function(e) {
+      _this.moveSlide('right');
+    });
+  }
 };
 
 // class가 있는 태그 생성
