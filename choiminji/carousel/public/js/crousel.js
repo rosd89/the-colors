@@ -48,11 +48,12 @@ Slide.prototype = {
     this.container.style.height = this.option.height;
     
     if (this.option.arrow) this.createArrow();
+    if (this.option.dot) this.createDot();
   },
 
   createSlide : function() {
     var self = this;
-    self.container = createDOM('div', self.option.idName+' slideWrap');
+    self.container = createDOM('div', self.option.idName+' slide-wrap');
     var slideWrap = createDOM('ul', 'slide');
     
     self.container.appendChild(slideWrap);
@@ -67,6 +68,19 @@ Slide.prototype = {
     self.container.appendChild(prevArrow);
     self.container.appendChild(nextArrow);
   }, 
+
+  createDot : function() {
+    console.log("dot run");
+    var self = this;
+    var dotCount = self.SLIDE_LIST.length;
+    var dotWrap = createDOM('ul', 'dot-wrap');
+    
+    for (var i = 0; i <= dotCount; i++ ){
+      var dotElem = createDOM('li', 'dot-elem');
+      dotWrap.appendChild(dotElem);
+    }
+    self.container.appendChild(dotWrap);
+  },
 
   addSlideList : function(slideList) {
     var self = this;
