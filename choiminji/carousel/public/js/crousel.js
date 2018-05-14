@@ -1,12 +1,12 @@
 var WRAP = document.getElementById('wrap')
 
-var SlideElement = function(imgValue, lastIdx) {
+var SlideElement = function(imgValue, ListLastIdx) {
   if (arguments.length !== 2) {
     warn('개별 슬라이드 생성 인자값 잘못! 이미지 주소 + 마지막index값 필요!');
     return;
   }
-  console.log(Number(lastIdx));
-  this.index = lastIdx;
+  console.log(Number(ListLastIdx));
+  this.index = ListLastIdx;
   this.imgValue = imgValue;
 };
 
@@ -23,7 +23,8 @@ var Slide = function(userOption){
   Object.freeze(DEFAULT_OPTION);  
   
   this.SLIDE_LIST = [];
-  this.lastIdx = 0;
+  this.currentIdx = 0;
+  this.ListLastIdx = 0;
   this.container;
 
 
@@ -49,6 +50,8 @@ Slide.prototype = {
     
     if (this.option.arrow) this.createArrow();
     if (this.option.dot) this.createDot();
+    this.slideTo(self.currentIdx);
+    this.addEvent();
   },
 
   createSlide : function() {
@@ -82,6 +85,79 @@ Slide.prototype = {
     self.container.appendChild(dotWrap);
   },
 
+  slideTo : function(nextIdx) {
+    console.log("slide to run");
+    var self = this;
+    var slide = self.container.querySelector(".slide");
+    var slideElem = self.container.querySelectorAll(".slide-elem");
+    var slideCount = self.SLIDE_LIST.length;
+    var prevWidth, nextWidth;
+
+    if (nextIdx > self.currentIdx) {
+      prevWidth = '-100%';
+      nextWidth = '100%';
+    } else { 
+      prevWidth = '100%';
+      nextWidth = '-100%';
+    };
+
+    // if (nextIdx < slideCount || nextIdx > 0) {
+    //   slideElem.forEach(function(v,i) {
+    //     slideElem[i].style.left = nextWidth;
+    //     slideElem[i].style.zIndex = 1;
+    //   })
+    // }
+    if (nextIdx >= slideCount) nextIdx = 0;
+    if (nextIdx < 0) nextIdx = Number(slideCount-1);
+
+    msg(`next idx : ${nextIdx} / current Idx : ${self.currentIdx} / prev Width : ${prevWidth} / next Width : ${nextWidth}`);
+
+    slideElem.forEach(function(v,i) {
+      slideElem[i].style.left = nextWidth;
+      slideElem[i].style.zIndex = 1;
+      console.log(11);
+    })
+
+    slideElem[nextIdx].style.zIndex = 2;
+
+    slideElem[nextIdx].style.left = 0;
+    slideElem[self.currentIdx].style.left = prevWidth;
+
+    slideElem.forEach(function(v,i) {
+      slideElem[i].classList.remove('active');
+    })
+    slideElem[nextIdx].classList.add('active')
+
+    self.currentIdx = nextIdx;
+    
+  },
+
+  addEvent : function() {
+    var self = this;
+
+    if (self.option.arrow) {
+      var prevBtn = self.container.querySelector(".arrow.prev");
+      var nextBtn = self.container.querySelector(".arrow.next");
+
+      prevBtn.addEventListener('click', function() {
+        self.slideTo(self.currentIdx-1);
+      })
+
+      nextBtn.addEventListener('click', function() {
+        self.slideTo(self.currentIdx+1);
+      })
+    }
+
+    if(self.option.dot) {
+      var dotBtn = self.container.querySelectorAll(".dot-elem");
+      dotBtn.forEach(function(v,i){
+        dotBtn[i].addEventListener('click', function(){
+          self.slideTo(i);
+        })
+      })
+    }
+  },
+
   addSlideList : function(slideList) {
     var self = this;
     slideList.forEach(function(v){
@@ -93,9 +169,9 @@ Slide.prototype = {
     var self = this;
     var slideCountVaild = self.validateSlideCount();
     if ( slideCountVaild ) {
-      var slideElement = new SlideElement(slideElem, self.lastIdx);
+      var slideElement = new SlideElement(slideElem, self.ListLastIdx);
       self.SLIDE_LIST.push(slideElement);
-      self.lastIdx++;
+      self.ListLastIdx++;
     } else {
       warn("슬라이드는 최대 10개 등록 가능");
       return;
@@ -131,11 +207,14 @@ Slide.prototype = {
     self.circulateSlideList(function(v){
       var element = createDOM('li', 'slide-elem');
       var elementImg = createDOM('img', '', v.imgValue);
+      element.dataset.idx = v.index;
+
       element.appendChild(elementImg);
       slideWrap.appendChild(element);
     })
 
     WRAP.appendChild(self.container);
+    
     console.log(self.SLIDE_LIST);
   },
 
@@ -221,3 +300,8 @@ var validation = (function() {
 var warn = function(msg) {
   console.log(msg);
 };
+
+var msg = function(msg) {
+  var msgBox = document.querySelector('#msg');
+  msgBox.innerText = msg;
+}

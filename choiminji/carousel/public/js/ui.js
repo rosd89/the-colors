@@ -1,12 +1,15 @@
 var crousel1 = new Slide({
   idName : 'crousel1',
   slideList : [
-    'https://i0.wp.com/aroundstore.kr/web/upload/barbar_01.jpg?resize=800%2C533',
-    'https://i0.wp.com/aroundstore.kr/web/upload/barbar_02.jpg?resize=800%2C533',
-    'https://i2.wp.com/aroundstore.kr/web/upload/barbar_03.jpg?resize=800%2C533'
+    'http://via.placeholder.com/800x500/c3ff63?text=00',
+    'http://via.placeholder.com/800x500/6de9d2?text=1',
+    'http://via.placeholder.com/800x500/f7ff73?text=2'
+    // 'https://i0.wp.com/aroundstore.kr/web/upload/barbar_01.jpg?resize=800%2C533',
+    // 'https://i0.wp.com/aroundstore.kr/web/upload/barbar_02.jpg?resize=800%2C533',
+    // 'https://i2.wp.com/aroundstore.kr/web/upload/barbar_03.jpg?resize=800%2C533'
   ],
   width: 800,
-  height: 550,
+  height: 500,
   autoPlay : false,
   direction : 'right',
   speed : 300,
@@ -14,7 +17,7 @@ var crousel1 = new Slide({
   dot : true
 });
 
-crousel1.add('https://i0.wp.com/aroundstore.kr/web///upload/joonwoopark_02.jpg?resize=800%2C553');
+// crousel1.add('https://i0.wp.com/aroundstore.kr/web///upload/joonwoopark_02.jpg?resize=800%2C553');
 
 
 /*
