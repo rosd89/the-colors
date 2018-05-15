@@ -6,7 +6,7 @@ var obj = {
     'http://placehold.it/320X160/555',
     'http://placehold.it/320X160/666',
   ],
-  arrowButton: 'default'
+  arrowButton: 'default',
 };
 
 var root = document.getElementById('root');
@@ -75,15 +75,26 @@ Carousel.prototype = {
   },
   addImages: function() {},
   addArrowButton: function() {
-    makeArrowButton('left',10);
-    makeArrowButton('right',10);
+    makeArrowButton('left', 10);
+    makeArrowButton('right', 10);
 
     function makeArrowButton(direction, distance) {
-      var button = createAddedClassTag('button', direction+'Arrow');
-      var icon = createAddedClassTag('i', 'fas fa-arrow-circle-'+direction);
+      var button = createAddedClassTag('button', direction + 'Arrow');
+      var icon = createAddedClassTag('i', 'fas fa-arrow-circle-' + direction);
       button.appendChild(icon);
       slideWrap.appendChild(button);
-      direction === 'left' ? button.style.left = distance + 'px' : button.style.right = distance+'px';
+      switch (direction) {
+        case 'left':
+          button.style.left = distance + 'px';
+          break;
+
+        case 'right':
+          button.style.right = distance + 'px';
+          break;
+
+        default:
+          break;
+      }
     }
   },
   render: function() {
