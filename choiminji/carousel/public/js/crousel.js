@@ -44,19 +44,29 @@ Slide.prototype = {
     this.createSlide();
     this.addSlideList(this.option.slideList);
 
-    /*
-    this.currentIdx = 0;
-    this.slideLength = this.option.slideLength.length;
-    if (this.option.dot) this.createDot(this.slideLength);
+    this.container.style.width = this.option.width;
+    this.container.style.height = this.option.height;
+    
     if (this.option.arrow) this.createArrow();
-    */
   },
 
   createSlide : function() {
     var self = this;
-    self.container = createDOM('ul', self.option.idName + ' slide')
+    self.container = createDOM('div', self.option.idName+' slideWrap');
+    var slideWrap = createDOM('ul', 'slide');
+    
+    self.container.appendChild(slideWrap);
     self.render();
   },
+
+  createArrow : function() {
+    console.log("arrow run")
+    var self = this;
+    var prevArrow = createDOM('button', 'arrow prev', 'PREV');
+    var nextArrow = createDOM('button', 'arrow next', 'NEXT');
+    self.container.appendChild(prevArrow);
+    self.container.appendChild(nextArrow);
+  }, 
 
   addSlideList : function(slideList) {
     var self = this;
@@ -102,12 +112,13 @@ Slide.prototype = {
 
   render : function() {
     var self = this;
-    self.container.innerHTML = '';
+    var slideWrap = self.container.querySelector(".slide")
+    slideWrap.innerHTML = '';
     self.circulateSlideList(function(v){
       var element = createDOM('li', 'slide-elem');
       var elementImg = createDOM('img', '', v.imgValue);
       element.appendChild(elementImg);
-      self.container.appendChild(element);
+      slideWrap.appendChild(element);
     })
 
     WRAP.appendChild(self.container);
