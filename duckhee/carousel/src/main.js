@@ -1,11 +1,12 @@
 var obj = {
   width: 320,
   height: 160,
-  mode: 'center',
-  // images: [
-  //   'http://placehold.it/320X160/555',
-  //   'http://placehold.it/320X160/666',
-  // ],
+  mode: 'left',
+  images: [
+    'http://placehold.it/320X160/555',
+    'http://placehold.it/320X160/666',
+  ],
+  arrowButton: 'default',
 };
 
 var root = document.getElementById('root');
@@ -21,6 +22,7 @@ function Carousel(obj) {
   this.height = obj.height || 600;
   this.mode = obj.mode || 'center';
   this.images = obj.images || ['http://placehold.it/320X160/000'];
+  this.arrowButton = obj.arrowButton || 'default';
 
   this.init();
 }
@@ -60,7 +62,7 @@ Carousel.prototype = {
       left: left,
       right: right,
       marginLeft: marginLeft ? marginLeft + 'px' : 0,
-      backgroundColor: 'red',
+      backgroundColor: 'lavender',
     };
 
     for (imageIndex in imageStyle) {
@@ -68,9 +70,33 @@ Carousel.prototype = {
     }
 
     root.appendChild(slideWrap);
+    this.addArrowButton();
     this.render();
   },
   addImages: function() {},
+  addArrowButton: function() {
+    makeArrowButton('left', 10);
+    makeArrowButton('right', 10);
+
+    function makeArrowButton(direction, distance) {
+      var button = createAddedClassTag('button', direction + 'Arrow');
+      var icon = createAddedClassTag('i', 'fas fa-arrow-circle-' + direction);
+      button.appendChild(icon);
+      slideWrap.appendChild(button);
+      switch (direction) {
+        case 'left':
+          button.style.left = distance + 'px';
+          break;
+
+        case 'right':
+          button.style.right = distance + 'px';
+          break;
+
+        default:
+          break;
+      }
+    }
+  },
   render: function() {
     var docFragment = document.createDocumentFragment();
     this.images.forEach(function(e) {
@@ -98,5 +124,3 @@ function createAddedClassTag(tag, className) {
 }
 
 var test = new Carousel(obj);
-
-test.addImages();

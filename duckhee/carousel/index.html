@@ -8,13 +8,21 @@
   <title>Carousel</title>
   <style>
     ul,
-    li {
+    li,
+    button,
+    div {
       margin: 0;
       padding: 0;
     }
 
     li {
       list-style: none;
+    }
+
+    button {
+      border: none;
+      outline: none;
+      background: none;
     }
 
     img {
@@ -28,7 +36,9 @@
       position: relative;
     }
 
-    .slide {}
+    .slide {
+      /* overflow: hidden; */
+    }
 
     .slideList {
       position: relative;
@@ -37,11 +47,23 @@
     .slideItem {
       float: left;
     }
+
+    .leftArrow,
+    .rightArrow {
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px;
+      cursor: pointer;
+    }
   </style>
 
 </head>
 
 <body>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
+    crossorigin="anonymous"></script>
   <div id="root"></div>
   <script src="src/main.js"></script>
 </body>
