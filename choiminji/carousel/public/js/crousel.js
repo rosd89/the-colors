@@ -1,12 +1,12 @@
 var WRAP = document.getElementById('wrap')
 
-var SlideElement = function(imgValue, ListLastIdx) {
+var SlideElement = function(imgValue, LastListIdx) {
   if (arguments.length !== 2) {
     warn('개별 슬라이드 생성 인자값 잘못! 이미지 주소 + 마지막index값 필요!');
     return;
   }
-  console.log(Number(ListLastIdx));
-  this.index = ListLastIdx;
+  console.log(Number(LastListIdx));
+  this.index = LastListIdx;
   this.imgValue = imgValue;
 };
 
@@ -24,7 +24,11 @@ var Slide = function(userOption){
   
   this.SLIDE_LIST = [];
   this.currentIdx = 0;
-  this.ListLastIdx = 0;
+  this.LastListIdx = 0;
+  this.direction = {
+    RIGHT : 'right',
+    LEFT : 'left'
+  }
   this.container;
 
 
@@ -42,16 +46,25 @@ var Slide = function(userOption){
 
 Slide.prototype = {
   init : function() {
-    this.createSlide();
-    this.addSlideList(this.option.slideList);
+    var self = this;
+    self.createSlide();
+    self.addSlideList(self.option.slideList);
 
-    this.container.style.width = this.option.width;
-    this.container.style.height = this.option.height;
-    
-    if (this.option.arrow) this.createArrow();
-    if (this.option.dot) this.createDot();
-    this.slideTo(self.currentIdx);
-    this.addEvent();
+    self.container.style.width = self.option.width;
+    self.container.style.height = self.option.height;
+    // self.container.querySelector('.slide').style.width = self.option.width * slideCount;
+    // self.container.querySelector('.slide').style.width = self.option.width;
+    // self.container.querySelector('.slide').style.height = self.option.height;
+
+    var slideElem = self.container.querySelectorAll('.slide-elem');
+    self.SLIDE_LIST.forEach(function(v, i) {
+      slideElem[i].style.width = self.option.width;
+    })
+
+    if (self.option.arrow) self.createArrow();
+    if (self.option.dot) self.createDot();
+
+    self.addEvent();
   },
 
   createSlide : function() {
@@ -60,11 +73,9 @@ Slide.prototype = {
     var slideWrap = createDOM('ul', 'slide');
     
     self.container.appendChild(slideWrap);
-    self.render();
   },
 
   createArrow : function() {
-    console.log("arrow run")
     var self = this;
     var prevArrow = createDOM('button', 'arrow prev', 'PREV');
     var nextArrow = createDOM('button', 'arrow next', 'NEXT');
@@ -73,7 +84,6 @@ Slide.prototype = {
   }, 
 
   createDot : function() {
-    console.log("dot run");
     var self = this;
     var dotCount = self.SLIDE_LIST.length;
     var dotWrap = createDOM('ul', 'dot-wrap');
@@ -85,51 +95,75 @@ Slide.prototype = {
     self.container.appendChild(dotWrap);
   },
 
-  slideTo : function(nextIdx) {
-    console.log("slide to run");
+  slideTo : function(direction, nextIdx) {
     var self = this;
     var slide = self.container.querySelector(".slide");
     var slideElem = self.container.querySelectorAll(".slide-elem");
     var slideCount = self.SLIDE_LIST.length;
-    var prevWidth, nextWidth;
 
-    if (nextIdx > self.currentIdx) {
-      prevWidth = '-100%';
-      nextWidth = '100%';
-    } else { 
-      prevWidth = '100%';
-      nextWidth = '-100%';
-    };
+    var movingIdx = Math.abs(nextIdx - self.currentIdx);
 
-    // if (nextIdx < slideCount || nextIdx > 0) {
-    //   slideElem.forEach(function(v,i) {
-    //     slideElem[i].style.left = nextWidth;
-    //     slideElem[i].style.zIndex = 1;
-    //   })
-    // }
     if (nextIdx >= slideCount) nextIdx = 0;
     if (nextIdx < 0) nextIdx = Number(slideCount-1);
 
-    msg(`next idx : ${nextIdx} / current Idx : ${self.currentIdx} / prev Width : ${prevWidth} / next Width : ${nextWidth}`);
+    if ( direction === self.direction.RIGHT ) { // prev btn click
 
-    slideElem.forEach(function(v,i) {
-      slideElem[i].style.left = nextWidth;
-      slideElem[i].style.zIndex = 1;
-      console.log(11);
-    })
+      var marginValue = self.option.width * movingIdx;
+      
+      slide.insertBefore(slideElem[slideCount-1], slideElem[0]);
+      slide.style.marginLeft = marginValue + 'px';
+      slide.style.marginLeft = 0;
 
-    slideElem[nextIdx].style.zIndex = 2;
+    } else {  // next btn click
 
-    slideElem[nextIdx].style.left = 0;
-    slideElem[self.currentIdx].style.left = prevWidth;
+      var marginValue = self.option.width * movingIdx * -1;
+      var movingSlide = slideElem[0];
 
-    slideElem.forEach(function(v,i) {
-      slideElem[i].classList.remove('active');
-    })
-    slideElem[nextIdx].classList.add('active')
+      slide.style.marginLeft = marginValue + 'px';
+      slide.removeChild(movingSlide);
+      slide.appendChild(movingSlide);
+      slide.style.marginLeft = 0;
+
+    }
 
     self.currentIdx = nextIdx;
-    
+
+
+
+    // if (nextIdx >= self.currentIdx) {
+    //   prevWidth = '-100%';
+    //   nextWidth = '100%';
+    // } else { 
+    //   prevWidth = '100%';
+    //   nextWidth = '-100%';
+    // };
+
+    // if (nextIdx >= slideCount) nextIdx = 0;
+    // if (nextIdx < 0) nextIdx = Number(slideCount-1);
+
+    // slideElem.forEach(function(v,i) {
+    //   if ( i !== self.currentIdx) {
+    //     slideElem[i].style.left = nextWidth;
+    //     slideElem[i].style.zIndex = 1;
+    //   }
+    // })
+
+    // msg("1: "+self.currentIdx +"//"+ nextIdx)
+    // if (self.currentIdx === 0) {
+    //   slideElem[slideCount-1].style.left = prevWidth;
+    // }
+
+    // slideElem[self.currentIdx].style.left = prevWidth;
+    // slideElem[nextIdx].style.left = 0;
+    // slideElem[nextIdx].style.zIndex = 2;
+
+    // slideElem.forEach(function(v,i) {
+    //   slideElem[i].classList.remove('active');
+    // })
+    // slideElem[nextIdx].classList.add('active');
+
+    // self.currentIdx = nextIdx;
+    // msg("2: "+self.currentIdx +"//"+ nextIdx)
   },
 
   addEvent : function() {
@@ -140,11 +174,11 @@ Slide.prototype = {
       var nextBtn = self.container.querySelector(".arrow.next");
 
       prevBtn.addEventListener('click', function() {
-        self.slideTo(self.currentIdx-1);
+        self.slideTo(self.direction.LEFT, self.currentIdx-1);
       })
 
       nextBtn.addEventListener('click', function() {
-        self.slideTo(self.currentIdx+1);
+        self.slideTo(self.direction.RIGHT, self.currentIdx+1);
       })
     }
 
@@ -169,9 +203,9 @@ Slide.prototype = {
     var self = this;
     var slideCountVaild = self.validateSlideCount();
     if ( slideCountVaild ) {
-      var slideElement = new SlideElement(slideElem, self.ListLastIdx);
+      var slideElement = new SlideElement(slideElem, self.LastListIdx);
       self.SLIDE_LIST.push(slideElement);
-      self.ListLastIdx++;
+      self.LastListIdx++;
     } else {
       warn("슬라이드는 최대 10개 등록 가능");
       return;
@@ -214,6 +248,7 @@ Slide.prototype = {
     })
 
     WRAP.appendChild(self.container);
+    // self.slideTo('', self.currentIdx);
     
     console.log(self.SLIDE_LIST);
   },
@@ -303,5 +338,7 @@ var warn = function(msg) {
 
 var msg = function(msg) {
   var msgBox = document.querySelector('#msg');
-  msgBox.innerText = msg;
+  var p = createDOM("p");
+  p.innerText = msg;
+  msgBox.appendChild(p);
 }
