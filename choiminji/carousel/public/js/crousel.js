@@ -5,7 +5,7 @@ var SlideElement = function(imgValue, LastListIdx) {
     warn('개별 슬라이드 생성 인자값 잘못! 이미지 주소 + 마지막index값 필요!');
     return;
   }
-  console.log(Number(LastListIdx));
+  
   this.index = LastListIdx;
   this.imgValue = imgValue;
 };
@@ -52,9 +52,7 @@ Slide.prototype = {
 
     self.container.style.width = self.option.width;
     self.container.style.height = self.option.height;
-    
-    // self.container.querySelector('.slide-list').style.left = self.option.width * -1 + 'px';
-    self.slideTo(self.direction.LEFT, 0);
+
     var slide = self.container.querySelector('.slide-list');
     var slideItem = self.container.querySelectorAll('.slide-item');
     self.SLIDE_LIST.forEach(function(v, i) {
@@ -66,6 +64,7 @@ Slide.prototype = {
     if (self.option.arrow) self.createArrow();
     if (self.option.dot) self.createDot();
 
+    self.slideTo(self.direction.LEFT, 0);
     self.addEvent();
   },
 
@@ -143,6 +142,14 @@ Slide.prototype = {
       slideItem[i].classList.remove('active');
     })
     slideItem[nextIdx].classList.add('active');
+    
+    if (self.option.dot) {
+      var dotItem = self.container.querySelectorAll('.dot-item');
+      dotItem.forEach(function(v,i) {
+        dotItem[i].classList.remove('active');
+      })
+      dotItem[nextIdx].classList.add('active');
+    }
     
     self.currentIdx = nextIdx;   
   },
