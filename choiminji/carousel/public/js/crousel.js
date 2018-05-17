@@ -52,14 +52,16 @@ Slide.prototype = {
 
     self.container.style.width = self.option.width;
     self.container.style.height = self.option.height;
-    // self.container.querySelector('.slide').style.width = self.option.width * slideCount;
-    // self.container.querySelector('.slide').style.width = self.option.width;
-    // self.container.querySelector('.slide').style.height = self.option.height;
-
-    var slideElem = self.container.querySelectorAll('.slide-elem');
+    
+    // self.container.querySelector('.slide-list').style.left = self.option.width * -1 + 'px';
+    self.slideTo(self.direction.LEFT, 0);
+    var slide = self.container.querySelector('.slide-list');
+    var slideItem = self.container.querySelectorAll('.slide-item');
     self.SLIDE_LIST.forEach(function(v, i) {
-      slideElem[i].style.width = self.option.width;
+      slideItem[i].style.width = self.option.width;
     })
+
+    slide.insertBefore(slideItem[slideItem.length-1], slideItem[0]);
 
     if (self.option.arrow) self.createArrow();
     if (self.option.dot) self.createDot();
@@ -69,9 +71,11 @@ Slide.prototype = {
 
   createSlide : function() {
     var self = this;
-    self.container = createDOM('div', self.option.idName+' slide-wrap');
-    var slideWrap = createDOM('ul', 'slide');
+    self.container = createDOM('div', self.option.idName + ' slide-wrap');
+    var slideWrap = createDOM('div', 'list-wrap');
+    var slideList = createDOM('ul', 'slide-list');
     
+    slideWrap.appendChild(slideList);
     self.container.appendChild(slideWrap);
   },
 
@@ -88,8 +92,9 @@ Slide.prototype = {
     var dotCount = self.SLIDE_LIST.length;
     var dotWrap = createDOM('ul', 'dot-wrap');
     
-    for (var i = 0; i <= dotCount; i++ ){
-      var dotElem = createDOM('li', 'dot-elem');
+    for (var i = 0; i < dotCount; i++ ){
+      var dotElem = createDOM('li', 'dot-item');
+      dotElem.dataset.idx = i;
       dotWrap.appendChild(dotElem);
     }
     self.container.appendChild(dotWrap);
@@ -97,73 +102,49 @@ Slide.prototype = {
 
   slideTo : function(direction, nextIdx) {
     var self = this;
-    var slide = self.container.querySelector(".slide");
-    var slideElem = self.container.querySelectorAll(".slide-elem");
+    var slide = self.container.querySelector(".slide-list");
+    var slideItem = self.container.querySelectorAll(".slide-item");
     var slideCount = self.SLIDE_LIST.length;
-
     var movingIdx = Math.abs(nextIdx - self.currentIdx);
 
+    if (slideCount <= 1) return;
     if (nextIdx >= slideCount) nextIdx = 0;
     if (nextIdx < 0) nextIdx = Number(slideCount-1);
 
-    if ( direction === self.direction.RIGHT ) { // prev btn click
-
-      var marginValue = self.option.width * movingIdx;
-      
-      slide.insertBefore(slideElem[slideCount-1], slideElem[0]);
-      slide.style.marginLeft = marginValue + 'px';
-      slide.style.marginLeft = 0;
-
-    } else {  // next btn click
-
-      var marginValue = self.option.width * movingIdx * -1;
-      var movingSlide = slideElem[0];
-
-      slide.style.marginLeft = marginValue + 'px';
-      slide.removeChild(movingSlide);
-      slide.appendChild(movingSlide);
-      slide.style.marginLeft = 0;
-
+    if (!direction) {
+      if (self.currentIdx > nextIdx) direction = self.direction.LEFT;
+      else direction = self.direction.RIGHT;
     }
 
-    self.currentIdx = nextIdx;
+    ///
+    if ( direction == self.direction.LEFT ){
+      prevWidth = "100%";
+      nextWidth = "-100%";
+    }else{
+      prevWidth = "-100%";
+      nextWidth = "100%";
+    }
 
+    slideItem.forEach(function(v,i) {
+      if ( i !== self.currentIdx) {
+        slideItem[i].style.left = nextWidth;
+        slideItem[i].style.zIndex = 1;
+      } else {
+        slideItem[i].style.left = 0;
+        slideItem[i].style.zIndex = 1;
+      }
+    })
 
+    slideItem[nextIdx].style.zIndex = 2;
+    slideItem[self.currentIdx].style.left = prevWidth;
+    slideItem[nextIdx].style.left = 0;
 
-    // if (nextIdx >= self.currentIdx) {
-    //   prevWidth = '-100%';
-    //   nextWidth = '100%';
-    // } else { 
-    //   prevWidth = '100%';
-    //   nextWidth = '-100%';
-    // };
-
-    // if (nextIdx >= slideCount) nextIdx = 0;
-    // if (nextIdx < 0) nextIdx = Number(slideCount-1);
-
-    // slideElem.forEach(function(v,i) {
-    //   if ( i !== self.currentIdx) {
-    //     slideElem[i].style.left = nextWidth;
-    //     slideElem[i].style.zIndex = 1;
-    //   }
-    // })
-
-    // msg("1: "+self.currentIdx +"//"+ nextIdx)
-    // if (self.currentIdx === 0) {
-    //   slideElem[slideCount-1].style.left = prevWidth;
-    // }
-
-    // slideElem[self.currentIdx].style.left = prevWidth;
-    // slideElem[nextIdx].style.left = 0;
-    // slideElem[nextIdx].style.zIndex = 2;
-
-    // slideElem.forEach(function(v,i) {
-    //   slideElem[i].classList.remove('active');
-    // })
-    // slideElem[nextIdx].classList.add('active');
-
-    // self.currentIdx = nextIdx;
-    // msg("2: "+self.currentIdx +"//"+ nextIdx)
+    slideItem.forEach(function(v,i) {
+      slideItem[i].classList.remove('active');
+    })
+    slideItem[nextIdx].classList.add('active');
+    
+    self.currentIdx = nextIdx;   
   },
 
   addEvent : function() {
@@ -183,10 +164,11 @@ Slide.prototype = {
     }
 
     if(self.option.dot) {
-      var dotBtn = self.container.querySelectorAll(".dot-elem");
+      var dotBtn = self.container.querySelectorAll(".dot-item");
       dotBtn.forEach(function(v,i){
         dotBtn[i].addEventListener('click', function(){
-          self.slideTo(i);
+          var nextIdx = dotBtn[i].dataset.idx;
+          self.slideTo('', nextIdx);
         })
       })
     }
@@ -199,12 +181,12 @@ Slide.prototype = {
     });
   },
 
-  add : function(slideElem) {
+  add : function(slideItem) {
     var self = this;
     var slideCountVaild = self.validateSlideCount();
     if ( slideCountVaild ) {
-      var slideElement = new SlideElement(slideElem, self.LastListIdx);
-      self.SLIDE_LIST.push(slideElement);
+      var slideItem = new SlideElement(slideItem, self.LastListIdx);
+      self.SLIDE_LIST.push(slideItem);
       self.LastListIdx++;
     } else {
       warn("슬라이드는 최대 10개 등록 가능");
@@ -236,12 +218,13 @@ Slide.prototype = {
 
   render : function() {
     var self = this;
-    var slideWrap = self.container.querySelector(".slide")
+    var slideWrap = self.container.querySelector(".slide-list")
     slideWrap.innerHTML = '';
-    self.circulateSlideList(function(v){
-      var element = createDOM('li', 'slide-elem');
+
+    self.circulateSlideList(function(v, i){
+      var element = createDOM('li', 'slide-item');
       var elementImg = createDOM('img', '', v.imgValue);
-      element.dataset.idx = v.index;
+      element.dataset.idx = i;
 
       element.appendChild(elementImg);
       slideWrap.appendChild(element);
