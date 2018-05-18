@@ -11,13 +11,6 @@ header h1 { padding:15px; text-align:center; font-size:24px; font-weight:bold; b
 .slide-wrap .slide-item { position:absolute; top:0; left:100%; width:100%; height:100%; overflow:hidden; transition:left ease-in-out 0.3s;}
 .slide-wrap .slide-item.active { left:0; }
 
-/* .slide-wrap { position:relative; width:1000px; height:600px; margin:auto; background-color:#eee; transition:all ease-in-out 0.3s;}
- .slide-wrap .slide { position:relative; width:100%; height:100%;  } 
-.slide-wrap .list-wrap { position:relative; width:100%; height:100%; overflow:hidden; }
-.slide-wrap .slide-list { position:absolute; top:0; left:-1000px; width:10000px;}
-.slide-wrap .slide-list:after { content:''; display:block; clear:both; }
-.slide-wrap .slide-item { float:left; width:100%; height:100%; overflow:hidden; } */
-
 .slide-wrap .arrow { position:absolute; top:50%; width:60px; z-index:10; line-height:50px; margin-top:-25px; text-align:center; background-color:rgba(0,0,0,0.3); color:#fff; cursor:pointer; }
 .slide-wrap .arrow:hover { background-color:rgba(0,0,0,0.7)}
 .slide-wrap .arrow.prev { left:0; }
