@@ -112,28 +112,23 @@ Slide.prototype = {
       if (self.currentIdx > nextIdx) direction = self.direction.LEFT;
       else direction = self.direction.RIGHT;
     }
-
-    ///
-    if ( direction == self.direction.LEFT ){
+    
+    if ( direction == self.direction.LEFT ){ // prev
       prevWidth = "100%";
       nextWidth = "-100%";
-    }else{
+    }else{ // next
       prevWidth = "-100%";
       nextWidth = "100%";
     }
-msg(`prevWidth : ${prevWidth} / nextWidth : ${nextWidth} /// currentIdx : ${self.currentIdx} / nextIdx : ${nextIdx}`)
+
     slideItem.forEach(function(v,i) {
-      // if ( i !== self.currentIdx) {
         slideItem[i].style.left = nextWidth;
         slideItem[i].style.zIndex = 1;
-      // } else {
-      //   slideItem[i].style.left = 0;
-      //   slideItem[i].style.zIndex = 2;
-      // }
     })
 
-    slideItem[nextIdx].style.zIndex = 2;
-    slideItem[self.currentIdx].style.left = 0;
+    slideItem[nextIdx].style.zIndex = 3;
+    slideItem[nextIdx].style.left = nextWidth;
+    slideItem[self.currentIdx].style.zIndex = 2;
     slideItem[self.currentIdx].style.left = prevWidth;
     slideItem[nextIdx].style.left = 0;
 
