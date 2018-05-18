@@ -2,7 +2,7 @@
   var obj = {
     width: 320,
     height: 160,
-    mode: 'center',
+    mode: 'left',
     images: [
       'http://placehold.it/320X160/aa3dcc',
       'http://placehold.it/320X160/44dcaa',
@@ -11,11 +11,6 @@
     ],
     arrowButton: 'default'
   };
-
-  
-  
-  
-  
 
   function Carousel(obj) {
     if (obj.constructor !== Object) {
@@ -30,6 +25,7 @@
     this.slideWrap = createAddedClassTag('div', 'slideWrap');
     this.slide = createAddedClassTag('div', 'slide');
     this.slideList = createAddedClassTag('ul', 'slideList');
+    this.isMoved = false;
   }
 
   Carousel.prototype = {
@@ -110,11 +106,12 @@
       }
       this.slideWrap.appendChild(indicatorWrap);
     },
-    moveSlide: function (direction) {
+    moveSlide: function (direction) {      
       var _this = this;
+      var width = this.width;
+      var movePosition = parseInt(this.slideList.style.left);
       if (direction === 'left') {
-        var width = this.width;
-        var movePosition = -parseInt(this.slideList.style.left);
+        movePosition = -movePosition;
         var moveFlag = movePosition + parseInt(width);
         var moveStart = setInterval(move, 5);
         function move() {
@@ -132,7 +129,6 @@
         }
       } else {
         var width = this.width;
-        var movePosition = parseInt(_this.slideList.style.left);
         var moveFlag = movePosition + parseInt(width);
         var moveStart = setInterval(move, 5);
         function move() {
