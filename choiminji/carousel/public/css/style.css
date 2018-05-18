@@ -6,8 +6,8 @@ header { padding:10px; }
 header h1 { padding:15px; text-align:center; font-size:24px; font-weight:bold; background-color:#eee; }
 
 .slide-wrap { position:relative; width:1000px; height:600px; margin:auto; background-color:#eee; }
-.slide-wrap .list-wrap { position:relative; width:100%; height:100%; overflow:hidden; }
-.slide-wrap .slide-list { position:relative; width:100%; height:100%; overflow:hidden; }
+.slide-wrap .list-wrap { position:relative; width:100%; height:100%; border:1px solid #222; overflow:hidden; }
+.slide-wrap .slide-list { position:relative; width:100%; height:100%; }
 .slide-wrap .slide-item { position:absolute; top:0; left:100%; width:100%; height:100%; overflow:hidden; transition:left ease-in-out 0.3s;}
 .slide-wrap .slide-item.active { left:0; }
 

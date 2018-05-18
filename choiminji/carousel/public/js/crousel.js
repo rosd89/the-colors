@@ -59,12 +59,10 @@ Slide.prototype = {
       slideItem[i].style.width = self.option.width;
     })
 
-    slide.insertBefore(slideItem[slideItem.length-1], slideItem[0]);
-
     if (self.option.arrow) self.createArrow();
     if (self.option.dot) self.createDot();
 
-    self.slideTo(self.direction.LEFT, 0);
+    self.slideTo(self.direction.RIGHT, 0);
     self.addEvent();
   },
 
@@ -123,18 +121,19 @@ Slide.prototype = {
       prevWidth = "-100%";
       nextWidth = "100%";
     }
-
+msg(`prevWidth : ${prevWidth} / nextWidth : ${nextWidth} /// currentIdx : ${self.currentIdx} / nextIdx : ${nextIdx}`)
     slideItem.forEach(function(v,i) {
-      if ( i !== self.currentIdx) {
+      // if ( i !== self.currentIdx) {
         slideItem[i].style.left = nextWidth;
         slideItem[i].style.zIndex = 1;
-      } else {
-        slideItem[i].style.left = 0;
-        slideItem[i].style.zIndex = 1;
-      }
+      // } else {
+      //   slideItem[i].style.left = 0;
+      //   slideItem[i].style.zIndex = 2;
+      // }
     })
 
     slideItem[nextIdx].style.zIndex = 2;
+    slideItem[self.currentIdx].style.left = 0;
     slideItem[self.currentIdx].style.left = prevWidth;
     slideItem[nextIdx].style.left = 0;
 
