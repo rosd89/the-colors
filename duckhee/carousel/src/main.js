@@ -192,4 +192,3 @@
   var test = new Carousel(obj);
   test.init();
 })();
-
