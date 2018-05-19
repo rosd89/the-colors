@@ -23,6 +23,7 @@
       border: none;
       outline: none;
       background: none;
+      cursor: pointer;
     }
 
     img {
@@ -37,7 +38,7 @@
     }
 
     .slide {
-      /* overflow: hidden; */
+      overflow: hidden;
     }
 
     .slideList {
@@ -55,7 +56,17 @@
       top: 50%;
       transform: translateY(-50%);
       font-size: 30px;
-      cursor: pointer;
+    }
+    .indicatorWrap {
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      bottom: -20px;
+      transform: translateX(-50%);
+    }
+
+    .indicatorButton:not(:first-child) {
+      margin-left: 5px;
     }
   </style>
 
