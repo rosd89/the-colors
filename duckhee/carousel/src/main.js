@@ -16,6 +16,7 @@
     this.slideWrap = createAddedClassTag('div', 'slideWrap');
     this.slide = createAddedClassTag('div', 'slide');
     this.slideList = createAddedClassTag('ul', 'slideList');
+    this.indicatorWrap = createAddedClassTag('div', 'indicatorWrap');
     this.isMoved = false;
   }
 
@@ -23,7 +24,6 @@
     init: function() {
       this.addDefaultStyle();
       this.addArrowButton(this.arrowDistance);
-      this.addIndicator();
       this.render();
       this.event();
     },
@@ -112,16 +112,23 @@
     },
     addIndicator: function() {
       var indicatorLength = this.images.length;
-      var indicatorWrap = createAddedClassTag('div', 'indicatorWrap');
+
       // var icon = createAddedClassTag('i', 'fas fa-circle');
+
+      // console.log(indicatorWrap);
+      while (this.indicatorWrap.hasChildNodes()) {
+        this.indicatorWrap.removeChild(this.indicatorWrap.firstChild);
+      }
+      // console.log(indicatorWrap);
+
       for (let index = 0; index < indicatorLength; index++) {
         // var indicatorButton = createAddedClassTag('button', 'indicatorButton' + index);
         var indicatorButton = createAddedClassTag('button', 'indicatorButton');
         var icon = createAddedClassTag('i', 'far fa-circle');
         indicatorButton.appendChild(icon);
-        indicatorWrap.appendChild(indicatorButton);
+        this.indicatorWrap.appendChild(indicatorButton);
       }
-      this.slideWrap.appendChild(indicatorWrap);
+      this.slideWrap.appendChild(this.indicatorWrap);
     },
     moveSlide: function(direction) {
       var _this = this;
@@ -198,6 +205,7 @@
         console.log(document.querySelector('.slideList').style);
         document.querySelector('.slideList').style.left = '0px';
       }
+      this.addIndicator();
     },
     event: function() {
       var _this = this;
@@ -241,6 +249,6 @@ var obj = {
 var test = new Slide(obj);
 test.init();
 // 이미지 추가
-// test.addImage("http://placehold.it/320X160/000");
+test.addImage('http://placehold.it/320X160/000');
 // 이미지 삭제
 // test.removeImage(4);
