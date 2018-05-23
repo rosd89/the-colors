@@ -68,9 +68,11 @@ Slide.prototype = {
 
   createSlide : function() {
     var self = this;
-    self.container = createDOM('div', self.option.idName + ' slide-wrap');
-    var slideWrap = createDOM('div', 'list-wrap');
-    var slideList = createDOM('ul', 'slide-list');
+    self.container = createDOM('div', {
+      className : self.option.idName + ' slide-wrap'
+    });
+    var slideWrap = createDOM('div', { className : 'list-wrap' });
+    var slideList = createDOM('ul', { className: 'slide-list' });
     
     slideWrap.appendChild(slideList);
     self.container.appendChild(slideWrap);
@@ -78,8 +80,14 @@ Slide.prototype = {
 
   createArrow : function() {
     var self = this;
-    var prevArrow = createDOM('button', 'arrow prev', 'PREV');
-    var nextArrow = createDOM('button', 'arrow next', 'NEXT');
+    var prevArrow = createDOM('button', {
+      className : 'arrow prev', 
+      innerTxt : 'PREV'
+    });
+    var nextArrow = createDOM('button', {
+      className : 'arrow next', 
+      innerTxt : 'NEXT'
+    });
     self.container.appendChild(prevArrow);
     self.container.appendChild(nextArrow);
   }, 
@@ -87,10 +95,10 @@ Slide.prototype = {
   createDot : function() {
     var self = this;
     var dotCount = self.SLIDE_LIST.length;
-    var dotWrap = createDOM('ul', 'dot-wrap');
+    var dotWrap = createDOM('ul', { className: 'dot-wrap' });
     
     for (var i = 0; i < dotCount; i++ ){
-      var dotElem = createDOM('li', 'dot-item');
+      var dotElem = createDOM('li', { className: 'dot-item'});
       dotElem.dataset.idx = i;
       dotWrap.appendChild(dotElem);
     }
@@ -223,9 +231,13 @@ Slide.prototype = {
     slideWrap.innerHTML = '';
 
     self.circulateSlideList(function(v, i){
-      var element = createDOM('li', 'slide-item');
-      var elementImg = createDOM('img', '', v.imgValue);
-      element.dataset.idx = i;
+      var element = createDOM('li', { className: 'slide-item'});
+      var elementImg = createDOM('img', {
+        src : v.imgValue,
+        title : 'slide image'
+      });
+
+      console.log(v.imgValue)
 
       element.appendChild(elementImg);
       slideWrap.appendChild(element);
@@ -273,14 +285,29 @@ Slide.prototype = {
   }
 }
 
-var createDOM = function(tagName, className, innerTxt) {
+var createDOM = function(tagName, userAttr) {
+  var attrValid = validation.isObject(userAttr);
+  if (!attrValid) {
+    warn("tag attribute는 object!");
+    return;
+  }
+
+  var DEFAULT_ATTR = {
+    className : '',
+    innerTxt : '',
+    src : '',
+    title: ''
+  }
+  var attr = Object.assign({}, DEFAULT_ATTR, userAttr);
   var element = document.createElement(tagName);
-  if (className) element.className = className;
   
-  if (tagName === 'img' && innerTxt) {
-    element.src = innerTxt;
-  } else if (innerTxt) {
-    element.innerText = innerTxt;
+  if (attr.className) element.className = attr.className;
+  
+  if (tagName === 'img') {
+    element.src = attr.src;
+    element.title = attr.title;
+  } else {
+    element.innerText = attr.innerTxt;
   }
 
   return element;
@@ -319,10 +346,3 @@ var validation = (function() {
 var warn = function(msg) {
   console.log(msg);
 };
-
-var msg = function(msg) {
-  var msgBox = document.querySelector('#msg');
-  var p = createDOM("p");
-  p.innerText = msg;
-  msgBox.appendChild(p);
-}
