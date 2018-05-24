@@ -32,10 +32,10 @@
     },
     addDefaultStyle: function() {
       var imageIndex;
-      var top;
       var left;
       var right;
       var marginLeft;
+      var imageStyle;
 
       switch (this.mode) {
         case 'left':
@@ -57,7 +57,7 @@
           break;
       }
 
-      var imageStyle = {
+      imageStyle = {
         width: this.width + 'px',
         height: this.height + 'px',
         position: 'absolute',
@@ -78,6 +78,7 @@
       if (obj.images.length >= 10) {
         console.warn('이미지 갯수가 올바르지 않습니다.');
       }
+      /*slideList 안에 내용 모두 지운다.*/
       while (this.slideList.hasChildNodes()) {
         this.slideList.removeChild(this.slideList.firstChild);
       }
@@ -90,42 +91,32 @@
       if (obj.images.length <= 1) {
         console.warn('이미지 갯수가 올바르지 않습니다.');
       }
-      console.log(this.images);
       this.images.splice(index, 1);
-      console.log(this.images);
       while (this.slideList.hasChildNodes()) {
         this.slideList.removeChild(this.slideList.firstChild);
       }
       this.render();
     },
     addArrowButton: function(distance) {
+      this.makeArrowButton('left', distance);
+      this.makeArrowButton('right', distance);
+    },
+    makeArrowButton: function(direction, distance) {
       var _this = this;
-      makeArrowButton('left', distance);
-      makeArrowButton('right', distance);
-
-      function makeArrowButton(direction, distance) {
-        var button = createAddedClassTag('button', direction + 'Arrow');
-        var icon = createAddedClassTag('i', 'fas fa-arrow-circle-' + direction);
-        button.appendChild(icon);
-        _this.slideWrap.appendChild(button);
-        direction === 'left'
-          ? (button.style.left = distance + 'px')
-          : (button.style.right = distance + 'px');
-      }
+      var button = createAddedClassTag('button', direction + 'Arrow');
+      var icon = createAddedClassTag('i', 'fas fa-arrow-circle-' + direction);
+      button.appendChild(icon);
+      _this.slideWrap.appendChild(button);
+      direction === 'left'
+        ? (button.style.left = distance + 'px')
+        : (button.style.right = distance + 'px');
     },
     addIndicator: function() {
       var indicatorLength = this.images.length;
-
-      // var icon = createAddedClassTag('i', 'fas fa-circle');
-
-      // console.log(indicatorWrap);
       while (this.indicatorWrap.hasChildNodes()) {
         this.indicatorWrap.removeChild(this.indicatorWrap.firstChild);
       }
-      // console.log(indicatorWrap);
-
       for (let index = 0; index < indicatorLength; index++) {
-        // var indicatorButton = createAddedClassTag('button', 'indicatorButton' + index);
         var indicatorButton = createAddedClassTag('button', 'indicatorButton');
         var icon = createAddedClassTag('i', 'far fa-circle');
         indicatorButton.appendChild(icon);
@@ -193,7 +184,6 @@
       this.slideList.appendChild(docFragment);
       this.slide.appendChild(this.slideList);
       this.slideWrap.appendChild(this.slide);
-
       this.slideList.style.width =
         parseInt(this.width) * this.images.length + 'px';
       this.slideList.style.height = this.height;
@@ -202,7 +192,6 @@
       var lastClone = document
         .querySelectorAll('.slideItem')
         [this.images.length - 1].cloneNode(true);
-      // slideList.appendChild(firstClone);
       this.slideList.insertBefore(lastClone, this.slideList.firstChild);
       this.slideList.style.left = -this.width + 'px';
       this.slideList.removeChild(this.slideList.lastChild);
@@ -265,7 +254,7 @@ var obj = {
   ],
   arrowButton: 'default',
   arrowDistance: 20,
-  autoPlay: true,
+  autoPlay: false,
   direction: 'left',
 };
 
