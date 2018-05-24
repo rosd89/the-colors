@@ -115,12 +115,13 @@ Slide.prototype = {
     if (slideCount <= 1) return;
     if (nextIdx >= slideCount) nextIdx = 0;
     if (nextIdx < 0) nextIdx = Number(slideCount-1);
-
+    console.log("* - * - * - * - *");
+    console.log("1 - ", direction, self.currentIdx, " > ", nextIdx);
     if (!direction) {
       if (self.currentIdx > nextIdx) direction = self.direction.LEFT;
       else direction = self.direction.RIGHT;
     }
-    
+    console.log("2 - ", direction, self.currentIdx, " > ", nextIdx)
     if ( direction == self.direction.LEFT ){ // prev
       prevWidth = "100%";
       nextWidth = "-100%";
@@ -128,22 +129,19 @@ Slide.prototype = {
       prevWidth = "-100%";
       nextWidth = "100%";
     }
-
+    console.log("next width - ", nextWidth, "prev width - ", prevWidth);
     slideItem.forEach(function(v,i) {
-        slideItem[i].style.left = nextWidth;
-        slideItem[i].style.zIndex = 1;
+      slideItem[i].style.left = nextWidth;
+      slideItem[i].style.zIndex = 1;
     })
+// return false;
+    slideItem[self.currentIdx].style.zIndex = 2;
+    slideItem[self.currentIdx].style.left = 0;
+    slideItem[self.currentIdx].style.left = prevWidth;
 
     slideItem[nextIdx].style.zIndex = 3;
     slideItem[nextIdx].style.left = nextWidth;
-    slideItem[self.currentIdx].style.zIndex = 2;
-    slideItem[self.currentIdx].style.left = prevWidth;
     slideItem[nextIdx].style.left = 0;
-
-    slideItem.forEach(function(v,i) {
-      slideItem[i].classList.remove('active');
-    })
-    slideItem[nextIdx].classList.add('active');
     
     if (self.option.dot) {
       var dotItem = self.container.querySelectorAll('.dot-item');
@@ -154,6 +152,8 @@ Slide.prototype = {
     }
     
     self.currentIdx = nextIdx;   
+
+    console.log("currentIdx ----> ", self.currentIdx)
   },
 
   addEvent : function() {
@@ -164,11 +164,13 @@ Slide.prototype = {
       var nextBtn = self.container.querySelector(".arrow.next");
 
       prevBtn.addEventListener('click', function() {
-        self.slideTo(self.direction.LEFT, self.currentIdx-1);
+        console.log("prev btn click (left) -- ", Number(self.currentIdx) - 1)
+        self.slideTo(self.direction.LEFT, Number(self.currentIdx)-1);
       })
 
       nextBtn.addEventListener('click', function() {
-        self.slideTo(self.direction.RIGHT, self.currentIdx+1);
+        console.log("next btn click (right) -- ", Number(self.currentIdx) + 1)
+        self.slideTo(self.direction.RIGHT, Number(self.currentIdx)+1);
       })
     }
 
@@ -230,21 +232,18 @@ Slide.prototype = {
     var slideWrap = self.container.querySelector(".slide-list")
     slideWrap.innerHTML = '';
 
-    self.circulateSlideList(function(v, i){
+    self.SLIDE_LIST.reduce(function(p, c) {
       var element = createDOM('li', { className: 'slide-item'});
       var elementImg = createDOM('img', {
-        src : v.imgValue,
+        src : c.imgValue,
         title : 'slide image'
       });
 
-      console.log(v.imgValue)
-
       element.appendChild(elementImg);
       slideWrap.appendChild(element);
-    })
+    }, slideWrap)
 
     WRAP.appendChild(self.container);
-    // self.slideTo('', self.currentIdx);
     
     console.log(self.SLIDE_LIST);
   },
