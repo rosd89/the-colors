@@ -63,7 +63,15 @@ Slide.prototype = {
 
     if (self.option.arrow) self.createArrow();
     if (self.option.dot) self.createDot();
-    if (self.option.autoPlay) self.autoPlay();    
+    if (self.option.autoPlay) self.autoPlay();   
+    if (self.option.speed) {
+      var speed = Math.floor(Number(self.option.speed)) * 0.001;
+      var slideItem = self.container.querySelectorAll('.slide-wrap .slide-item');
+      slideItem.forEach(function(v,i) {
+        slideItem[i].style.transition = 'left ease-in-out '+ speed + 's';
+      })
+      
+    }
 
     self.slideTo((self.option.direction === self.direction.LEFT) ? self.direction.LEFT : self.direction.RIGHT, 0);
     self.addEvent();
@@ -174,7 +182,7 @@ Slide.prototype = {
   autoPlay : function() {
     var self = this;
     var clickClassName;
-    
+
     if ( this.option.direction === this.direction.LEFT ) clickClassName = 'prev';
     else clickClassName = 'next';
 
