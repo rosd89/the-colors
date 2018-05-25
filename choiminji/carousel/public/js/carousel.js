@@ -11,25 +11,27 @@ var SlideElement = function(imgValue, LastListIdx) {
 };
 
 var Slide = function(userOption){
-  var DEFAULT_OPTION = {
-    width : 1000,
-    height : 600,
-    autoPlay : false,
-    direction : 'default',  // default, left, right
-    speed : 300,
-    arrow : true,
-    dot : true
-  };
-  Object.freeze(DEFAULT_OPTION);  
   
   this.SLIDE_LIST = [];
   this.currentIdx = 0;
   this.LastListIdx = 0;
   this.direction = {
     RIGHT : 'right',
-    LEFT : 'left'
+    LEFT : 'left',
+    DEFAULT : 'default'
   }
   this.container;
+
+  var DEFAULT_OPTION = {
+    width : 1000,
+    height : 600,
+    autoPlay : false,
+    direction : this.direction.DEFAULT,
+    speed : 300,
+    arrow : true,
+    dot : true
+  };
+  Object.freeze(DEFAULT_OPTION);  
 
 
   var optValid = this.validateOption(userOption);
@@ -61,8 +63,17 @@ Slide.prototype = {
 
     if (self.option.arrow) self.createArrow();
     if (self.option.dot) self.createDot();
+    if (self.option.autoPlay) self.autoPlay();   
+    if (self.option.speed) {
+      var speed = Math.floor(Number(self.option.speed)) * 0.001;
+      var slideItem = self.container.querySelectorAll('.slide-wrap .slide-item');
+      slideItem.forEach(function(v,i) {
+        slideItem[i].style.transition = 'left ease-in-out '+ speed + 's';
+      })
+      
+    }
 
-    self.slideTo(self.direction.RIGHT, 0);
+    self.slideTo((self.option.direction === self.direction.LEFT) ? self.direction.LEFT : self.direction.RIGHT, 0);
     self.addEvent();
   },
 
@@ -80,16 +91,22 @@ Slide.prototype = {
 
   createArrow : function() {
     var self = this;
-    var prevArrow = createDOM('button', {
-      className : 'arrow prev', 
-      innerTxt : 'PREV'
-    });
-    var nextArrow = createDOM('button', {
-      className : 'arrow next', 
-      innerTxt : 'NEXT'
-    });
-    self.container.appendChild(prevArrow);
-    self.container.appendChild(nextArrow);
+
+    if ( self.option.direction === self.direction.LEFT || self.option.direction === self.direction.DEFAULT ) {
+      var prevArrow = createDOM('button', {
+        className : 'arrow prev', 
+        innerTxt : 'PREV'
+      });
+      self.container.appendChild(prevArrow);
+    }
+
+    if ( self.option.direction === self.direction.RIGHT || self.option.direction === self.direction.DEFAULT ) {
+      var nextArrow = createDOM('button', {
+        className : 'arrow next', 
+        innerTxt : 'NEXT'
+      });
+      self.container.appendChild(nextArrow);
+    }
   }, 
 
   createDot : function() {
@@ -117,8 +134,18 @@ Slide.prototype = {
     if (nextIdx < 0) nextIdx = Number(slideCount-1);
 
     if (!direction) {
-      if (self.currentIdx > nextIdx) direction = self.direction.LEFT;
-      else direction = self.direction.RIGHT;
+      switch (self.option.direction) {
+        case self.direction.RIGHT :
+          direction = self.direction.RIGHT;
+          break;
+        case self.direction.LEFT :
+          direction = self.direction.LEFT;
+          break;
+        default : 
+          if (self.currentIdx > nextIdx) direction = self.direction.LEFT;
+          else direction = self.direction.RIGHT;
+          break;
+      }
     }
 
     if ( direction == self.direction.LEFT ){ // prev
@@ -152,7 +179,17 @@ Slide.prototype = {
     
     self.currentIdx = nextIdx;   
   },
+  autoPlay : function() {
+    var self = this;
+    var clickClassName;
 
+    if ( this.option.direction === this.direction.LEFT ) clickClassName = 'prev';
+    else clickClassName = 'next';
+
+    setInterval(function() {
+      document.querySelector('.arrow.'+clickClassName).click();
+    }, 3000)
+  },
   addEvent : function() {
     var self = this;
 
@@ -160,13 +197,17 @@ Slide.prototype = {
       var prevBtn = self.container.querySelector(".arrow.prev");
       var nextBtn = self.container.querySelector(".arrow.next");
 
-      prevBtn.addEventListener('click', function() {
-        self.slideTo(self.direction.LEFT, Number(self.currentIdx)-1);
-      })
+      if ( self.option.direction === self.direction.LEFT || self.option.direction === self.direction.DEFAULT ) {
+        prevBtn.addEventListener('click', function() {
+          self.slideTo(self.direction.LEFT, Number(self.currentIdx)-1);
+        })
+      }
 
-      nextBtn.addEventListener('click', function() {
-        self.slideTo(self.direction.RIGHT, Number(self.currentIdx)+1);
-      })
+      if ( self.option.direction === self.direction.RIGHT || self.option.direction === self.direction.DEFAULT ) {
+        nextBtn.addEventListener('click', function() {
+          self.slideTo(self.direction.RIGHT, Number(self.currentIdx)+1);
+        })
+      }
     }
 
     if(self.option.dot) {
