@@ -174,11 +174,10 @@ Slide.prototype = {
   autoPlay : function() {
     var self = this;
     var clickClassName;
-    if ( this.option.direction === this.direction.LEFT ) {
-      clickClassName = 'prev';
-    } else {
-      clickClassName = 'next';
-    }
+    
+    if ( this.option.direction === this.direction.LEFT ) clickClassName = 'prev';
+    else clickClassName = 'next';
+
     setInterval(function() {
       document.querySelector('.arrow.'+clickClassName).click();
     }, 3000)
