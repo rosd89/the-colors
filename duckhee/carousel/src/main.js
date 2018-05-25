@@ -239,7 +239,7 @@
     tag.className = className;
     return tag;
   }
-
+  
   return (Slide = Carousel);
 })();
 
