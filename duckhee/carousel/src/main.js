@@ -1,4 +1,4 @@
-(function() {
+(function () {
   function Carousel(obj) {
     if (obj.constructor !== Object) {
       console.warn('invalid obj');
@@ -12,7 +12,7 @@
     this.images = obj.images || ['http://placehold.it/320X160/000'];
     this.arrowButton = obj.arrowButton || 'default';
     this.arrowDistance = obj.arrowDistance || 10;
-    this.autoPlay = obj.autoPlay || true;
+    this.autoPlay = obj.autoPlay || "off";
     this.direction = obj.direction || 'left';
     this.root = document.getElementById('root');
     this.slideWrap = createAddedClassTag('div', 'slideWrap');
@@ -24,13 +24,13 @@
   }
 
   Carousel.prototype = {
-    init: function() {
+    init: function () {
       this.addDefaultStyle();
       this.addArrowButton(this.arrowDistance);
       this.render();
       this.event();
     },
-    addDefaultStyle: function() {
+    addDefaultStyle: function () {
       var imageIndex;
       var left;
       var right;
@@ -73,7 +73,7 @@
 
       this.root.appendChild(this.slideWrap);
     },
-    addImage: function(image) {
+    addImage: function (image) {
       this.images.push(image);
       if (obj.images.length >= 10) {
         console.warn('이미지 갯수가 올바르지 않습니다.');
@@ -84,7 +84,7 @@
       }
       this.render();
     },
-    removeImage: function(index) {
+    removeImage: function (index) {
       if (index < 0 || index >= this.images.length) {
         console.warn('index가 정확하지 않습니다.');
       }
@@ -97,21 +97,21 @@
       }
       this.render();
     },
-    addArrowButton: function(distance) {
+    addArrowButton: function (distance) {
       this.makeArrowButton('left', distance);
       this.makeArrowButton('right', distance);
     },
-    makeArrowButton: function(direction, distance) {
+    makeArrowButton: function (direction, distance) {
       var _this = this;
       var button = createAddedClassTag('button', direction + 'Arrow');
       var icon = createAddedClassTag('i', 'fas fa-arrow-circle-' + direction);
       button.appendChild(icon);
       _this.slideWrap.appendChild(button);
-      direction === 'left'
-        ? (button.style.left = distance + 'px')
-        : (button.style.right = distance + 'px');
+      direction === 'left' ?
+        (button.style.left = distance + 'px') :
+        (button.style.right = distance + 'px');
     },
-    addIndicator: function() {
+    addIndicator: function () {
       var indicatorLength = this.images.length;
       while (this.indicatorWrap.hasChildNodes()) {
         this.indicatorWrap.removeChild(this.indicatorWrap.firstChild);
@@ -124,7 +124,7 @@
       }
       this.slideWrap.appendChild(this.indicatorWrap);
     },
-    moveSlide: function(direction) {
+    moveSlide: function (direction) {
       var _this = this;
       var width = this.width;
       var movePosition = parseInt(this.slideList.style.left);
@@ -132,6 +132,7 @@
         movePosition = -movePosition;
         var moveFlag = movePosition + parseInt(width);
         var moveStart = setInterval(move, 1);
+
         function move() {
           if (movePosition === moveFlag) {
             _this.isMoved = !_this.isMoved;
@@ -151,6 +152,7 @@
         var startDate = new Date();
         var moveFlag = movePosition + parseInt(width);
         var moveStart = setInterval(move, 1);
+
         function move() {
           if (movePosition === moveFlag) {
             _this.isMoved = !_this.isMoved;
@@ -171,9 +173,9 @@
         }
       }
     },
-    render: function() {
+    render: function () {
       var docFragment = document.createDocumentFragment();
-      this.images.forEach(function(e) {
+      this.images.forEach(function (e) {
         var li = createAddedClassTag('li', 'slideItem');
         var image = createAddedClassTag('img', 'slideImg');
         image.src = e;
@@ -190,8 +192,7 @@
       this.slideList.style.left = 0;
 
       var lastClone = document
-        .querySelectorAll('.slideItem')
-        [this.images.length - 1].cloneNode(true);
+        .querySelectorAll('.slideItem')[this.images.length - 1].cloneNode(true);
       this.slideList.insertBefore(lastClone, this.slideList.firstChild);
       this.slideList.style.left = -this.width + 'px';
       this.slideList.removeChild(this.slideList.lastChild);
@@ -203,11 +204,11 @@
       this.addIndicator();
       this.autoSlide();
     },
-    event: function() {
+    event: function () {
       var _this = this;
       document
         .querySelector('.leftArrow')
-        .addEventListener('click', function(e) {
+        .addEventListener('click', function (e) {
           if (!_this.isMoved) {
             _this.isMoved = !_this.isMoved;
             _this.moveSlide('left');
@@ -215,17 +216,17 @@
         });
       document
         .querySelector('.rightArrow')
-        .addEventListener('click', function(e) {
+        .addEventListener('click', function (e) {
           if (!_this.isMoved) {
             _this.isMoved = !_this.isMoved;
             _this.moveSlide('right');
           }
         });
     },
-    autoSlide: function() {
+    autoSlide: function () {
       var _this = this;
-      if (this.autoPlay === true) {
-        setInterval(function() {
+      if (this.autoPlay === "on") {
+        setInterval(function () {
           document.querySelector('.' + _this.direction + 'Arrow').click();
         }, 100);
       }
@@ -254,7 +255,7 @@ var obj = {
   ],
   arrowButton: 'default',
   arrowDistance: 20,
-  autoPlay: false,
+  autoPlay: "off",
   direction: 'left',
 };
 
