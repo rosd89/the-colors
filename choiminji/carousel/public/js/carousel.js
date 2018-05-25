@@ -115,13 +115,12 @@ Slide.prototype = {
     if (slideCount <= 1) return;
     if (nextIdx >= slideCount) nextIdx = 0;
     if (nextIdx < 0) nextIdx = Number(slideCount-1);
-    console.log("* - * - * - * - *");
-    console.log("1 - ", direction, self.currentIdx, " > ", nextIdx);
+
     if (!direction) {
       if (self.currentIdx > nextIdx) direction = self.direction.LEFT;
       else direction = self.direction.RIGHT;
     }
-    console.log("2 - ", direction, self.currentIdx, " > ", nextIdx)
+
     if ( direction == self.direction.LEFT ){ // prev
       prevWidth = "100%";
       nextWidth = "-100%";
@@ -129,12 +128,12 @@ Slide.prototype = {
       prevWidth = "-100%";
       nextWidth = "100%";
     }
-    console.log("next width - ", nextWidth, "prev width - ", prevWidth);
+
     slideItem.forEach(function(v,i) {
       slideItem[i].style.left = nextWidth;
       slideItem[i].style.zIndex = 1;
     })
-// return false;
+
     slideItem[self.currentIdx].style.zIndex = 2;
     slideItem[self.currentIdx].style.left = 0;
     slideItem[self.currentIdx].style.left = prevWidth;
@@ -152,8 +151,6 @@ Slide.prototype = {
     }
     
     self.currentIdx = nextIdx;   
-
-    console.log("currentIdx ----> ", self.currentIdx)
   },
 
   addEvent : function() {
@@ -164,12 +161,10 @@ Slide.prototype = {
       var nextBtn = self.container.querySelector(".arrow.next");
 
       prevBtn.addEventListener('click', function() {
-        console.log("prev btn click (left) -- ", Number(self.currentIdx) - 1)
         self.slideTo(self.direction.LEFT, Number(self.currentIdx)-1);
       })
 
       nextBtn.addEventListener('click', function() {
-        console.log("next btn click (right) -- ", Number(self.currentIdx) + 1)
         self.slideTo(self.direction.RIGHT, Number(self.currentIdx)+1);
       })
     }
