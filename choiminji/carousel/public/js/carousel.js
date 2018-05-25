@@ -63,6 +63,7 @@ Slide.prototype = {
 
     if (self.option.arrow) self.createArrow();
     if (self.option.dot) self.createDot();
+    if (self.option.autoPlay) self.autoPlay();    
 
     self.slideTo((self.option.direction === self.direction.LEFT) ? self.direction.LEFT : self.direction.RIGHT, 0);
     self.addEvent();
@@ -170,7 +171,18 @@ Slide.prototype = {
     
     self.currentIdx = nextIdx;   
   },
-
+  autoPlay : function() {
+    var self = this;
+    var clickClassName;
+    if ( this.option.direction === this.direction.LEFT ) {
+      clickClassName = 'prev';
+    } else {
+      clickClassName = 'next';
+    }
+    setInterval(function() {
+      document.querySelector('.arrow.'+clickClassName).click();
+    }, 3000)
+  },
   addEvent : function() {
     var self = this;
 
