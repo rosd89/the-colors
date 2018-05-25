@@ -13,7 +13,7 @@ var crousel1 = new Slide({
   width: 800,
   height: 500,
   autoPlay : false,
-  direction : 'right',
+  // direction : 'right',
   speed : 300,
   arrow : true,
   dot : true
