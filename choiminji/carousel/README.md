@@ -127,3 +127,7 @@
 
   - [실행] auto play 설정(자동으로 실행, ms로 시간 설정)
   - [실행] 매 슬라이드는 생성자 함수로 생성, 각 옵션값을 객체로 넘겨 기본값(default)과 병합
+
+  - - -
+  ## Sample
+![Carousel Sample](./images/sample.gif)
