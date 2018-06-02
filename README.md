@@ -35,3 +35,7 @@
 * [#85AF4B] Carousel
 	> * wiki: [https://github.com/rosd89/the-colors/wiki/%5B%2385AF4B%5D-Carousel](https://github.com/rosd89/the-colors/wiki/%5B%2385AF4B%5D-Carousel)
 	> * 참여자: `shldhee`, `mmindy`
+
+* [#C5D5CB] Calculator
+	> * wiki: [https://github.com/rosd89/the-colors/wiki/%5B%23C5D5CB%5D-Calculator](https://github.com/rosd89/the-colors/wiki/%5B%23C5D5CB%5D-Calculator)
+	> * 참여자: `shldhee`, `mmindy`
