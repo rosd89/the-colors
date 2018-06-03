@@ -62,9 +62,22 @@
 
 ## 시퀀스
 
-![시퀀스](./images/sequence.png)
+<!-- `![시퀀스](./images/sequence.png)` -->
 
-## 일정
+```mermaid
+sequenceDiagram
+
+Broswer->>+Calculator : KeyEvent(Expression)
+Calculator-->>+Broswer: Response(renderInputKey())
+
+Broswer->>+Calculator : KeyEvent(`=` button)
+Calculator-->>+Broswer: Response(Calculate(),renderInputKey())
+
+Broswer->>+Calculator : KeyEvent(`AC` button)
+Calculator-->>+Broswer: Response(allClear())
+```
+
+## 마일스톤
 
 * 1 주차
 
@@ -79,6 +92,3 @@
   * [연산] 기본 연산 가능
   * [연산] 연산 우선 순위 반영
   * [연산] 연산 조건
-
-* [6 월 3 일]
-  * 프로젝트 요구사항 정리 완료
