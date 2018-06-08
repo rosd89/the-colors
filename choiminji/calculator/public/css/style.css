@@ -1,6 +1,7 @@
 * { margin:0; padding:0; border:0; font-size:13px; }
 ul, li { list-style:none; }
 .hidden { display:none; font-size:0; text-indent:-10000px; }
+#msg { width:500px; margin:20px auto; line-height:35px; text-align:center; background-color:#f1f1f1; color:rgb(202, 0, 152); font-weight:bold; }
 
 header { padding:10px; }
 header h1 { padding:15px; margin-bottom:20px; text-align:center; font-size:24px; font-weight:bold; background-color:#c5d5cb; color:#fff; }
@@ -13,6 +14,7 @@ header h1 { padding:15px; margin-bottom:20px; text-align:center; font-size:24px;
 .calculator .button:after { content:''; display:block; clear:both; }
 .calculator .button ul { float:left; }
 .calculator .button ul li { width:60px; line-height:60px; margin:0 10px 10px 0; text-align:center; color:#fff; font-size:25px; cursor:pointer; }
+.calculator .button ul li:hover { opacity:0.8; }
 .calculator .button ul li.row2 { line-height:130px; margin:0 0 10px 0; }
 .calculator .button .button_num li { background-color:#bbb; }
 .calculator .button .button_operator li { background-color:#555; }
