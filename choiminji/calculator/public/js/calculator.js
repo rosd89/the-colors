@@ -1,14 +1,12 @@
 var Calculator = (function() {
   var EXPRESSION = [];
   
-  var BUTTON_TYPE = {
+  var KEY_TYPE = {
     number : "number",
     operator : "operator",
     ac : "AC",
-    equal : "equal"
+    equal : "="
   };
-  var AC_BUTTON = "AC";
-  var EQUAL_BUTTON = "=";
   var OPERATOR_BUTTON = {
     plus : "+",
     minus : "-",
@@ -33,17 +31,20 @@ var Calculator = (function() {
   };
 
   var clickButton = function(key) {
-    if (key === null) warn("빈값입니다.");
+    var keyType = checkKeyType(key);
+    console.log("keyType ---", keyType);
 
-    switch (key){
-      case AC_BUTTON :
+    switch (keyType){
+      case KEY_TYPE.ac :
         clearAll();
         break;
-      case EQUAL_BUTTON :
+      case KEY_TYPE.equal :
         getResult();
         break;
+      case KEY_TYPE.number :
+        saveNumber(key);
+        break;
       default :
-        var keyType = validation.isNumber(Number(key)) ? BUTTON_TYPE.number : BUTTON_TYPE.operator;
         var invalid;
 
         if (EXPRESSION.length > 0) invalid = checkDuplicate(keyType);
@@ -58,6 +59,23 @@ var Calculator = (function() {
           return;
         }
         
+    }
+  };
+
+  var checkKeyType = function(key) {
+    if (key === null) {
+      warn("빈값입니다.");
+      return false;
+    }
+
+    if ( key === KEY_TYPE.ac ) {
+      return KEY_TYPE.ac;
+    } else if ( key === KEY_TYPE.equal ) {
+      return KEY_TYPE.equal;
+    } else if ( validation.isNumber(Number(key)) ) {
+      return KEY_TYPE.number;
+    } else {
+      return KEY_TYPE.operator;
     }
   };
 
