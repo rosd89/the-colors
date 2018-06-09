@@ -38,6 +38,7 @@ var Calculator = (function() {
     switch (clickedKeyType){
       case KEY_TYPE.ac :
         clearAll();
+        printDisplay();
         break;
       case KEY_TYPE.equal :
         getResult();
@@ -104,7 +105,11 @@ var Calculator = (function() {
   }
   
 
-  var clearAll = function() {  };  
+  var clearAll = function() {
+    EXPRESSION = [];
+    temporaryExpression = "";
+  };  
+
   var getResult = function() {  };
 
   return function(target){
