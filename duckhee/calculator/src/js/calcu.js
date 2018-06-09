@@ -12,19 +12,18 @@ inputButtons.addEventListener('click', function(e) {
   showOutput.focus();
 });
 
-showOutput.addEventListener('keypress', function(e) {
+showOutput.addEventListener('keydown', function(e) {
   console.log(e.key);
-
   if (e.key === '=' || e.key === 'Enter') {
     console.warn('keypress =, Enter');
     e.preventDefault();
-  } else if (e.key === 'ESC') {
-    // esc일때 초기화 작업!!
-    console.log('esc');
+  } else if (e.key === 'Escape') {
+    clearOutput();
   } else if (validateKeyup(e)) {
+    e.returnValue = false;
     console.warn('input invalid key');
-    e.preventDefault();
-    return false;
+    // e.preventDefault();
+    // return false;
   }
 });
 
