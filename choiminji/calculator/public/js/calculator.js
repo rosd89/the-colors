@@ -15,6 +15,7 @@ var Calculator = (function() {
   };
 
   var temporaryExpression = "";
+  var clickedKeyType = "";
   var container;
 
   var addClickEvent = function() {
@@ -31,10 +32,10 @@ var Calculator = (function() {
   };
 
   var clickButton = function(key) {
-    var keyType = checkKeyType(key);
-    console.log("keyType ---", keyType);
+    clickedKeyType = checkKeyType(key);
+    console.log("keyType ---", clickedKeyType);
 
-    switch (keyType){
+    switch (clickedKeyType){
       case KEY_TYPE.ac :
         clearAll();
         break;
@@ -42,23 +43,18 @@ var Calculator = (function() {
         getResult();
         break;
       case KEY_TYPE.number :
-        saveNumber(key);
-        break;
-      default :
-        var invalid;
-
-        if (EXPRESSION.length > 0) invalid = checkDuplicate(keyType);
-        else invalid = false;
-        
-        if (!invalid) {
-          var value = checkValue(key, keyType);
-          if (value) addExpression(value);
-          // printDisplay(value); 
-        } else {
-          warn("같은 타입의 버튼은 한번씩만!");
-          return;
+        var invalid = checkDuplicate();
+        if (invalid) {
+          inputNumber(key);
+          printDisplay();
         }
-        
+        break;
+      default : // KEY_TYPE.operator
+        var invalid = checkDuplicate();
+        if (invalid) {
+          addExpression(key);
+          printDisplay();
+        }
     }
   };
 
@@ -79,41 +75,26 @@ var Calculator = (function() {
     }
   };
 
-  var checkDuplicate = function(keyType) {
-    var lastElemType = ( validation.isNumber(Number(EXPRESSION[EXPRESSION.length -1])) ) ? BUTTON_TYPE.number : BUTTON_TYPE.operator;
-    console.log("checkDuplicate---",lastElemType, keyType)
-    return lastElemType === keyType;
-  }
-
-  var checkValue = function(key, keyType) {
-    // if ( EXPRESSION.length === 0 && keyType === BUTTON_TYPE.operator ) {
-    //   warn("첫 입력은 숫자!");
-    //   return false;
-    // }
-
-    switch (keyType) {
-      case BUTTON_TYPE.operator :
-        return {
-          prevExpression : temporaryExpression,
-          currExpression : key
-        };
-        break;
-      default : // BUTTON_TYPE.number
-        temporaryExpression += Number(key);
-        return false;
-    }
+  var inputNumber = function(key) {
+    temporaryExpression += Number(key);
   };
 
-  var addExpression = function(value) {
-    console.log("value : ", typeof value, value);
-    EXPRESSION.push(value["prevExpression"], value["currExpression"]);
-    console.log(EXPRESSION, value);
+  var addExpression = function(key) {
+    EXPRESSION.push(temporaryExpression, key);
     temporaryExpression = "";
   };
 
-  var printDisplay = function(key) {
+  var checkDuplicate = function() {
+    if (clickedKeyType === KEY_TYPE.operator && temporaryExpression === "") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  var printDisplay = function() {
     var expression = EXPRESSION.slice();
-    var expressionCurr = (validation.isNumber(key)) ? "" : expression.pop();
+    var expressionCurr = temporaryExpression;
 
     var expressionHTML = container.querySelector(".calculation");
     var expressionCurrHTML = container.querySelector(".calculation_curr");
@@ -121,6 +102,7 @@ var Calculator = (function() {
     expressionHTML.innerText = expression.join(" ");
     expressionCurrHTML.innerText = expressionCurr;
   }
+  
 
   var clearAll = function() {  };  
   var getResult = function() {  };
@@ -130,6 +112,7 @@ var Calculator = (function() {
     addClickEvent();
   };
 })();
+
 
 var warn = function(msg) {
   var msgBox = document.querySelector("#msg");
