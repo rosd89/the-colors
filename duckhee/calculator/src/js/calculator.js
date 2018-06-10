@@ -2,6 +2,14 @@ var inputButtons = document.querySelector('.inputButton');
 var showOutput = document.querySelector('.output');
 
 inputButtons.addEventListener('click', function(e) {
+  inputClick(e);
+});
+
+showOutput.addEventListener('keydown', function(e) {
+  inputKeyDown(e);
+});
+
+function inputClick(e) {
   var keyValue = e.target.value;
   if (keyValue === 'AC') {
     clearOutput();
@@ -14,9 +22,9 @@ inputButtons.addEventListener('click', function(e) {
   }
   showOutput.value += keyValue;
   showOutput.focus();
-});
+}
 
-showOutput.addEventListener('keydown', function(e) {
+function inputKeyDown(e) {
   if (e.key === '=' || e.key === 'Enter') {
     console.warn('keypress =, Enter');
     e.preventDefault();
@@ -26,7 +34,7 @@ showOutput.addEventListener('keydown', function(e) {
     e.returnValue = false;
     console.warn('input invalid key');
   }
-});
+}
 
 function clearOutput() {
   showOutput.value = '';
@@ -34,6 +42,7 @@ function clearOutput() {
   return false;
 }
 
+// 아래 key 값이 아닌것들이 입력될때
 function validateKeyup(e) {
   return (
     e.key !== '1' &&
