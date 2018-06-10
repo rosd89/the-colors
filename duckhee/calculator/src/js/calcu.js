@@ -2,15 +2,16 @@ var inputButtons = document.querySelector('.inputButton');
 var showOutput = document.querySelector('.output');
 
 inputButtons.addEventListener('click', function(e) {
-  if (e.target.value === 'AC') {
+  var keyValue = e.target.value;
+  if (keyValue === 'AC') {
     clearOutput();
     return false;
-  } else if (e.target.value === '=') {
+  } else if (keyValue === '=') {
     return false;
-  } else if (!e.target.value) {
+  } else if (!keyValue) {
     return false;
   }
-  showOutput.value += e.target.value;
+  showOutput.value += keyValue;
   showOutput.focus();
 });
 
@@ -46,6 +47,7 @@ function validateKeyup(e) {
     e.key !== '*' &&
     e.key !== '+' &&
     e.key !== '/' &&
-    e.key !== '-'
+    e.key !== '-' &&
+    e.key !== 'Backspace'
   );
 }
