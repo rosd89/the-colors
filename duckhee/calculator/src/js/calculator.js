@@ -7,6 +7,7 @@ inputButtons.addEventListener('click', function(e) {
     clearOutput();
     return false;
   } else if (keyValue === '=') {
+    // 계산식 작성
     return false;
   } else if (!keyValue) {
     return false;
