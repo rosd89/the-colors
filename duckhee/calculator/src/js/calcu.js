@@ -7,13 +7,14 @@ inputButtons.addEventListener('click', function(e) {
     return false;
   } else if (e.target.value === '=') {
     return false;
+  } else if (!e.target.value) {
+    return false;
   }
   showOutput.value += e.target.value;
   showOutput.focus();
 });
 
 showOutput.addEventListener('keydown', function(e) {
-  console.log(e.key);
   if (e.key === '=' || e.key === 'Enter') {
     console.warn('keypress =, Enter');
     e.preventDefault();
@@ -22,13 +23,12 @@ showOutput.addEventListener('keydown', function(e) {
   } else if (validateKeyup(e)) {
     e.returnValue = false;
     console.warn('input invalid key');
-    // e.preventDefault();
-    // return false;
   }
 });
 
 function clearOutput() {
   showOutput.value = '';
+  showOutput.focus();
   return false;
 }
 
