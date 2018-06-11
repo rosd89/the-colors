@@ -1,0 +1,23 @@
+* { margin:0; padding:0; border:0; font-size:13px; }
+ul, li { list-style:none; }
+.hidden { display:none; font-size:0; text-indent:-10000px; }
+
+header { padding:10px; }
+header h1 { padding:15px; margin-bottom:20px; text-align:center; font-size:24px; font-weight:bold; background-color:#c5d5cb; color:#fff; }
+
+.calculator { width:340px; margin:auto; padding:15px 15px 5px 15px; border:1px solid #ddd; }
+.calculator .display { padding:10px; margin-bottom:15px; background-color:#f1f1f1; text-align:right; }
+.calculator .display .calculation { margin-bottom:8px; min-height:25px; line-height:25px; font-size:20px; color:#333; }
+.calculator .display .calculation_curr { min-height:35px; line-height:35px; font-size:30px; }
+
+.calculator .button:after { content:''; display:block; clear:both; }
+.calculator .button ul { float:left; }
+.calculator .button ul li { width:60px; line-height:60px; margin:0 10px 10px 0; text-align:center; color:#fff; font-size:25px; cursor:pointer; }
+.calculator .button ul li.row2 { line-height:130px; margin:0 0 10px 0; }
+.calculator .button .button_num li { background-color:#bbb; }
+.calculator .button .button_operator li { background-color:#555; }
+.calculator .button .button_operator li.ac { background-color:#ffc000; }
+
+.calculator .button .button_num { width:210px; }
+.calculator .button .button_num:after { content:""; display:block; clear:both; }
+.calculator .button .button_num li { float:left; }
