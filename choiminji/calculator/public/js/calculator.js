@@ -14,6 +14,34 @@ var Calculator = (function() {
     division : "/"
   };
 
+  var KEY_CODE = {
+    number : {
+      0 : 48,
+      1 : 49,
+      2 : 50,
+      3 : 51,
+      4 : 52,
+      5 : 53,
+      6 : 54,
+      7 : 55,
+      8 : 56,
+      9 : 57
+    },
+    operator : {
+      "+" : 43,
+      "-" : 45,
+      "*" : 42,
+      "/" : 47
+    },
+    equal : {
+      "=" : 61, 
+      "=" : 13
+    },
+    ac : {
+      "AC" : 27
+    }
+  }
+
   var temporaryExpression = "";
   var clickedKeyType = "";
   var container;
@@ -30,6 +58,58 @@ var Calculator = (function() {
       })
     })
   };
+
+  var addKeyEvent = function() {
+    var inputBox = container.querySelector(".calculation_curr input");
+    var keyValueCheck = function(keyCode) {
+      for (var prop in KEY_CODE) {
+        for ( var value in KEY_CODE[prop]){
+          if (keyCode === KEY_CODE[prop][value]) return value;
+        }
+      }
+    };
+
+    // inputBox.onkeypress = function(event) { 
+    //   var keyCode = event.which ? event.which : event.keyCode;
+    //   var keyValue = keyValueCheck(keyCode);
+
+    //   if (keyValue !== undefined) {
+    //     clickButton(keyValue);
+    //   } else {
+    //     event.preventDefault();
+    //   }
+    // };
+
+    
+    inputBox.onkeydown = function(event) {
+      // var keyCode = event.which ? event.which : event.keyCode;
+      // if (keyCode === 8) {
+      //   inputBox.onkeyup = function(event) {
+      //     console.log(this.value);
+      //   }
+      // } 
+      console.log("key down")
+      var keyCode = event.which ? event.which : event.keyCode;
+      var keyValue = keyValueCheck(keyCode);
+      console.log(keyCode);
+      if (keyValue !== undefined) {
+        clickButton(keyValue);
+      } else {
+        event.preventDefault();
+      }
+    }
+    
+    // inputBox.onkeyup = function(event) {
+    //   var keyCode = event.which ? event.which : event.keyCode;
+    //   if (keyCode === 8) {
+    //     // inputBox.onkeyup = function(event) {
+    //       console.log(this.value);
+    //     // }
+    //   }
+
+      
+    // }
+  }
 
   var clickButton = function(key) {
     clickedKeyType = checkKeyType(key);
@@ -83,6 +163,7 @@ var Calculator = (function() {
   var addExpression = function(key) {
     EXPRESSION.push(temporaryExpression, key);
     temporaryExpression = "";
+    warn(EXPRESSION)
   };
 
   var checkDuplicate = function() {
@@ -98,10 +179,12 @@ var Calculator = (function() {
     var expressionCurr = temporaryExpression;
 
     var expressionHTML = container.querySelector(".calculation");
-    var expressionCurrHTML = container.querySelector(".calculation_curr");
+    var expressionCurrHTML = container.querySelector(".calculation_curr input");
 
     expressionHTML.innerText = expression.join(" ");
-    expressionCurrHTML.innerText = expressionCurr;
+    // expressionCurrHTML.value = "";
+    expressionCurrHTML.value = expressionCurr;
+    expressionCurrHTML.focus();
   }
   
 
@@ -115,9 +198,10 @@ var Calculator = (function() {
   return function(target){
     container = document.querySelector(target);
     addClickEvent();
+    addKeyEvent();
+    printDisplay();
   };
 })();
-
 
 var warn = function(msg) {
   var msgBox = document.querySelector("#msg");
