@@ -1,5 +1,6 @@
 var inputButtons = document.querySelector('.inputButton');
 var showOutput = document.querySelector('.output');
+var expresstion = '';
 
 inputButtons.addEventListener('click', function(e) {
   inputClick(e);
@@ -11,15 +12,22 @@ showOutput.addEventListener('keydown', function(e) {
 
 function inputClick(e) {
   var keyValue = e.target.value;
+  var prevValue = getValue();
+  var checkFinalThing = prevValue ? prevValue[prevValue.length - 1] : false;
+
   if (keyValue === 'AC') {
     clearOutput();
     return false;
   } else if (keyValue === '=') {
-    // 계산식 작성
+    expresstion = showOutput.value;
+    clearOutput();
     return false;
   } else if (!keyValue) {
     return false;
+  } else if (checkValidExpresstion(checkFinalThing, keyValue)) {
+    return false;
   }
+
   showOutput.value += keyValue;
   showOutput.focus();
 }
@@ -36,10 +44,21 @@ function inputKeyDown(e) {
   }
 }
 
+// 값 지우기
 function clearOutput() {
   showOutput.value = '';
   showOutput.focus();
   return false;
+}
+
+// 값 추출
+function getValue() {
+  return showOutput.value;
+}
+
+// 연속된 연산자 나올시 체크(true일때)
+function checkValidExpresstion(checkFinalThing, keyValue) {
+  return isNaN(checkFinalThing) && isNaN(keyValue);
 }
 
 // 아래 key 값이 아닌것들이 입력될때
