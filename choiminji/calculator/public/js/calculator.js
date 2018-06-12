@@ -60,55 +60,7 @@ var Calculator = (function() {
   };
 
   var addKeyEvent = function() {
-    var inputBox = container.querySelector(".calculation_curr input");
-    var keyValueCheck = function(keyCode) {
-      for (var prop in KEY_CODE) {
-        for ( var value in KEY_CODE[prop]){
-          if (keyCode === KEY_CODE[prop][value]) return value;
-        }
-      }
-    };
-
-    // inputBox.onkeypress = function(event) { 
-    //   var keyCode = event.which ? event.which : event.keyCode;
-    //   var keyValue = keyValueCheck(keyCode);
-
-    //   if (keyValue !== undefined) {
-    //     clickButton(keyValue);
-    //   } else {
-    //     event.preventDefault();
-    //   }
-    // };
-
     
-    inputBox.onkeydown = function(event) {
-      // var keyCode = event.which ? event.which : event.keyCode;
-      // if (keyCode === 8) {
-      //   inputBox.onkeyup = function(event) {
-      //     console.log(this.value);
-      //   }
-      // } 
-      console.log("key down")
-      var keyCode = event.which ? event.which : event.keyCode;
-      var keyValue = keyValueCheck(keyCode);
-      console.log(keyCode);
-      if (keyValue !== undefined) {
-        clickButton(keyValue);
-      } else {
-        event.preventDefault();
-      }
-    }
-    
-    // inputBox.onkeyup = function(event) {
-    //   var keyCode = event.which ? event.which : event.keyCode;
-    //   if (keyCode === 8) {
-    //     // inputBox.onkeyup = function(event) {
-    //       console.log(this.value);
-    //     // }
-    //   }
-
-      
-    // }
   }
 
   var clickButton = function(key) {
