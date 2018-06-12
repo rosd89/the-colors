@@ -24,7 +24,7 @@ function inputClick(e) {
     clearOutput();
     return false;
   } else if (keyValue === '=') {
-    fromInfixToPostfix();
+    calculate();
     clearOutput();
     return false;
   } else if (!keyValue) {
@@ -38,17 +38,17 @@ function inputClick(e) {
   showOutput.focus();
 }
 
+// 입력받은 값(중위연산자)를 후위연산식으로 변견
 function fromInfixToPostfix() {
   var listExp = [];
   var stack = [];
   var weight = 0;
-  var preWeight = 0;
   
   expresstion = showOutput.value;
-  expresstion = expresstion.split("");
+  expresstion = expresstion.match(/\d+|\D+/g);
 
   for(i = 0; i <= expresstion.length; i++) {
-    switch (expresstion[i]) {
+    switch (expresstion[i]) { // 연산자 우선 순위
       case '*':
         weight = 2;
         break;
@@ -66,23 +66,24 @@ function fromInfixToPostfix() {
         break;
     }
 
+    // 연산자, 피연산자에 따른 분기 (후위연산식 만들기)
     if(!isNaN(expresstion[i])) {
       listExp.push(expresstion[i]);
     } else if(!stack.length) {
       stack.push(expresstion[i]);
     } else {
-      if(weight == 1) {
+      if(weight == 1) { // + , - 일때
         for(j = 0; j <= stack.length; j++) {
           listExp.push(stack.pop());
         }
         stack.push(expresstion[i]);
-      } else if(weight == 2) {
-        if(stack[stack.length-1] === "*" || stack[stack.length-1] === "/") {
+      } else if(weight == 2) { // * , / 일떄
+        if(stack[stack.length-1] === "*" || stack[stack.length-1] === "/") { // stack 최상위가 *, / 일때
           for(j = 0; j <= stack.length; j++) {
             listExp.push(stack.pop());
           }
           stack.push(expresstion[i]);
-        } else {
+        } else { // stack 최상위가 +, - 일때
           stack.push(expresstion[i]);
         }
       }
@@ -92,10 +93,14 @@ function fromInfixToPostfix() {
   for(i = 0; i <= stack.length; i++) {
     listExp.push(stack.pop());
   }
-  console.log(listExp);
   return listExp;
 }
 
+// 후위 연산식으로 계산하기
+function calculate() {
+  var postFixArray = fromInfixToPostfix();
+  console.log(postFixArray);
+}
 
 // 키보드 입력시
 function inputKeyDown(e) {
