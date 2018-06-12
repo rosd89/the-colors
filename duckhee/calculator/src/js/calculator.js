@@ -98,9 +98,58 @@ function fromInfixToPostfix() {
 
 // 후위 연산식으로 계산하기
 function calculate() {
+  var stack = [];
+  var listExp = [];
   var postFixArray = fromInfixToPostfix();
+
+  for(i = 0; i <= postFixArray.length; i++) {
+    if(!isNaN(postFixArray[i])) { // 숫자일떄
+      stack.push(postFixArray[i]);
+    } else {
+      console.log(add(2,3));
+      // switch (postFixArray[i]) {
+      //   case "+":
+      //     execute = add;
+      //     break;
+      //   case "-":
+          
+      //     break;
+      //   case "*":
+          
+      //     break;
+      //   case "/":
+          
+      //     break;
+      
+      //   default:
+      //     break;
+      // }
+    }
+  }
+
   console.log(postFixArray);
 }
+
+// 더하기
+function add(a, b) {
+  return Number(a) + Number(b);
+}
+
+// 뺄셈
+function subtract(a, b) {
+  return Number(a) - Number(b);
+}
+
+// 곱셈
+function multiply(a, b) {
+  return Number(a) * Number(b);
+}
+
+// 나누기
+function divide(a, b) {
+  return Number(a) * Number(b);
+}
+
 
 // 키보드 입력시
 function inputKeyDown(e) {
