@@ -10,21 +10,27 @@ showOutput.addEventListener('keydown', function(e) {
   inputKeyDown(e);
 });
 
+// 마우스 클릭 시
 function inputClick(e) {
   var keyValue = e.target.value;
   var prevValue = getValue();
   var checkFinalThing = prevValue ? prevValue[prevValue.length - 1] : false;
 
+  if(!checkFinalThing && isNaN(keyValue)) {
+    console.log("처음부터 연산자는 안된다.");
+    return false;
+  }
   if (keyValue === 'AC') {
     clearOutput();
     return false;
   } else if (keyValue === '=') {
-    expresstion = showOutput.value;
+    fromInfixToPostfix();
     clearOutput();
     return false;
   } else if (!keyValue) {
     return false;
   } else if (checkValidExpresstion(checkFinalThing, keyValue)) {
+    console.log("2번연속 연산자는 안된다.");
     return false;
   }
 
@@ -32,6 +38,66 @@ function inputClick(e) {
   showOutput.focus();
 }
 
+function fromInfixToPostfix() {
+  var listExp = [];
+  var stack = [];
+  var weight = 0;
+  var preWeight = 0;
+  
+  expresstion = showOutput.value;
+  expresstion = expresstion.split("");
+
+  for(i = 0; i <= expresstion.length; i++) {
+    switch (expresstion[i]) {
+      case '*':
+        weight = 2;
+        break;
+      case '/':
+        weight = 2;
+        break;
+      case '+':
+        weight = 1;
+        break;
+      case '-':
+        weight = 1;
+        break;
+      default:
+        weight = 0;
+        break;
+    }
+
+    if(!isNaN(expresstion[i])) {
+      listExp.push(expresstion[i]);
+    } else if(!stack.length) {
+      stack.push(expresstion[i]);
+    } else {
+      if(weight == 1) {
+        for(j = 0; j <= stack.length; j++) {
+          listExp.push(stack.pop());
+        }
+        stack.push(expresstion[i]);
+      } else if(weight == 2) {
+        if(stack[stack.length-1] === "*" || stack[stack.length-1] === "/") {
+          for(j = 0; j <= stack.length; j++) {
+            listExp.push(stack.pop());
+          }
+          stack.push(expresstion[i]);
+        } else {
+          stack.push(expresstion[i]);
+        }
+      }
+    }
+  }
+
+  for(i = 0; i <= stack.length; i++) {
+    listExp.push(stack.pop());
+  }
+  console.log(listExp);
+  return listExp;
+}
+
+
+// 키보드 입력시
 function inputKeyDown(e) {
   if (e.key === '=' || e.key === 'Enter') {
     console.warn('keypress =, Enter');
