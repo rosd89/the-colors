@@ -2,13 +2,41 @@ var inputButtons = document.querySelector('.inputButton');
 var showOutput = document.querySelector('.output');
 var expresstion = '';
 
+showOutput.addEventListener('keydown', function(e) {
+  inputKeyDown(e);
+});
+
 inputButtons.addEventListener('click', function(e) {
   inputClick(e);
 });
 
-showOutput.addEventListener('keydown', function(e) {
-  inputKeyDown(e);
-});
+// 키보드 입력시
+function inputKeyDown(e) {
+  var keyValue = e.key;
+  var prevValue = getValue();
+  var checkFinalThing = prevValue ? prevValue[prevValue.length - 1] : false;
+
+  if (!checkFinalThing && isNaN(keyValue)) {
+    console.log("처음부터 연산자는 안된다.");
+    e.preventDefault();
+    return false;
+  }
+  if (e.key === '=' || e.key === 'Enter') {
+    showOutput.value = calculate();
+    e.preventDefault();
+  } else if (e.key === 'Escape') {
+    clearOutput();
+  } else if (validateKeyup(e)) {
+    e.returnValue = false;
+    console.warn('input invalid key');
+  } else if (checkValidExpresstion(checkFinalThing, keyValue)) {
+    if (keyValue !== "Backspace") {
+      console.log("2번연속 연산자는 안된다.");
+      e.preventDefault();
+      return false;
+    }
+  }
+}
 
 // 마우스 클릭 시
 function inputClick(e) {
@@ -20,12 +48,14 @@ function inputClick(e) {
     console.log("처음부터 연산자는 안된다.");
     return false;
   }
+
   if (keyValue === 'AC') {
     clearOutput();
     return false;
   } else if (keyValue === '=') {
-    calculate();
-    clearOutput();
+    // calculate();
+    // clearOutput();
+    showOutput.value = calculate();
     return false;
   } else if (!keyValue) {
     return false;
@@ -46,6 +76,12 @@ function fromInfixToPostfix() {
   
   expresstion = showOutput.value;
   expresstion = expresstion.match(/\d+|\D+/g);
+
+  // 마지막이 연산자일 경우 제거
+  if (isNaN(expresstion[expresstion.length - 1])) {
+    console.log(expresstion[expresstion.length - 1]);
+    expresstion.pop();
+  }
 
   for(i = 0; i <= expresstion.length; i++) {
     switch (expresstion[i]) { // 연산자 우선 순위
@@ -93,6 +129,7 @@ function fromInfixToPostfix() {
   for(i = 0; i <= stack.length; i++) {
     listExp.push(stack.pop());
   }
+
   return listExp;
 }
 
@@ -100,68 +137,53 @@ function fromInfixToPostfix() {
 function calculate() {
   var stack = [];
   var listExp = [];
-  var postFixArray = fromInfixToPostfix();
+  var postFixArray = fromInfixToPostfix(); // 후위 연산식 배열
 
+  // 숫자일때 스택에 반환, 연산자일때 스택에서 2개를 꺼내서(pop) 계산 후 다시 담기(push)
   for(i = 0; i <= postFixArray.length; i++) {
     if(!isNaN(postFixArray[i])) { // 숫자일떄
       stack.push(postFixArray[i]);
     } else {
-      console.log(add(2,3));
-      // switch (postFixArray[i]) {
-      //   case "+":
-      //     execute = add;
-      //     break;
-      //   case "-":
-          
-      //     break;
-      //   case "*":
-          
-      //     break;
-      //   case "/":
-          
-      //     break;
-      
-      //   default:
-      //     break;
-      // }
+      switch (postFixArray[i]) {
+        case "+":
+          stack.push(add(stack.pop(), stack.pop()));
+          break;
+        case "-":
+          stack.push(subtract(stack.pop(), stack.pop()));
+          break;
+        case "*":
+          console.log(stack);
+          stack.push(multiply(stack.pop(), stack.pop()));
+          break;
+        case "/":
+          stack.push(divide(stack.pop(), stack.pop()));
+          break;
+        default:
+          break;
+      }
     }
   }
-
-  console.log(postFixArray);
+  return stack[0];
 }
 
 // 더하기
 function add(a, b) {
-  return Number(a) + Number(b);
+  return Number(b) + Number(a);
 }
 
 // 뺄셈
 function subtract(a, b) {
-  return Number(a) - Number(b);
+  return Number(b) - Number(a);
 }
 
 // 곱셈
 function multiply(a, b) {
-  return Number(a) * Number(b);
+  return Number(b) * Number(a);
 }
 
 // 나누기
 function divide(a, b) {
-  return Number(a) * Number(b);
-}
-
-
-// 키보드 입력시
-function inputKeyDown(e) {
-  if (e.key === '=' || e.key === 'Enter') {
-    console.warn('keypress =, Enter');
-    e.preventDefault();
-  } else if (e.key === 'Escape') {
-    clearOutput();
-  } else if (validateKeyup(e)) {
-    e.returnValue = false;
-    console.warn('input invalid key');
-  }
+  return Number(b) / Number(a);
 }
 
 // 값 지우기
@@ -184,6 +206,7 @@ function checkValidExpresstion(checkFinalThing, keyValue) {
 // 아래 key 값이 아닌것들이 입력될때
 function validateKeyup(e) {
   return (
+    e.key !== '0' &&
     e.key !== '1' &&
     e.key !== '2' &&
     e.key !== '3' &&
