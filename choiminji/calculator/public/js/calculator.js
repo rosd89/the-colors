@@ -125,7 +125,9 @@ var Calculator = (function() {
     console.log("checkDuplicate", clickedKeyType, temporaryExpression);
     if (clickedKeyType === KEY_TYPE.operator && temporaryExpression === "") {
       return false;
-    } else {
+    } else if ( clickedKeyType === KEY_TYPE.equal && temporaryExpression === "" ) {
+      return false;
+    }else {
       return true;
     }
   };
