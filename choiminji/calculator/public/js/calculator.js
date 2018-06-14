@@ -116,7 +116,8 @@ var Calculator = (function() {
   };
 
   var addExpression = function(key) {
-    EXPRESSION.push(temporaryExpression, key);
+    var addExp = key ? [temporaryExpression, key] : temporaryExpression;
+    EXPRESSION.push(addExp);
     temporaryExpression = "";
     warn(EXPRESSION)
   };
