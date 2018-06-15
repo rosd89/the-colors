@@ -157,7 +157,11 @@ var Calculator = (function() {
   };  
 
   var clearOnce = function() {
-    temporaryExpression = temporaryExpression.slice(0, -1);
+    if (temporaryExpression) {
+      temporaryExpression = temporaryExpression.slice(0, -1);
+    } else {
+      EXPRESSION.pop();
+    }
   }
 
   var getResult = function() {
@@ -197,8 +201,10 @@ var infixToPostfix = function(exp) {
       postFixArray.push(v);
       
     } else if ( v === OPERATOR_BUTTON.plus || v === OPERATOR_BUTTON.minus || v === OPERATOR_BUTTON.multiply || v === OPERATOR_BUTTON.division ) {
+
       if (!stack.length) {
         stack.push(v);
+
       } else {
         var topElem = stack[stack.length - 1];
         if ( precedence(v) >  precedence(topElem) ) {
@@ -208,6 +214,7 @@ var infixToPostfix = function(exp) {
           stack.push(v);
         }
       }
+
     }
   })
 
