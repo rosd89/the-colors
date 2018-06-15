@@ -1,3 +1,16 @@
+var OPERATOR_BUTTON = {
+  plus : "+",
+  minus : "-",
+  multiply : "*",
+  division : "/"
+};
+
+var ETC_BUTTON = {
+  esc : "Escape",
+  enter : "Enter",
+  backspace : "Backspace"
+}
+
 var Calculator = (function() {
   var EXPRESSION = [];
   
@@ -7,18 +20,7 @@ var Calculator = (function() {
     ac : "AC",
     equal : "="
   };
-  var OPERATOR_BUTTON = {
-    plus : "+",
-    minus : "-",
-    multiply : "*",
-    division : "/"
-  };
-  var ETC_BUTTON = {
-    esc : "Escape",
-    enter : "Enter",
-    backspace : "Backspace"
-  }
-
+  
   var temporaryExpression = "";
   var clickedKeyType = "";
   var container;
@@ -84,7 +86,6 @@ var Calculator = (function() {
         break;
       case KEY_TYPE.equal :
         var invalid = checkDuplicate();
-        console.log("invalid equal ", invalid)
         if (invalid) {
           addExpression();
           getResult();
@@ -116,8 +117,12 @@ var Calculator = (function() {
   };
 
   var addExpression = function(key) {
-    var addExp = key ? [temporaryExpression, key] : temporaryExpression;
-    EXPRESSION.push(addExp);
+    if (key) {
+      EXPRESSION.push(temporaryExpression, key);
+    } else {
+      EXPRESSION.push(temporaryExpression);
+    }
+    
     temporaryExpression = "";
     warn(EXPRESSION)
   };
@@ -167,10 +172,52 @@ var Calculator = (function() {
   };
 })();
 
+
 var infixToPostfix = function(exp) {
   var expression = exp;
-  console.log("test", expression);
+
+  var postFixArray = []; // 최종 후위표현식 담을 리스트
+  var stack = []; // 연산자 가중치에 따라 담을 리스트
+
+  var precedence = function(operator) {
+    switch (operator) {
+      case OPERATOR_BUTTON.multiply:
+      case OPERATOR_BUTTON.division:
+        return 3;
+      case OPERATOR_BUTTON.plus:
+      case OPERATOR_BUTTON.minus:
+        return 2;
+      default:
+        return 0;
+    }
+  }
+
+  expression.forEach(function(v, i) {
+    if ( !isNaN(v) ) {
+      postFixArray.push(v);
+      
+    } else if ( v === OPERATOR_BUTTON.plus || v === OPERATOR_BUTTON.minus || v === OPERATOR_BUTTON.multiply || v === OPERATOR_BUTTON.division ) {
+      if (!stack.length) {
+        stack.push(v);
+      } else {
+        var topElem = stack[stack.length - 1];
+        if ( precedence(v) >  precedence(topElem) ) {
+          stack.push(v);
+        } else if ( precedence(v) <= precedence(topElem) ){
+          postFixArray.push(stack.pop());
+          stack.push(v);
+        }
+      }
+    }
+  })
+
+  for ( var i =0 ; i <= stack.length; i++ ){
+    postFixArray.push(stack.pop());
+  }
+
 }
+
+
 var warn = function(msg) {
   var msgBox = document.querySelector("#msg");
   msgBox.innerText = msg;
