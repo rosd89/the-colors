@@ -128,7 +128,6 @@ var Calculator = (function() {
   };
 
   var checkDuplicate = function() {
-    console.log("checkDuplicate", clickedKeyType, temporaryExpression);
     if (clickedKeyType === KEY_TYPE.operator && temporaryExpression === "") {
       return false;
     } else if ( clickedKeyType === KEY_TYPE.equal && temporaryExpression === "" ) {
@@ -150,6 +149,15 @@ var Calculator = (function() {
     expressionCurrHTML.focus();
   };
   
+  var printResult = function(result) {
+    var expression = EXPRESSION.slice();
+    var expressionHTML = container.querySelector(".calculation");
+    var expressionCurrHTML = container.querySelector(".calculation_curr input");
+    
+    expressionHTML.innerText = expression.join(" ");
+    expressionCurrHTML.value = result;
+    expressionCurrHTML.focus();
+  }
 
   var clearAll = function() {
     EXPRESSION = [];
@@ -165,7 +173,10 @@ var Calculator = (function() {
   }
 
   var getResult = function() {
-    infixToPostfix(EXPRESSION);
+    var postfixArray = infixToPostfix(EXPRESSION);
+    var calculationResult = calculatePostfix(postfixArray);
+
+    printResult(calculationResult);
   };
 
   return function(target){
@@ -180,7 +191,7 @@ var Calculator = (function() {
 var infixToPostfix = function(exp) {
   var expression = exp;
 
-  var postFixArray = []; // 최종 후위표현식 담을 리스트
+  var postfixArray = []; // 최종 후위표현식 담을 리스트
   var stack = []; // 연산자 가중치에 따라 담을 리스트
 
   var precedence = function(operator) {
@@ -198,7 +209,7 @@ var infixToPostfix = function(exp) {
 
   expression.forEach(function(v, i) {
     if ( !isNaN(v) ) {
-      postFixArray.push(v);
+      postfixArray.push(v);
       
     } else if ( v === OPERATOR_BUTTON.plus || v === OPERATOR_BUTTON.minus || v === OPERATOR_BUTTON.multiply || v === OPERATOR_BUTTON.division ) {
 
@@ -210,7 +221,7 @@ var infixToPostfix = function(exp) {
         if ( precedence(v) >  precedence(topElem) ) {
           stack.push(v);
         } else if ( precedence(v) <= precedence(topElem) ){
-          postFixArray.push(stack.pop());
+          postfixArray.push(stack.pop());
           stack.push(v);
         }
       }
@@ -219,11 +230,48 @@ var infixToPostfix = function(exp) {
   })
 
   for ( var i =0 ; i <= stack.length; i++ ){
-    postFixArray.push(stack.pop());
+    postfixArray.push(stack.pop());
   }
-
+  
+  return postfixArray;
 }
 
+var calculatePostfix = function(postfixArray) {
+  var stack = [];
+
+  postfixArray.forEach(function(v){
+    if ( !isNaN(v) ) {
+      stack.push(v);
+      
+    } else {
+      var v2 = Number(stack.pop());
+      var v1 = Number(stack.pop());
+
+      switch (v) {
+        case OPERATOR_BUTTON.plus :
+          stack.push(v1 + v2);
+          break;
+        case OPERATOR_BUTTON.minus :
+          stack.push(v1 - v2);
+          break;
+        case OPERATOR_BUTTON.multiply : 
+          stack.push(v1 * v2);
+          break;
+        case OPERATOR_BUTTON.division :
+          stack.push(v1 / v2);
+          break;
+        default :
+          break;
+      }
+    }
+  })
+
+  if ( Number.isInteger(stack[0]) ) {
+    return stack[0];
+  } else {
+    return Number(stack[0]).toFixed(5);
+  }
+};
 
 var warn = function(msg) {
   var msgBox = document.querySelector("#msg");
