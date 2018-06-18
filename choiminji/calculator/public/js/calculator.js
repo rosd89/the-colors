@@ -1,11 +1,11 @@
-var OPERATOR_BUTTON = {
+var OPERATOR = {
   plus : "+",
   minus : "-",
   multiply : "*",
   division : "/"
 };
 
-var ETC_BUTTON = {
+var ETC = {
   esc : "Escape",
   enter : "Enter",
   backspace : "Backspace"
@@ -58,19 +58,19 @@ var Calculator = (function() {
       return false;
     }
 
-    if ( key === KEY_TYPE.ac || key === ETC_BUTTON.esc ) {
+    if ( key === KEY_TYPE.ac || key === ETC.esc ) {
       return KEY_TYPE.ac;
 
-    } else if ( key === KEY_TYPE.equal || key === ETC_BUTTON.enter ) {
+    } else if ( key === KEY_TYPE.equal || key === ETC.enter ) {
       return KEY_TYPE.equal;
 
-    } else if ( key === ETC_BUTTON.backspace) {
-      return ETC_BUTTON.backspace;
+    } else if ( key === ETC.backspace) {
+      return ETC.backspace;
 
     } else if ( validation.isNumber(Number(key)) ) {
       return KEY_TYPE.number;
 
-    } else if ( key === OPERATOR_BUTTON.plus || key === OPERATOR_BUTTON.minus || key === OPERATOR_BUTTON.multiply || key === OPERATOR_BUTTON.division ) {
+    } else if ( key === OPERATOR.plus || key === OPERATOR.minus || key === OPERATOR.multiply || key === OPERATOR.division ) {
       return KEY_TYPE.operator;
 
     } else {
@@ -84,16 +84,16 @@ var Calculator = (function() {
         clearAll();
         printDisplay();
         break;
+      case ETC.backspace :
+        clearOnce();
+        printDisplay();
+        break;
       case KEY_TYPE.equal :
         var invalid = checkDuplicate();
         if (invalid) {
           addExpression();
           getResult();
         }
-        break;
-      case ETC_BUTTON.backspace :
-        clearOnce();
-        printDisplay();
         break;
       case KEY_TYPE.number :
         var invalid = checkDuplicate();
@@ -117,8 +117,10 @@ var Calculator = (function() {
   };
 
   var addExpression = function(key) {
-    if (key) {
+    if (key && temporaryExpression) {
       EXPRESSION.push(temporaryExpression, key);
+    } else if ( key && !temporaryExpression) {
+      EXPRESSION.push(key);
     } else {
       EXPRESSION.push(temporaryExpression);
     }
@@ -128,13 +130,25 @@ var Calculator = (function() {
   };
 
   var checkDuplicate = function() {
-    if (clickedKeyType === KEY_TYPE.operator && temporaryExpression === "") {
-      return false;
-    } else if ( clickedKeyType === KEY_TYPE.equal && temporaryExpression === "" ) {
-      return false;
-    }else {
-      return true;
+    var returnVal = true;
+
+    switch (clickedKeyType) {
+      case KEY_TYPE.operator : 
+      case KEY_TYPE.equal : 
+        if (temporaryExpression === "" && isNaN(EXPRESSION[EXPRESSION.length-1])) returnVal = false;
+        break;
+
+      case KEY_TYPE.number :
+        if (!isNaN(EXPRESSION[EXPRESSION.length-1])) {
+          returnVal = false;
+          warn("숫자는 한번만!")
+        }
+        break;
+      default :
+        break;
     }
+    
+    return returnVal;
   };
 
   var printDisplay = function() {
@@ -196,11 +210,11 @@ var infixToPostfix = function(exp) {
 
   var precedence = function(operator) {
     switch (operator) {
-      case OPERATOR_BUTTON.multiply:
-      case OPERATOR_BUTTON.division:
+      case OPERATOR.multiply:
+      case OPERATOR.division:
         return 3;
-      case OPERATOR_BUTTON.plus:
-      case OPERATOR_BUTTON.minus:
+      case OPERATOR.plus:
+      case OPERATOR.minus:
         return 2;
       default:
         return 0;
@@ -211,7 +225,7 @@ var infixToPostfix = function(exp) {
     if ( !isNaN(v) ) {
       postfixArray.push(v);
       
-    } else if ( v === OPERATOR_BUTTON.plus || v === OPERATOR_BUTTON.minus || v === OPERATOR_BUTTON.multiply || v === OPERATOR_BUTTON.division ) {
+    } else if ( v === OPERATOR.plus || v === OPERATOR.minus || v === OPERATOR.multiply || v === OPERATOR.division ) {
 
       if (!stack.length) {
         stack.push(v);
@@ -248,16 +262,16 @@ var calculatePostfix = function(postfixArray) {
       var v1 = Number(stack.pop());
 
       switch (v) {
-        case OPERATOR_BUTTON.plus :
+        case OPERATOR.plus :
           stack.push(v1 + v2);
           break;
-        case OPERATOR_BUTTON.minus :
+        case OPERATOR.minus :
           stack.push(v1 - v2);
           break;
-        case OPERATOR_BUTTON.multiply : 
+        case OPERATOR.multiply : 
           stack.push(v1 * v2);
           break;
-        case OPERATOR_BUTTON.division :
+        case OPERATOR.division :
           stack.push(v1 / v2);
           break;
         default :
