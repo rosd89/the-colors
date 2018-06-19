@@ -99,28 +99,12 @@ var Calculator = (function() {
   
     // 마지막이 연산자일 경우 제거
     if (isNaN(expresstion[expresstion.length - 1])) {
-      console.log(expresstion[expresstion.length - 1]);
+      console.log(expresstion[expresstion.length - 1],"마지막이 연산자라 제거");
       expresstion.pop();
     }
-  
+
     for(i = 0; i <= expresstion.length; i++) {
-      switch (expresstion[i]) { // 연산자 우선 순위
-        case '*':
-          weight = GRAVITY.two;
-          break;
-        case '/':
-          weight = GRAVITY.two;
-          break;
-        case '+':
-          weight = GRAVITY.one;
-          break;
-        case '-':
-          weight = GRAVITY.one;
-          break;
-        default:
-          weight = GRAVITY.zero;
-          break;
-      }
+      getGravity(i);
   
       // 연산자, 피연산자에 따른 분기 (후위연산식 만들기)
       if(!isNaN(expresstion[i])) {
@@ -128,12 +112,12 @@ var Calculator = (function() {
       } else if(!stack.length) {
         stack.push(expresstion[i]);
       } else {
-        if(weight == 1) { // + , - 일때
+        if(getGravity(i) == 1) { // + , - 일때
           for(j = 0; j <= stack.length; j++) {
             listExp.push(stack.pop());
           }
           stack.push(expresstion[i]);
-        } else if(weight == 2) { // * , / 일떄
+        } else if(getGravity(i) == 2) { // * , / 일떄
           if(stack[stack.length-1] === OPERATOR_BUTTON.multiply || stack[stack.length-1] === OPERATOR_BUTTON.division) { // stack 최상위가 *, / 일때
             for(j = 0; j <= stack.length; j++) {
               listExp.push(stack.pop());
@@ -222,7 +206,7 @@ var Calculator = (function() {
   function checkValidExpresstion(checkFinalThing, keyValue) {
     return isNaN(checkFinalThing) && isNaN(keyValue);
   }
-  
+
   // 아래 key 값이 아닌것들이 입력될때
   function validateKeyup(e) {
     return (
@@ -243,5 +227,20 @@ var Calculator = (function() {
       e.key !== ETC_BUTTON.backspace
     );
   }
+
+  // 가중치 설정
+  function getGravity(i) {
+    switch (expresstion[i]) { // 연산자 우선 순위
+      case '*':
+      case '/':
+        return GRAVITY.two;
+      case '+':
+      case '-':
+        return GRAVITY.one;
+      default:
+        return GRAVITY.zero;
+    }
+  }
+    
 })();
 
