@@ -20,6 +20,7 @@ var Calculator = (function() {
     two : 2,
   }
 
+  var displayPreviousExp = document.querySelector('.prevOutput');
   var inputButtons = document.querySelector('.inputButton');
   var showOutput = document.querySelector('.output');
   var expresstion = '';
@@ -44,6 +45,7 @@ var Calculator = (function() {
       return false;
     }
     if (e.key === ETC_BUTTON.equl || e.key === ETC_BUTTON.enter) {
+      displayPreviousExp.textContent = showOutput.value;
       showOutput.value = calculate();
       e.preventDefault();
     } else if (e.key === ETC_BUTTON.esc) {
@@ -75,6 +77,7 @@ var Calculator = (function() {
       clearOutput();
       return false;
     } else if (keyValue === ETC_BUTTON.equl) {
+      displayPreviousExp.textContent = showOutput.value;
       showOutput.value = calculate();
       return false;
     } else if (!keyValue) {
