@@ -92,7 +92,6 @@ var Calculator = (function() {
   function fromInfixToPostfix() {
     var listExp = [];
     var stack = [];
-    var weight = GRAVITY.zero;
     
     expresstion = showOutput.value;
     expresstion = expresstion.match(/\d+|\D+/g);
