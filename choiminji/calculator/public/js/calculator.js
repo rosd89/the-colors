@@ -34,7 +34,7 @@ var Calculator = (function() {
         var key = target.getAttribute("data-key");
         clickedKeyType = checkKeyType(key);
 
-        clickButton(key, clickedKeyType)
+        controller(key, clickedKeyType)
       })
     })
   };
@@ -46,11 +46,51 @@ var Calculator = (function() {
       var keyValue = event.key;
       clickedKeyType = checkKeyType(keyValue);
 
-      if ( clickedKeyType ) clickButton(keyValue, clickedKeyType);
+      if ( clickedKeyType ) controller(keyValue, clickedKeyType);
 
       event.preventDefault();
     };
   }
+  
+  var controller = function(key, clickedKeyType) {
+    switch (clickedKeyType){
+      case KEY_TYPE.ac :
+        clearAll();
+        printDisplay();
+        break;
+      case ETC.backspace :
+        clearOnce();
+        printDisplay();
+        break;
+      case KEY_TYPE.equal :
+        var invalid = checkDuplicate();
+        if (invalid) {
+          addExpression();          
+          var postfixArray = infixToPostfix(EXPRESSION);
+          var calculationResult = calculatePostfix(postfixArray);
+
+          printResult(calculationResult);
+        }
+        break;
+      case KEY_TYPE.number :
+        var invalid = checkDuplicate();
+        if (invalid) {
+          inputNumber(key);
+          printDisplay();
+        }
+        break;
+      case KEY_TYPE.operator :
+        var invalid = checkDuplicate();
+        if (invalid) {
+          addExpression(key);
+          printDisplay();
+        }
+        break;
+      default : 
+        warn("key type 오류");
+        return false;
+    }
+  };
 
   var checkKeyType = function(key) {
     if (key === null) {
@@ -77,40 +117,6 @@ var Calculator = (function() {
       return false;
     };
   };
-  
-  var clickButton = function(key, clickedKeyType) {
-    switch (clickedKeyType){
-      case KEY_TYPE.ac :
-        clearAll();
-        printDisplay();
-        break;
-      case ETC.backspace :
-        clearOnce();
-        printDisplay();
-        break;
-      case KEY_TYPE.equal :
-        var invalid = checkDuplicate();
-        if (invalid) {
-          addExpression();
-          getResult();
-        }
-        break;
-      case KEY_TYPE.number :
-        var invalid = checkDuplicate();
-        if (invalid) {
-          inputNumber(key);
-          printDisplay();
-        }
-        break;
-      default : // KEY_TYPE.operator
-        var invalid = checkDuplicate();
-        if (invalid) {
-          addExpression(key);
-          printDisplay();
-        }
-    }
-  };
-
 
   var inputNumber = function(key) {
     temporaryExpression += Number(key);
@@ -186,12 +192,91 @@ var Calculator = (function() {
     }
   }
 
-  var getResult = function() {
-    var postfixArray = infixToPostfix(EXPRESSION);
-    var calculationResult = calculatePostfix(postfixArray);
-
-    printResult(calculationResult);
+  var infixToPostfix = function(exp) {
+    var expression = exp;
+  
+    var postfixArray = []; // 최종 후위표현식 담을 리스트
+    var stack = []; // 연산자 가중치에 따라 담을 리스트
+  
+    var precedence = function(operator) {
+      switch (operator) {
+        case OPERATOR.multiply:
+        case OPERATOR.division:
+          return 3;
+        case OPERATOR.plus:
+        case OPERATOR.minus:
+          return 2;
+        default:
+          return 0;
+      }
+    }
+  
+    expression.forEach(function(v, i) {
+      if ( !isNaN(v) ) {
+        postfixArray.push(v);
+        
+      } else if ( v === OPERATOR.plus || v === OPERATOR.minus || v === OPERATOR.multiply || v === OPERATOR.division ) {
+  
+        if (!stack.length) {
+          stack.push(v);
+  
+        } else {
+          var topElem = stack[stack.length - 1];
+          if ( precedence(v) >  precedence(topElem) ) {
+            stack.push(v);
+          } else if ( precedence(v) <= precedence(topElem) ){
+            postfixArray.push(stack.pop());
+            stack.push(v);
+          }
+        }
+  
+      }
+    })
+  
+    for ( var i =0 ; i <= stack.length; i++ ){
+      postfixArray.push(stack.pop());
+    }
+    
+    return postfixArray;
+  }
+  
+  var calculatePostfix = function(postfixArray) {
+    var stack = [];
+  
+    postfixArray.forEach(function(v){
+      if ( !isNaN(v) ) {
+        stack.push(v);
+        
+      } else {
+        var v2 = Number(stack.pop());
+        var v1 = Number(stack.pop());
+  
+        switch (v) {
+          case OPERATOR.plus :
+            stack.push(v1 + v2);
+            break;
+          case OPERATOR.minus :
+            stack.push(v1 - v2);
+            break;
+          case OPERATOR.multiply : 
+            stack.push(v1 * v2);
+            break;
+          case OPERATOR.division :
+            stack.push(v1 / v2);
+            break;
+          default :
+            break;
+        }
+      }
+    })
+  
+    if ( Number.isInteger(stack[0]) ) {
+      return stack[0];
+    } else {
+      return +Number(stack[0]).toFixed(5);
+    }
   };
+
 
   return function(target){
     container = document.querySelector(target);
@@ -200,92 +285,6 @@ var Calculator = (function() {
     printDisplay();
   };
 })();
-
-
-var infixToPostfix = function(exp) {
-  var expression = exp;
-
-  var postfixArray = []; // 최종 후위표현식 담을 리스트
-  var stack = []; // 연산자 가중치에 따라 담을 리스트
-
-  var precedence = function(operator) {
-    switch (operator) {
-      case OPERATOR.multiply:
-      case OPERATOR.division:
-        return 3;
-      case OPERATOR.plus:
-      case OPERATOR.minus:
-        return 2;
-      default:
-        return 0;
-    }
-  }
-
-  expression.forEach(function(v, i) {
-    if ( !isNaN(v) ) {
-      postfixArray.push(v);
-      
-    } else if ( v === OPERATOR.plus || v === OPERATOR.minus || v === OPERATOR.multiply || v === OPERATOR.division ) {
-
-      if (!stack.length) {
-        stack.push(v);
-
-      } else {
-        var topElem = stack[stack.length - 1];
-        if ( precedence(v) >  precedence(topElem) ) {
-          stack.push(v);
-        } else if ( precedence(v) <= precedence(topElem) ){
-          postfixArray.push(stack.pop());
-          stack.push(v);
-        }
-      }
-
-    }
-  })
-
-  for ( var i =0 ; i <= stack.length; i++ ){
-    postfixArray.push(stack.pop());
-  }
-  
-  return postfixArray;
-}
-
-var calculatePostfix = function(postfixArray) {
-  var stack = [];
-
-  postfixArray.forEach(function(v){
-    if ( !isNaN(v) ) {
-      stack.push(v);
-      
-    } else {
-      var v2 = Number(stack.pop());
-      var v1 = Number(stack.pop());
-
-      switch (v) {
-        case OPERATOR.plus :
-          stack.push(v1 + v2);
-          break;
-        case OPERATOR.minus :
-          stack.push(v1 - v2);
-          break;
-        case OPERATOR.multiply : 
-          stack.push(v1 * v2);
-          break;
-        case OPERATOR.division :
-          stack.push(v1 / v2);
-          break;
-        default :
-          break;
-      }
-    }
-  })
-
-  if ( Number.isInteger(stack[0]) ) {
-    return stack[0];
-  } else {
-    return Number(stack[0]).toFixed(5);
-  }
-};
 
 var warn = function(msg) {
   var msgBox = document.querySelector("#msg");
