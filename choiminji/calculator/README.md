@@ -72,11 +72,11 @@
 
 - - -
 ## 화면정의서
-![Calculator 화면정의서](./images/calculator_storyBoard.jpg)
+![calculator 화면정의서](./images/calculator_storyBoard.jpg)
 
 - - -
 ## 시퀀스 다이어그램
-![Carousel 시퀀스다이어그램](./images/calculator_sequenceDiagram.jpg)
+![calculator 시퀀스다이어그램](./images/calculator_sequenceDiagram.jpg)
 
 - - -
 
@@ -93,3 +93,7 @@
 - [연산-다중연산 우선순위] 왼쪽에서 오른쪽 순
 - [연산-다중연산 우선순위] ×, ÷  먼저 / +, -  나중
 - [연산-조건] 숫자는 최대 10개까지 입력 가능
+
+- - -
+## 구현
+![calculator 구현이미지](./images/calculator.gif)

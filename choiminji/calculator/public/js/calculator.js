@@ -1,3 +1,16 @@
+var OPERATOR = {
+  plus : "+",
+  minus : "-",
+  multiply : "*",
+  division : "/"
+};
+
+var ETC = {
+  esc : "Escape",
+  enter : "Enter",
+  backspace : "Backspace"
+}
+
 var Calculator = (function() {
   var EXPRESSION = [];
   
@@ -7,18 +20,7 @@ var Calculator = (function() {
     ac : "AC",
     equal : "="
   };
-  var OPERATOR_BUTTON = {
-    plus : "+",
-    minus : "-",
-    multiply : "*",
-    division : "/"
-  };
-  var ETC_BUTTON = {
-    esc : "Escape",
-    enter : "Enter",
-    backspace : "Backspace"
-  }
-
+  
   var temporaryExpression = "";
   var clickedKeyType = "";
   var container;
@@ -32,7 +34,7 @@ var Calculator = (function() {
         var key = target.getAttribute("data-key");
         clickedKeyType = checkKeyType(key);
 
-        clickButton(key, clickedKeyType)
+        controller(key, clickedKeyType)
       })
     })
   };
@@ -44,55 +46,31 @@ var Calculator = (function() {
       var keyValue = event.key;
       clickedKeyType = checkKeyType(keyValue);
 
-      if ( clickedKeyType ) clickButton(keyValue, clickedKeyType);
+      if ( clickedKeyType ) controller(keyValue, clickedKeyType);
 
       event.preventDefault();
     };
   }
-
-  var checkKeyType = function(key) {
-    if (key === null) {
-      warn("빈값입니다.");
-      return false;
-    }
-
-    if ( key === KEY_TYPE.ac || key === ETC_BUTTON.esc ) {
-      return KEY_TYPE.ac;
-
-    } else if ( key === KEY_TYPE.equal || key === ETC_BUTTON.enter ) {
-      return KEY_TYPE.equal;
-
-    } else if ( key === ETC_BUTTON.backspace) {
-      return ETC_BUTTON.backspace;
-
-    } else if ( validation.isNumber(Number(key)) ) {
-      return KEY_TYPE.number;
-
-    } else if ( key === OPERATOR_BUTTON.plus || key === OPERATOR_BUTTON.minus || key === OPERATOR_BUTTON.multiply || key === OPERATOR_BUTTON.division ) {
-      return KEY_TYPE.operator;
-
-    } else {
-      return false;
-    };
-  };
   
-  var clickButton = function(key, clickedKeyType) {
+  var controller = function(key, clickedKeyType) {
     switch (clickedKeyType){
       case KEY_TYPE.ac :
         clearAll();
         printDisplay();
         break;
-      case KEY_TYPE.equal :
-        var invalid = checkDuplicate();
-        console.log("invalid equal ", invalid)
-        if (invalid) {
-          addExpression();
-          getResult();
-        }
-        break;
-      case ETC_BUTTON.backspace :
+      case ETC.backspace :
         clearOnce();
         printDisplay();
+        break;
+      case KEY_TYPE.equal :
+        var invalid = checkDuplicate();
+        if (invalid) {
+          addExpression();          
+          var postfixArray = infixToPostfix(EXPRESSION);
+          var calculationResult = calculatePostfix(postfixArray);
+
+          printResult(calculationResult);
+        }
         break;
       case KEY_TYPE.number :
         var invalid = checkDuplicate();
@@ -101,36 +79,82 @@ var Calculator = (function() {
           printDisplay();
         }
         break;
-      default : // KEY_TYPE.operator
+      case KEY_TYPE.operator :
         var invalid = checkDuplicate();
         if (invalid) {
           addExpression(key);
           printDisplay();
         }
+        break;
+      default : 
+        warn("key type 오류");
+        return false;
     }
   };
 
+  var checkKeyType = function(key) {
+    if (key === null) {
+      warn("빈값입니다.");
+      return false;
+    }
+
+    if ( key === KEY_TYPE.ac || key === ETC.esc ) {
+      return KEY_TYPE.ac;
+
+    } else if ( key === KEY_TYPE.equal || key === ETC.enter ) {
+      return KEY_TYPE.equal;
+
+    } else if ( key === ETC.backspace) {
+      return ETC.backspace;
+
+    } else if ( validation.isNumber(Number(key)) ) {
+      return KEY_TYPE.number;
+
+    } else if ( key === OPERATOR.plus || key === OPERATOR.minus || key === OPERATOR.multiply || key === OPERATOR.division ) {
+      return KEY_TYPE.operator;
+
+    } else {
+      return false;
+    };
+  };
 
   var inputNumber = function(key) {
     temporaryExpression += Number(key);
   };
 
   var addExpression = function(key) {
-    var addExp = key ? [temporaryExpression, key] : temporaryExpression;
-    EXPRESSION.push(addExp);
+    if (key && temporaryExpression) {
+      EXPRESSION.push(temporaryExpression, key);
+    } else if ( key && !temporaryExpression) {
+      EXPRESSION.push(key);
+    } else {
+      EXPRESSION.push(temporaryExpression);
+    }
+    
     temporaryExpression = "";
     warn(EXPRESSION)
   };
 
   var checkDuplicate = function() {
-    console.log("checkDuplicate", clickedKeyType, temporaryExpression);
-    if (clickedKeyType === KEY_TYPE.operator && temporaryExpression === "") {
-      return false;
-    } else if ( clickedKeyType === KEY_TYPE.equal && temporaryExpression === "" ) {
-      return false;
-    }else {
-      return true;
+    var returnVal = true;
+
+    switch (clickedKeyType) {
+      case KEY_TYPE.operator : 
+      case KEY_TYPE.equal : 
+        if (temporaryExpression === "" && isNaN(EXPRESSION[EXPRESSION.length-1])) returnVal = false;
+        break;
+
+      case KEY_TYPE.number :
+        if (!isNaN(EXPRESSION[EXPRESSION.length-1])) {
+          returnVal = false;
+          warn("숫자는 한번만!")
+        }
+        break;
+      default :
+        break;
     }
+    
+    return returnVal;
   };
 
   var printDisplay = function() {
@@ -145,6 +169,15 @@ var Calculator = (function() {
     expressionCurrHTML.focus();
   };
   
+  var printResult = function(result) {
+    var expression = EXPRESSION.slice();
+    var expressionHTML = container.querySelector(".calculation");
+    var expressionCurrHTML = container.querySelector(".calculation_curr input");
+    
+    expressionHTML.innerText = expression.join(" ");
+    expressionCurrHTML.value = result;
+    expressionCurrHTML.focus();
+  }
 
   var clearAll = function() {
     EXPRESSION = [];
@@ -152,12 +185,98 @@ var Calculator = (function() {
   };  
 
   var clearOnce = function() {
-    temporaryExpression = temporaryExpression.slice(0, -1);
+    if (temporaryExpression) {
+      temporaryExpression = temporaryExpression.slice(0, -1);
+    } else {
+      EXPRESSION.pop();
+    }
   }
 
-  var getResult = function() {
-    infixToPostfix(EXPRESSION);
+  var infixToPostfix = function(exp) {
+    var expression = exp;
+  
+    var postfixArray = []; // 최종 후위표현식 담을 리스트
+    var stack = []; // 연산자 가중치에 따라 담을 리스트
+  
+    var precedence = function(operator) {
+      switch (operator) {
+        case OPERATOR.multiply:
+        case OPERATOR.division:
+          return 3;
+        case OPERATOR.plus:
+        case OPERATOR.minus:
+          return 2;
+        default:
+          return 0;
+      }
+    }
+  
+    expression.forEach(function(v, i) {
+      if ( !isNaN(v) ) {
+        postfixArray.push(v);
+        
+      } else if ( v === OPERATOR.plus || v === OPERATOR.minus || v === OPERATOR.multiply || v === OPERATOR.division ) {
+  
+        if (!stack.length) {
+          stack.push(v);
+  
+        } else {
+          var topElem = stack[stack.length - 1];
+          if ( precedence(v) >  precedence(topElem) ) {
+            stack.push(v);
+          } else if ( precedence(v) <= precedence(topElem) ){
+            postfixArray.push(stack.pop());
+            stack.push(v);
+          }
+        }
+  
+      }
+    })
+  
+    for ( var i =0 ; i <= stack.length; i++ ){
+      postfixArray.push(stack.pop());
+    }
+    
+    return postfixArray;
+  }
+  
+  var calculatePostfix = function(postfixArray) {
+    var stack = [];
+  
+    postfixArray.forEach(function(v){
+      if ( !isNaN(v) ) {
+        stack.push(v);
+        
+      } else {
+        var v2 = Number(stack.pop());
+        var v1 = Number(stack.pop());
+  
+        switch (v) {
+          case OPERATOR.plus :
+            stack.push(v1 + v2);
+            break;
+          case OPERATOR.minus :
+            stack.push(v1 - v2);
+            break;
+          case OPERATOR.multiply : 
+            stack.push(v1 * v2);
+            break;
+          case OPERATOR.division :
+            stack.push(v1 / v2);
+            break;
+          default :
+            break;
+        }
+      }
+    })
+  
+    if ( Number.isInteger(stack[0]) ) {
+      return stack[0];
+    } else {
+      return +Number(stack[0]).toFixed(5);
+    }
   };
+
 
   return function(target){
     container = document.querySelector(target);
@@ -167,10 +286,6 @@ var Calculator = (function() {
   };
 })();
 
-var infixToPostfix = function(exp) {
-  var expression = exp;
-  console.log("test", expression);
-}
 var warn = function(msg) {
   var msgBox = document.querySelector("#msg");
   msgBox.innerText = msg;
