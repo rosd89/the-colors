@@ -52,7 +52,7 @@ class RegistItem extends Component {
   }
 
   render() {
-    const { registedItemList } = this.props;
+    const { registedItemList, onDisplay } = this.props;
     return (
       <div className="regist">
         <form onSubmit={this.handleSubmit}>
@@ -72,7 +72,10 @@ class RegistItem extends Component {
         </form>
         <div className="reigsteredItemList">
           <ul>
-            <RegistedItemList registedItemList={registedItemList} />
+            <RegistedItemList
+              registedItemList={registedItemList}
+              onDisplay={onDisplay}
+            />
           </ul>
         </div>
       </div>
@@ -80,12 +83,16 @@ class RegistItem extends Component {
   }
 }
 
-const RegistedItemList = ({ registedItemList }) => {
+const RegistedItemList = ({ registedItemList, onDisplay }) => {
+  const handleClick = id => {
+    onDisplay(id);
+  };
   return registedItemList.map(item => (
     <li key={item.id}>
       <span>음료명 : {item.title}, </span>
       <span>재고 : {item.stock}, </span>
       <span>판매가격 : {item.price}</span>
+      <button onClick={handleClick(item.id)}>상품 진열 추가</button>
     </li>
   ));
 };
@@ -95,10 +102,12 @@ class App extends Component {
     super(props);
 
     this.state = {
-      data: []
+      data: [],
+      displayCount: 0
     };
 
     this.handleRegist = this.handleRegist.bind(this);
+    this.handleDisplay = this.handleDisplay.bind(this);
   }
 
   handleRegist(newItem) {
@@ -113,12 +122,21 @@ class App extends Component {
     });
   }
 
+  handleDisplay(addItemId) {
+    console.log(addItemId, "id", this.state.displayCount, "count");
+    const count = this.state.displayCount + 1;
+    this.setState({
+      displayCount: count
+    });
+  }
+
   render() {
     return (
       <div className="app">
         <Display />
         <RegistItem
           onRegist={this.handleRegist}
+          onDisplay={this.handleDisplay}
           registedItemList={this.state.data}
         />
       </div>
