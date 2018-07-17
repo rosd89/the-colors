@@ -72,7 +72,7 @@ class RegistItem extends Component {
         </form>
         <div className="reigsteredItemList">
           <ul>
-            <RegistedItemList
+            <ItemList
               registedItemList={registedItemList}
               onDisplay={onDisplay}
             />
@@ -83,7 +83,7 @@ class RegistItem extends Component {
   }
 }
 
-const RegistedItemList = ({ registedItemList, onDisplay }) => {
+const ItemList = ({ registedItemList, onDisplay }) => {
   const handleClick = id => {
     onDisplay(id);
   };
@@ -92,7 +92,7 @@ const RegistedItemList = ({ registedItemList, onDisplay }) => {
       <span>음료명 : {item.title}, </span>
       <span>재고 : {item.stock}, </span>
       <span>판매가격 : {item.price}</span>
-      <button onClick={handleClick(item.id)}>상품 진열 추가</button>
+      <button onClick={() => handleClick(item.id)}>상품 진열 추가</button>
     </li>
   ));
 };
@@ -103,7 +103,7 @@ class App extends Component {
 
     this.state = {
       data: [],
-      displayCount: 0
+      setItemOnShelf: [],
     };
 
     this.handleRegist = this.handleRegist.bind(this);
@@ -123,10 +123,15 @@ class App extends Component {
   }
 
   handleDisplay(addItemId) {
-    console.log(addItemId, "id", this.state.displayCount, "count");
-    const count = this.state.displayCount + 1;
+    const { setItemOnShelf } = this.state;
+
+    console.log(setItemOnShelf.length);
+    
+    if(setItemOnShelf.length >= 12) {
+      return false;
+    }
     this.setState({
-      displayCount: count
+      setItemOnShelf: [...setItemOnShelf ]
     });
   }
 
