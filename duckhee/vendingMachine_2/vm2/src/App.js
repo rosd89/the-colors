@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import "./App.css";
 
-class Display extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return <div>진열대</div>;
-  }
-}
+const DisplayItem = ({ displayItemList }) => {
+  console.log(displayItemList);
+  return displayItemList.map((item, index) => (
+    <li key={index}>
+      <span>{item.title}</span>
+      <button>{item.price}</button>
+    </li>
+  ));
+};
 
 class RegistItem extends Component {
   constructor(props) {
@@ -103,7 +103,7 @@ class App extends Component {
 
     this.state = {
       data: [],
-      setItemOnShelf: [],
+      displayItemList: []
     };
 
     this.handleRegist = this.handleRegist.bind(this);
@@ -123,22 +123,23 @@ class App extends Component {
   }
 
   handleDisplay(addItemId) {
-    const { setItemOnShelf } = this.state;
+    const { displayItemList, data } = this.state;
+    const newDisplayItem = data.filter(item => item.id === addItemId)[0];
 
-    console.log(setItemOnShelf.length);
-    
-    if(setItemOnShelf.length >= 12) {
+    if (displayItemList.length >= 12) {
+      alert("진열대 자리가 없습니다.(12개)");
       return false;
     }
+
     this.setState({
-      setItemOnShelf: [...setItemOnShelf ]
+      displayItemList: [...displayItemList, newDisplayItem]
     });
   }
 
   render() {
     return (
       <div className="app">
-        <Display />
+        <DisplayItem displayItemList={this.state.displayItemList} />
         <RegistItem
           onRegist={this.handleRegist}
           onDisplay={this.handleDisplay}
