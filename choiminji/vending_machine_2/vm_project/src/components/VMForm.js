@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import './VMForm.css';
 
 class VMForm extends Component {
   state = {
     name : '',
     price :'',
-    count : ''
+    count : '',
+    imgUrl : ''
   }
   _handleChange = e => {
     console.log(e.target.name);
@@ -20,23 +22,51 @@ class VMForm extends Component {
     this.setState({
       name : '',
       price : '',
-      count : ''
+      count : '',
+      imgUrl : ''
     })
   }
   render() {
     return (
       <div>
-        <form onSubmit={this._handleSubmit}>
-          <label>음료명 
-            <input name='name' onChange={this._handleChange} value={this.state.name} />
-          </label>
-          <label>가격 
-            <input name='price' onChange={this._handleChange} value={this.state.price} />
-          </label>
-          <label>재고 
-            <input name='count' onChange={this._handleChange} value={this.state.count} />
-          </label>
-          <button type='submit'>등록하기!</button>
+        <form className='form form--modifier' onSubmit={this._handleSubmit}>
+          <label className='form--label' for='name'>음료명</label>
+          <input 
+            className='form--input' 
+            name='name' 
+            id='name'
+            onChange={this._handleChange} 
+            value={this.state.name} 
+          />
+          
+          <label className='form--label' for='imgUrl'>이미지</label>
+          <input 
+            className='form--input' 
+            name='imgUrl' 
+            id='imgUrl'
+            onChange={this._handleChange} 
+            value={this.state.imgUrl} 
+          />
+          
+          <label className='form--label' for='price'>가격</label>
+          <input 
+            className='form--input' 
+            name='price' 
+            id='price' 
+            onChange={this._handleChange} 
+            value={this.state.price} 
+          />
+          
+          <label className='form--label' for='count'>재고</label>
+          <input 
+            className='form--input' 
+            name='count' 
+            id='count'
+            onChange={this._handleChange} 
+            value={this.state.count} 
+          />
+          
+          <button className='form--submit' type='submit'>등록하기!</button>
         </form>
       </div>
     );

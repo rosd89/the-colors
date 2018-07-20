@@ -113,12 +113,7 @@
 ### `App`
 
 #### `Form`
-#### `VendingMachine`
-```
-ItemList
-PaymentArea
-
-```
+#### `VendingMachine` - `ItemList` / `PaymentArea` / `ItemExit`
 - - -
 ## 마일스톤
 **1주차**

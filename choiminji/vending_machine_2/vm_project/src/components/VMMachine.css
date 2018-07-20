@@ -1,0 +1,7 @@
+.vm { width:800px; padding:20px; overflow:hidden; background-color:#cdcaf0; } /*#b8b4f5;*/
+.itemList { }
+.itemList:after { content:''; display:block; clear:both; }
+.item { position:relative; float:left; width:150px; margin:10px 5px 0; border:2px solid #b8b4f5; background-color:#fff; }
+.item--img { width:100%; }
+.item--img img { width:100%; }
+.item-info--name { margin:5px 10px; padding:5px; background-color:#444; color:#fff; text-align:center; font-size:14px; }
