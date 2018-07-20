@@ -10,16 +10,13 @@ class ItemInfo extends Component {
         <div className='item--img'>
           <img src={info.imgUrl} alt={info.name} />
         </div>
-        <div className='item-info'>
-          <p className='item-info--name'>{info.name}</p>
-          <p className='item-info--price'>{info.price}</p>
+        <div className='itemInfo'>
+          <p className='itemInfo--name itemInfo--elem'>{info.name}</p>
+          <p className='itemInfo--price itemInfo--elem'>{info.price}</p>
         </div>
         { 
           ( _ => {
-            if ( info.count === 0 ) {
-              alert(1);
-              return <div className='item--soldOut'>Sold Out</div>
-            }
+            if ( info.count === 0 ) return <div className='item--soldOut'>Sold Out</div>
           })()
         }
       </div>

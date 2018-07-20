@@ -26,6 +26,7 @@ class VMForm extends Component {
       imgUrl : ''
     })
   }
+
   render() {
     return (
       <div>
