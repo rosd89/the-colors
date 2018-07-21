@@ -10,13 +10,36 @@ class App extends Component {
 
     this.state = {
       balance: 0,
-      data: [],
+      data: [
+        {
+          id: 1,
+          price: 1000,
+          stock: 10,
+          title: "coke",
+          isAvailableSale: true
+        },
+        {
+          id: 2,
+          price: 500,
+          stock: 5,
+          title: "coffee",
+          isAvailableSale: true
+        },
+        {
+          id: 3,
+          price: 300,
+          stock: 3,
+          title: "fanta",
+          isAvailableSale: true
+        }
+      ],
       displayItemList: []
     };
 
     this.handleRegist = this.handleRegist.bind(this);
     this.handleDisplay = this.handleDisplay.bind(this);
     this.handlePutMoney = this.handlePutMoney.bind(this);
+    this.handleSetBliing = this.handleSetBliing.bind(this);
   }
 
   handleRegist(newItem) {
@@ -51,10 +74,38 @@ class App extends Component {
     });
   }
 
+  handleSetBliing(billingId) {
+    const { data } = this.state;
+    const newBliingItem = data.filter(item => item.id === billingId)[0];
+    if (newBliingItem.stock === 0) {
+      alert("재고가 없습니다.");
+      return;
+    }
+    const newBliingItemStock = newBliingItem.stock - 1;
+    const isAvailableSale = newBliingItemStock <= 0 ? false : true;
+
+    this.setState({
+      data: data.map(
+        item =>
+          item.id === billingId
+            ? {
+                ...item,
+                stock: newBliingItemStock,
+                isAvailableSale: isAvailableSale
+              }
+            : item
+      )
+    });
+  }
+
   render() {
     return (
       <div className="app">
-        <DisplayItem displayItemList={this.state.displayItemList} />
+        <DisplayItem
+          registedItemList={this.state.data}
+          displayItemList={this.state.displayItemList}
+          onSetBilling={this.handleSetBliing}
+        />
         <Payment
           onPutMoney={this.handlePutMoney}
           balance={this.state.balance}
