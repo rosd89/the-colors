@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import RegistItem from './components/RegistItem';
-import DisplayItem from './components/DisplayItem';
+import RegistItem from "./components/RegistItem";
+import DisplayItem from "./components/DisplayItem";
+import Payment from "./components/Payment";
 import "./App.css";
 
 class App extends Component {
@@ -8,12 +9,14 @@ class App extends Component {
     super(props);
 
     this.state = {
+      balance: 0,
       data: [],
       displayItemList: []
     };
 
     this.handleRegist = this.handleRegist.bind(this);
     this.handleDisplay = this.handleDisplay.bind(this);
+    this.handlePutMoney = this.handlePutMoney.bind(this);
   }
 
   handleRegist(newItem) {
@@ -42,10 +45,20 @@ class App extends Component {
     });
   }
 
+  handlePutMoney(newBalance) {
+    this.setState({
+      balance: newBalance
+    });
+  }
+
   render() {
     return (
       <div className="app">
         <DisplayItem displayItemList={this.state.displayItemList} />
+        <Payment
+          onPutMoney={this.handlePutMoney}
+          balance={this.state.balance}
+        />
         <RegistItem
           onRegist={this.handleRegist}
           onDisplay={this.handleDisplay}
