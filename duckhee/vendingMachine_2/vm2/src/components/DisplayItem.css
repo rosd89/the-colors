@@ -1,0 +1,14 @@
+.display__btn {
+  outline: none;
+  cursor: pointer;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 10%;
+  background-color: #00c3ff;
+  color: #000000;
+}
+
+.display__btn--disabled {
+  background-color: #cecece;
+  color: #e5e5e5;
+}
