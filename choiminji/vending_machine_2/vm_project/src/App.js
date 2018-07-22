@@ -12,28 +12,16 @@ class App extends Component {
 
   _handleCreate = data => {
     const { itemList } = this.state;
+    const inValid = itemList.some(v => v.name === data.name);
+    if (inValid) {
+      alert("같은 이름 제품 존재. 재고량만 증가시킵니다.")
 
-    const invalid = this._handlecheck();
-
-    this.setState({
-      itemList : itemList.concat({
-        ...data,
-        idx : this.idx++
-      })
-    })
-
+    } else {
+      this.setState(({itemList}) => ({ itemList: itemList.concat({...data, idx: this.idx++ })}));
+    }
   }
 
-  _handleCheck = _ => {
-    const submitName = this.state.name;
-    const testList = this.state.itemList.concat();
 
-    const isValid = testList.some(v => {
-      if ( v.name === submitName) return true;
-    })
-
-    return isValid;
-  }
 
   render() {
     return (
