@@ -2,9 +2,15 @@ import React from "react";
 import classNames from "classnames";
 import "./DisplayItem.css";
 
-const DisplayItem = ({ registedItemList, displayItemList, onSetBilling }) => {
+const DisplayItem = ({
+  balance,
+  registedItemList,
+  displayItemList,
+  onSetBilling
+}) => {
   const handleClick = id => {
     onSetBilling(id);
+    console.log(registedItemList);
   };
   const _getClassNames = id => {
     const isAvailableSale = registedItemList.filter(item => item.id === id)[0]

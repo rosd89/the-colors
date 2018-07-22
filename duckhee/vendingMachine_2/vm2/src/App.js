@@ -40,6 +40,7 @@ class App extends Component {
     this.handleDisplay = this.handleDisplay.bind(this);
     this.handlePutMoney = this.handlePutMoney.bind(this);
     this.handleSetBliing = this.handleSetBliing.bind(this);
+    this.handleIsSale = this.handleIsSale.bind(this);
   }
 
   handleRegist(newItem) {
@@ -96,6 +97,16 @@ class App extends Component {
             : item
       )
     });
+
+    // this.handleIsSale();
+  }
+
+  handleIsSale() {
+    const { data, balance } = this.state;
+    const newdata = data.map(item => ({
+      ...item,
+      isAvailableSale: !!(balance < +item.price)
+    }));
   }
 
   render() {
@@ -111,6 +122,7 @@ class App extends Component {
           balance={this.state.balance}
         />
         <RegistItem
+          balance={this.state.balance}
           onRegist={this.handleRegist}
           onDisplay={this.handleDisplay}
           registedItemList={this.state.data}

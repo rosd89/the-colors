@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import ItemList from './ItemList';
+import React, { Component } from "react";
+import ItemList from "./ItemList";
 
 class RegistItem extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class RegistItem extends Component {
     this.setPriceInputRef = element => {
       this._price = element;
     };
+    this._isAvailableSale = !!(this.props.balance < +this._price);
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -28,7 +29,8 @@ class RegistItem extends Component {
       id: Date.now(),
       title: this._title.value,
       stock: this._stock.value,
-      price: this._price.value
+      price: this._price.value,
+      isAvailableSale: this._isAvailableSale
     };
     this.props.onRegist(newItem);
     this.clearInput();
