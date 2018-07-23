@@ -31,7 +31,7 @@ class VMForm extends Component {
     return (
       <div>
         <form className='form form--modifier' onSubmit={this._handleSubmit}>
-          <label className='form--label' for='name'>음료명</label>
+          <label className='form--label' htmlFor='name'>음료명</label>
           <input 
             className='form--input' 
             name='name' 
@@ -40,7 +40,7 @@ class VMForm extends Component {
             value={this.state.name} 
           />
           
-          <label className='form--label' for='imgUrl'>이미지</label>
+          <label className='form--label' htmlFor='imgUrl'>이미지</label>
           <input 
             className='form--input' 
             name='imgUrl' 
@@ -49,7 +49,7 @@ class VMForm extends Component {
             value={this.state.imgUrl} 
           />
           
-          <label className='form--label' for='price'>가격</label>
+          <label className='form--label' htmlFor='price'>가격</label>
           <input 
             className='form--input' 
             name='price' 
@@ -58,7 +58,7 @@ class VMForm extends Component {
             value={this.state.price} 
           />
           
-          <label className='form--label' for='count'>재고</label>
+          <label className='form--label' htmlFor='count'>재고</label>
           <input 
             className='form--input' 
             name='count' 

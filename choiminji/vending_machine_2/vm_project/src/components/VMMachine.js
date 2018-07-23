@@ -6,6 +6,11 @@ import './VMMachine.css';
 
 
 class VMMachine extends Component {
+  constructor() {
+    super();
+    this.cash = 0;
+    this.selection = null;
+  }
   render() {
     const { data } = this.props;
     

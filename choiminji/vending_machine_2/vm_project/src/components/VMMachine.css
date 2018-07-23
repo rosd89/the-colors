@@ -1,10 +1,18 @@
-.vm { width:800px; padding:20px; overflow:hidden; background-color:#cdcaf0; } /*#b8b4f5;*/
-.itemList { width:533px; height:723px; overflow-y:scroll; padding:5px 10px 15px; border:2px solid #ddd; background-color:#f5f5f5; box-sizing:border-box; }
+.vm { position:relative; width:680px; padding:20px; overflow:hidden; background-color:#cdcaf0; } /*#b8b4f5;*/
+.itemList { width:440px; height:723px; overflow-y:scroll; padding:5px 10px 15px; border:2px solid #ddd; background-color:#f5f5f5; box-sizing:border-box; }
 .itemList:after { content:''; display:block; clear:both; }
-.item { position:relative; float:left; width:150px; margin:10px 5px 0; border:2px solid #b8b4f5; background-color:#fff; }
+.item { position:relative; float:left; width:31.333%; margin:10px 1% 0; border:2px solid #b8b4f5; background-color:#fff; box-sizing:border-box; }
 .item--img { width:100%; }
 .item--img img { width:100%; }
-.itemInfo--elem { margin:5px 10px; padding:5px; text-align:center; font-weight:700; }
-.itemInfo--name { background-color:#444; color:#fff; font-size:14px; }
-.itemInfo--price { background-color:#ddd; font-size:12px; }
+.item--modifier { margin:5px 10px; padding:5px; text-align:center; font-weight:700; }
+.item--name { background-color:#444; color:#fff; font-size:14px; }
+.item--price { background-color:#ddd; font-size:12px; }
 .item--soldOut { position:absolute; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4); text-align:center; color:#fff; font-weight:700; font-size:30px; }
+
+.paymentArea { position: absolute; top:35px; right:20px; width:210px; }
+.payment--list { width:100%; padding:0; margin:0; }
+.payment--list:after { content:''; display:block; clear:both; }
+.payment--btn { list-style:none; float:left; width:46%; margin:0 2% 7px; padding:8px 0; background-color:#444; color:#fff; text-align:center; font-size:12px; font-weight:700; cursor:pointer; }
+.payment--btn:hover { background-color:#888; color:#fff; }
+.payment--btn__white { background-color:#f5f5f5; color:#333; }
+.payment--display { padding:7px; margin:0 2%; background-color:#fff; border:1px solid #444; text-align:right; font-size:13px; }

@@ -10,9 +10,9 @@ class ItemInfo extends Component {
         <div className='item--img'>
           <img src={info.imgUrl} alt={info.name} />
         </div>
-        <div className='itemInfo'>
-          <p className='itemInfo--name itemInfo--elem'>{info.name}</p>
-          <p className='itemInfo--price itemInfo--elem'>{info.price}</p>
+        <div>
+          <p className='item--name item--modifier'>{info.name}</p>
+          <p className='item--price item--modifier'>{info.price}</p>
         </div>
         { 
           ( _ => {
