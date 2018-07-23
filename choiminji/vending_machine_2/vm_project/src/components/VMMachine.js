@@ -6,18 +6,21 @@ import './VMMachine.css';
 
 
 class VMMachine extends Component {
-  constructor() {
-    super();
-    this.cash = 0;
-    this.selection = null;
+  
+  state = {
+    cash : 0,
+    selection : false
   }
+
+  
+
   render() {
     const { data } = this.props;
     
     return (
       <div className='vm'>
         <ItemList data={data} />
-        <PaymentArea />
+        <PaymentArea onInput={this._handleInput} selection={this.selection} />
         <ItemExit />
       </div>
     );

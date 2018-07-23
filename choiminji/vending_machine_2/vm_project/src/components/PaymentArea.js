@@ -7,7 +7,8 @@ class PaymentArea extends Component {
   }
 
   _handleInput = e => {
-    console.log(e.target.innerText);
+    const cash = this.props.cash;
+    const clicked = e.target.innerText;
   }
 
   render() {

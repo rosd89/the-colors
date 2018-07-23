@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import VMForm from './components/VMForm';
-import VMMachine from './components/VMMachine';
+import ItemList from './components/ItemList';
+import PaymentArea from './components/PaymentArea';
+import ItemExit from './components/ItemExit';
+import './components/VMMachine.css';
 
 class App extends Component {
   idx = 0;
@@ -8,7 +11,7 @@ class App extends Component {
     itemList : [
       {
         idx : 0,
-        name : 'Cola',
+        name : 'Coke',
         price :'1300',
         count : 10,
         imgUrl : 'http://img.danawa.com/prod_img/500000/492/722/img/1722492_1.jpg?shrink=500:500&_v=20170323111716'
@@ -27,7 +30,9 @@ class App extends Component {
         count : 0,
         imgUrl : 'http://img.danawa.com/prod_img/500000/349/250/img/1250349_1.jpg?shrink=500:500&_v=20170420120423'
       }
-    ]
+    ],
+    cash : 0,
+    selection : null
   }
 
   _handleCreate = data => {
@@ -53,13 +58,24 @@ class App extends Component {
     }
   }
 
+  _handleInput = input => {
+    const { cash } = this.state;
+    this.setState({
+      cash : cash + input
+    })
+  }
 
 
   render() {
     return (
       <div className='wrap'>
         <VMForm onCreate={this._handleCreate} />
-        <VMMachine data={this.state.itemList} />
+
+        <div className='vm'>
+          <ItemList data={this.state.itemList} />
+          <PaymentArea onInput={this._handleInput} selection={this.selection} />
+          <ItemExit />
+        </div>
       </div>
     );
   }
