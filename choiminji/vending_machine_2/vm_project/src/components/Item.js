@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-class ItemInfo extends Component {
+class Item extends Component {
   render() {
     const { info } = this.props;
 
@@ -24,4 +24,4 @@ class ItemInfo extends Component {
   }
 }
 
-export default ItemInfo;
+export default Item;

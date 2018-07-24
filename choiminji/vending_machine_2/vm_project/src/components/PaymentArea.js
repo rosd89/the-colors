@@ -9,15 +9,12 @@ class PaymentArea extends Component {
   _handleInput = e => {
     const cash = this.props.cash;
     const clicked = e.target.innerText;
+
+
   }
 
   render() {
-    let cashBtnList = document.createElement('ul');
-    this.cash.forEach( v => {
-      const btnElem = document.createElement('li');
-      btnElem.innerText = v;
-      cashBtnList.appendChild(btnElem);
-    })
+    const { cash } = this.props;
     
     return (
       <div className='paymentArea'>
@@ -47,7 +44,7 @@ class PaymentArea extends Component {
             onClick={this._handleReturn}
           >잔돈반환</li>
         </ul>
-        <p className='payment--display'>0</p>
+        <p className='payment--display'>{cash}</p>
       </div>
     );
   }
