@@ -1,49 +1,23 @@
 import React, { Component } from 'react';
+import PaymentBtn from './PaymentBtn'
 
 class PaymentArea extends Component {
-  constructor() {
-    super();
-    this.cash = [ 100, 500, 1000, 5000, 10000 ];
-  }
-
-  _handleInput = e => {
-    const { onAddCash } = this.props;
-    const clicked = +e.target.innerText;
-    onAddCash(clicked);
-
-  }
-
   render() {
-    const { cash } = this.props;
+    const { cash, cashBtn, onAddCash, onResetCash } = this.props;
+    const btnList = cashBtn.map(
+      (info,index) => <PaymentBtn cashBtnInfo={info} onAddCash={onAddCash} key={index} />
+    )
 
     return (
       <div className='paymentArea'>
         <ul className='payment--list' >
-          <li
-            className='payment--btn' 
-            onClick={this._handleInput}
-          >{this.cash[0]}</li>
-          <li
-            className='payment--btn' 
-            onClick={this._handleInput}
-          >{this.cash[1]}</li>
-          <li
-            className='payment--btn' 
-            onClick={this._handleInput}
-          >{this.cash[2]}</li>
-          <li
-            className='payment--btn' 
-            onClick={this._handleInput}
-          >{this.cash[3]}</li>
-          <li
-            className='payment--btn' 
-            onClick={this._handleInput}
-          >{this.cash[4]}</li>
-          <li
-            className='payment--btn payment--btn__white' 
-            onClick={this._handleReturn}
-          >잔돈반환</li>
+          {btnList}
         </ul>
+        <button 
+          type='button' 
+          className='payment--btn payment--returnBtn'
+          onClick={onResetCash}
+        >잔돈반환</button>
         <p className='payment--display'>{cash}</p>
       </div>
     );

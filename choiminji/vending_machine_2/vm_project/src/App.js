@@ -31,6 +31,7 @@ class App extends Component {
         imgUrl : 'http://img.danawa.com/prod_img/500000/349/250/img/1250349_1.jpg?shrink=500:500&_v=20170420120423'
       }
     ],
+    cashBtn : [ 100, 500, 1000, 5000, 10000, 50000 ],
     cash : 0,
     selection : null
   }
@@ -66,16 +67,15 @@ class App extends Component {
   _handleAddCash = input => {
     const { cash } = this.state;
     this.setState({
-      cash : +cash + input
-    }, _ => {
-      _handleDisplayCash(this.state.cash)
+      cash : cash + input
     })
   }
 
-  _handleDisplayCash = cash => {
-    
+  _handleResetCash = _ => {
+    const { cash } = this.state;
+    alert(`return ${cash}`);
+    this.setState({ cash : 0 })
   }
-
 
   render() {
     return (
@@ -83,11 +83,15 @@ class App extends Component {
         <VMForm onCreate={this._handleRegist} />
 
         <div className='vm'>
-          <ItemList data={this.state.itemList} />
-          <PaymentArea onAddCash={this._handleAddCash} cash={this.state.cash}/>
+          <ItemList data={this.state.itemList} cash={this.state.cash} />
+          <PaymentArea 
+            onAddCash={this._handleAddCash} 
+            onResetCash={this._handleResetCash} 
+            cash={this.state.cash} 
+            cashBtn={this.state.cashBtn} 
+          />
           <ItemExit />
         </div>
-        {this.state.cash} /
       </div>
     );
   }
