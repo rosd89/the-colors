@@ -7,15 +7,15 @@ class PaymentArea extends Component {
   }
 
   _handleInput = e => {
-    const cash = this.props.cash;
-    const clicked = e.target.innerText;
-
+    const { onAddCash } = this.props;
+    const clicked = +e.target.innerText;
+    onAddCash(clicked);
 
   }
 
   render() {
     const { cash } = this.props;
-    
+
     return (
       <div className='paymentArea'>
         <ul className='payment--list' >

@@ -66,8 +66,14 @@ class App extends Component {
   _handleAddCash = input => {
     const { cash } = this.state;
     this.setState({
-      cash : cash + input
+      cash : +cash + input
+    }, _ => {
+      _handleDisplayCash(this.state.cash)
     })
+  }
+
+  _handleDisplayCash = cash => {
+    
   }
 
 
@@ -81,6 +87,7 @@ class App extends Component {
           <PaymentArea onAddCash={this._handleAddCash} cash={this.state.cash}/>
           <ItemExit />
         </div>
+        {this.state.cash} /
       </div>
     );
   }
