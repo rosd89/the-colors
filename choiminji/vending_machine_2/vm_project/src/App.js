@@ -73,14 +73,21 @@ class App extends Component {
 
   _handleResetCash = _ => {
     const { cash } = this.state;
+    if ( cash === 0 ) return;
     alert(`return ${cash}`);
     this.setState({ cash : 0 })
   }
 
-  _handleSelectItem = idx => {
+  _handleSelectItem = info => {
+
     this.setState({
-      selectedItem : idx
+      selectedItem : info.idx,
+      cash : +this.state.cash - info.price
+    }, _ => {
+      console.log(this.state.cash, this.state.selectedItem)
     })
+
+
   }
 
   _handleExit = idx => {

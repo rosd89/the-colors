@@ -20,16 +20,13 @@ class Item extends Component {
       return;
     }
     
-    // 여기서 해야할 것은 
-    // 1. on class 추가
     if ( elem.length > 0 ) {
       elem.forEach( v => {
         if ( +v.dataset.idx === +this.idx ) v.classList.add('item__selected') 
       })
     }
 
-    // 2. props에 selected idx 전달
-    onSelect(this.idx);
+    onSelect(info);
   }
 
   render() {

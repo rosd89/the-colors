@@ -7,10 +7,8 @@ class ItemExitArea extends Component {
     let exitItem;
     if ( selectedItem ) {
       data.some(v => {
-        if ( +v.idx === +selectedItem) {
-          exitItem = <ItemExit data={v} />;
-          return true;
-        }
+        if ( +v.idx === +selectedItem) return exitItem = <ItemExit data={v} />;
+        else return false; 
       }); 
     }
 
