@@ -3,9 +3,9 @@ import Item from './Item';
 
 class ItemList extends Component {
   render() {
-    const { data, cash } = this.props;
+    const { data, cash, onSelect } = this.props;
     const list = data.map(
-      info => <Item info={info} cash={cash} key={info.idx} />
+      info => <Item info={info} cash={cash} key={info.idx} onSelect={onSelect} />
     )
 
     return (

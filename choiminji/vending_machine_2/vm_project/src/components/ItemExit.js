@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 
 class ItemExit extends Component {
   render() {
+    const { data } = this.props;
     return (
-      <div>
-        
-      </div>
+      <span>
+        <img className='item--exitImg' src={data.imgUrl} alt={data.name} />
+      </span>
     );
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import VMForm from './components/VMForm';
 import ItemList from './components/ItemList';
 import PaymentArea from './components/PaymentArea';
-import ItemExit from './components/ItemExit';
+import ItemExitArea from './components/ItemExitArea';
 import './components/VMMachine.css';
 
 class App extends Component {
@@ -33,7 +33,7 @@ class App extends Component {
     ],
     cashBtn : [ 100, 500, 1000, 5000, 10000, 50000 ],
     cash : 0,
-    selection : null
+    selectedItem : null
   }
 
   _handleRegist = data => {
@@ -77,20 +77,39 @@ class App extends Component {
     this.setState({ cash : 0 })
   }
 
+  _handleSelectItem = idx => {
+    this.setState({
+      selectedItem : idx
+    })
+  }
+
+  _handleExit = idx => {
+
+  }
+
   render() {
     return (
       <div className='wrap'>
         <VMForm onCreate={this._handleRegist} />
 
         <div className='vm'>
-          <ItemList data={this.state.itemList} cash={this.state.cash} />
+          <ItemList 
+            data={this.state.itemList} 
+            cash={this.state.cash} 
+            onSelect={this._handleSelectItem} 
+          />
           <PaymentArea 
             onAddCash={this._handleAddCash} 
             onResetCash={this._handleResetCash} 
             cash={this.state.cash} 
             cashBtn={this.state.cashBtn} 
           />
-          <ItemExit />
+          <ItemExitArea
+            data={this.state.itemList}
+            cash={this.state.cash} 
+            selectedItem={this.state.selectedItem}
+            onExit={this._handleExit}
+          />
         </div>
       </div>
     );
