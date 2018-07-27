@@ -16,21 +16,21 @@ class App extends Component {
           price: 1000,
           stock: 10,
           title: "coke",
-          isAvailableSale: true
+          isAvailableSale: false
         },
         {
           id: 2,
           price: 500,
           stock: 5,
           title: "coffee",
-          isAvailableSale: true
+          isAvailableSale: false
         },
         {
           id: 3,
           price: 300,
           stock: 3,
           title: "fanta",
-          isAvailableSale: true
+          isAvailableSale: false
         }
       ],
       displayItemList: []
@@ -41,6 +41,20 @@ class App extends Component {
     this.handlePutMoney = this.handlePutMoney.bind(this);
     this.handleSetBliing = this.handleSetBliing.bind(this);
     this.handleIsSale = this.handleIsSale.bind(this);
+    this.handleCheckSale = this.handleCheckSale.bind(this);
+  }
+
+  handleCheckSale() {
+    const { data, balance } = this.state;
+    this.setState({
+      data: data.map( item => {
+        if(balance < item.price || item.stock <= 0) {
+          return { ...item, isAvailableSale: false }
+        } else {
+          return { ...item, isAvailableSale: true }
+        }
+      })
+    });
   }
 
   handleRegist(newItem) {
@@ -56,6 +70,7 @@ class App extends Component {
   }
 
   handleDisplay(addItemId) {
+    this.handleCheckSale();
     const { displayItemList, data } = this.state;
     const newDisplayItem = data.filter(item => item.id === addItemId)[0];
 
@@ -97,8 +112,6 @@ class App extends Component {
             : item
       )
     });
-
-    // this.handleIsSale();
   }
 
   handleIsSale() {
@@ -133,3 +146,13 @@ class App extends Component {
 }
 
 export default App;
+
+const vie =() => {
+  return (
+    <div>
+      <li>
+        <p></p>
+      </li>
+    </div>
+  )
+}
