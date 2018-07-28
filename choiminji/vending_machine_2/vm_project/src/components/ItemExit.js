@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 class ItemExit extends Component {
   render() {
-    const { data } = this.props;
+    const { data, onRemoveSelect } = this.props;
     return (
-      <span>
+      <span onClick={onRemoveSelect}>
         <img className='item--exitImg' src={data.imgUrl} alt={data.name} />
       </span>
     );

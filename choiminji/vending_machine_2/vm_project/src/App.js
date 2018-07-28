@@ -41,11 +41,18 @@ class App extends Component {
     const inValid = itemList.some(v => v.name === data.name);
 
     if (inValid) {
-      alert("같은 이름 제품 존재합니다. 제품 정보를 수정합니다");
+      alert("같은 이름 제품 존재합니다. 제품 정보 수정 & 재고 추가합니다");
       this._handleUpdate(data);
     } else {
       this._handleCreate(data);
     }
+  }
+
+  _handleDecrease = info => {
+    const newCount = { count : +info.count - 1 };
+    const editInfo = Object.assign(info, newCount);
+    this._handleUpdate(editInfo);
+    // 고민 1 : 이렇게 되면 item 선택 시, _handleSelectItem에서 한번, _handleUpdate에서 한번 총 2번 랜더링 되는데,,, 훔
   }
 
   _handleCreate = data => {
@@ -74,26 +81,36 @@ class App extends Component {
   _handleResetCash = _ => {
     const { cash } = this.state;
     if ( cash === 0 ) return;
+  
     alert(`return ${cash}`);
-    this.setState({ cash : 0 })
+    this.setState({ cash : 0 });
   }
 
   _handleSelectItem = info => {
-
     this.setState({
       selectedItem : info.idx,
       cash : +this.state.cash - info.price
     }, _ => {
-      console.log(this.state.cash, this.state.selectedItem)
+      this._handleDecrease(info);
     })
-
-
   }
 
-  _handleExit = idx => {
+  _handleResetSelect = _ => {
+    const listItem = document.querySelectorAll('.item__valid');
+    
+    if ( listItem.length > 0 ) {
+      listItem.forEach( v => {
+        v.classList.remove('item__selected');
+      })
+    }
 
+    this.setState({
+      selectedItem : null
+    }, _ => {
+      setTimeout(this._handleResetCash, 1000);
+    })
   }
-
+  
   render() {
     return (
       <div className='wrap'>
@@ -106,16 +123,16 @@ class App extends Component {
             onSelect={this._handleSelectItem} 
           />
           <PaymentArea 
-            onAddCash={this._handleAddCash} 
-            onResetCash={this._handleResetCash} 
             cash={this.state.cash} 
             cashBtn={this.state.cashBtn} 
+            onAddCash={this._handleAddCash} 
+            onResetCash={this._handleResetCash} 
           />
           <ItemExitArea
             data={this.state.itemList}
             cash={this.state.cash} 
             selectedItem={this.state.selectedItem}
-            onExit={this._handleExit}
+            onRemoveSelect = {this._handleResetSelect}
           />
         </div>
       </div>
@@ -124,3 +141,11 @@ class App extends Component {
 }
 
 export default App;
+
+
+/*
+
+App.js
+_handleDecrease : 이렇게 되면 item 선택 시, _handleSelectItem에서 한번, _handleUpdate에서 한번 총 2번 랜더링 되는데,,, 훔
+
+*/

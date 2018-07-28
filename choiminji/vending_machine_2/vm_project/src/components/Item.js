@@ -10,6 +10,11 @@ class Item extends Component {
   _handleSelect = e => {
     const { info, cash, onSelect } = this.props;
     const elem = document.querySelectorAll('.item__valid');
+    if (info.count <= 0) {
+      alert("품절 상품입니다!");
+      return;
+    }
+
     if ( cash === 0 ) {
       alert("금액을 먼저 투입하세요!");
       return;
@@ -20,8 +25,10 @@ class Item extends Component {
       return;
     }
     
+
     if ( elem.length > 0 ) {
       elem.forEach( v => {
+        v.classList.remove('item__selected') 
         if ( +v.dataset.idx === +this.idx ) v.classList.add('item__selected') 
       })
     }
@@ -40,7 +47,7 @@ class Item extends Component {
         </div>
         <div>
           <p className='item--name item--modifier'>{info.name}</p>
-          <p className='item--price item--modifier'>{info.price}</p>
+          <p className='item--price item--modifier'>{info.price} / {info.count}</p>
         </div>
         { 
           ( _ => {

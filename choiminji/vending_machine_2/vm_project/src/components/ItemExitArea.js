@@ -3,11 +3,12 @@ import ItemExit from './ItemExit';
 
 class ItemExitArea extends Component {
   render() {
-    const { data, selectedItem } = this.props;
+    const { data, selectedItem, onRemoveSelect } = this.props;
     let exitItem;
-    if ( selectedItem ) {
+
+    if ( selectedItem !== null ) {
       data.some(v => {
-        if ( +v.idx === +selectedItem) return exitItem = <ItemExit data={v} />;
+        if ( +v.idx === +selectedItem) return exitItem = <ItemExit data={v} onRemoveSelect={onRemoveSelect} />;
         else return false; 
       }); 
     }
